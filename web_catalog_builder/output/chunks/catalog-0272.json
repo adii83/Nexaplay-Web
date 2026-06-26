@@ -1,0 +1,1794 @@
+[
+  {
+    "appid": 980730,
+    "title": "Underlight",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "KoiWare, LLC"
+    ],
+    "genres": [
+      "Free To Play",
+      "Massively Multiplayer",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Pentium III 800MHz<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> 16bit SVGA (800x600)<br></li><li><strong>DirectX:</strong> Version 7.0<br></li><li><strong>Storage:</strong> 130 MB available space<br></li><li><strong>Sound Card:</strong> Sound Blaster 16</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel Core 2, i3, i5, or i7+ processor, or AMD Phenom processor<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> Hardware-accelerated graphic adapter at 1024×768 or higher resolution<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 150 MB available space<br></li><li><strong>Sound Card:</strong> Sound Blaster Audigy or better</li></ul>"
+    }
+  },
+  {
+    "appid": 980770,
+    "title": "Flying Circus",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/980770/library_600x900.jpg?t=1638619884",
+    "publishers": [
+      "poliko; entertainment"
+    ],
+    "genres": [
+      "Action",
+      "Simulation",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 (64-bit) or later<br></li><li><strong>Processor:</strong> Intel Core i3-3220 @ 3.30GHz or better<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 750 / Radeon HD 7790<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 7 GB available space<br></li><li><strong>Sound Card:</strong> DirectX 11 Compatible<br></li><li><strong>Additional Notes:</strong> These are suggested minimal requirements. Flying Circus may run on older or weaker configurations.</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10 (64-bit)<br></li><li><strong>Processor:</strong> Intel Core i5-6400 @ 2.70GHz / AMD Ryzen 5 2600 or better<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 1080 / Radeon RX 5600 XT<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 7 GB available space<br></li><li><strong>Sound Card:</strong> DirectX 11 Compatible</li></ul>"
+    }
+  },
+  {
+    "appid": 980800,
+    "title": "BEAK SQUADRON",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Timbo Burkle"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows Vista 64-bit or newer<br></li><li><strong>Processor:</strong> Intel Core i3-2100T @ 2.50 GHz / AMD Phenom II X3 B73<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> ATI Radeon HD 4850 or NVIDIA GeForce 9600 GT<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Sound Card:</strong> DirectX Compatible Sound Card<br></li><li><strong>Additional Notes:</strong> <i>This game must be played with a controller. Mouse and keyboard is not supported.</i></li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 64-bit or newer<br></li><li><strong>Processor:</strong> Intel Core i5-2400 @ 3.10 GHz / AMD Phenom II X6 1100T<br></li><li><strong>Memory:</strong> 8 MB RAM<br></li><li><strong>Graphics:</strong> Radeon HD 7700 or NVIDIA GeForce GTX 570<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Sound Card:</strong> DirectX Compatible Sound Card<br></li><li><strong>Additional Notes:</strong> <i>This game must be played with a controller. Mouse and keyboard is not supported.</i></li></ul>"
+    }
+  },
+  {
+    "appid": 980830,
+    "title": "Spirit Hunter: Death Mark",
+    "premium": true,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Aksys Games"
+    ],
+    "genres": [
+      "Adventure"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 10/8.1/7<br></li><li><strong>Processor:</strong> Core i3-2100 3.10 GHz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD Graphics Family (HD 4000)<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 6 GB available space<br></li><li><strong>Sound Card:</strong> Realtek High Definition Audio</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 10/8.1/7 64bit<br></li><li><strong>Processor:</strong> Core i5-2400 3.10 GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 260<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 8 GB available space<br></li><li><strong>Sound Card:</strong> Realtek High Definition Audio</li></ul>"
+    }
+  },
+  {
+    "appid": 980850,
+    "title": "Pixel Battle Royale",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/980850/library_600x900.jpg?t=1568880880",
+    "publishers": [
+      "FreezeNova"
+    ],
+    "genres": [
+      "Action",
+      "Free To Play",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel Core 2 Duo E6600/AMD Phenom X3 8750<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 260/Radeon HD 4870<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 512 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 980880,
+    "title": "Twinfold",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Kenny Sun"
+    ],
+    "genres": [
+      "Indie",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Processor:</strong> 1 GHz<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> 256MB<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 980940,
+    "title": "My Little Blacksmith Shop",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/980940/library_600x900.jpg?t=1752687200",
+    "publishers": [
+      "Noble Games Studio"
+    ],
+    "genres": [
+      "Casual",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7, Windows 10, Windows 11<br></li><li><strong>Processor:</strong> Quad Core Intel or AMD Processor, 2.5ghz or higher<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia Geforce 470 GTX or AMD Radeon 6870 HD Series or higher<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 980950,
+    "title": "Crome: Before Purgatory",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/980950/library_600x900.jpg?t=1576642039",
+    "publishers": [
+      "Stumphead Games LLC"
+    ],
+    "genres": [
+      "Action"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 or later<br></li><li><strong>Processor:</strong> Intel Core 2 Duo E6320 (2*1866) or equivalent<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> GeForce 7600 GS (512 MB) or equivalent<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981010,
+    "title": "UNIDENTIFIED",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "DARKSIDEMOON"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> 7<br></li><li><strong>Processor:</strong> Intel Core i7 6700<br></li><li><strong>Memory:</strong> 24 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 950<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 350 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> 7</li></ul>"
+    }
+  },
+  {
+    "appid": 981020,
+    "title": "Clea",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981020/library_600x900.jpg?t=1631925796",
+    "publishers": [
+      "InvertMouse"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 or above<br></li><li><strong>Processor:</strong> 1.2 GHz Pentium 4 (x86–64 CPU)<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> 1366 x 768<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 1400 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> 1920 x 1080</li></ul>"
+    }
+  },
+  {
+    "appid": 981040,
+    "title": "Comit in Krater Returns",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981040/library_600x900.jpg?t=1570052993",
+    "publishers": [
+      "LunarCore Games"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> 1.2 Ghz<br></li><li><strong>Memory:</strong> 120 MB RAM<br></li><li><strong>Graphics:</strong> 128mb Video Memory<br></li><li><strong>DirectX:</strong> Version 8.0<br></li><li><strong>Storage:</strong> 131 MB available space<br></li><li><strong>Sound Card:</strong> DirectX-compatible sound card<br></li><li><strong>Additional Notes:</strong> Gamepad Recommended</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981050,
+    "title": "Comit in Cosmo Knight's Revenge",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981050/library_600x900.jpg?t=1570053247",
+    "publishers": [
+      "LunarCore Games"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> 1.2 Ghz<br></li><li><strong>Memory:</strong> 120 MB RAM<br></li><li><strong>Graphics:</strong> 128mb Video Memory<br></li><li><strong>DirectX:</strong> Version 8.0<br></li><li><strong>Storage:</strong> 131 MB available space<br></li><li><strong>Sound Card:</strong> DirectX-compatible sound card<br></li><li><strong>Additional Notes:</strong> Gamepad Recommended</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981060,
+    "title": "One Hell of a Week",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981060/library_600x900.jpg?t=1646846279",
+    "publishers": [
+      "Sumooli Island Inc."
+    ],
+    "genres": [
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows Vista+<br></li><li><strong>Storage:</strong> 647 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981080,
+    "title": "Burst Drive",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981080/library_600x900.jpg?t=1586172510",
+    "publishers": [
+      "Nebula Head"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel Core 2 Duo<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> DirectX 10 compatible<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 981090,
+    "title": "Outbreak Story",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981090/library_600x900.jpg?t=1586915328",
+    "publishers": [
+      "Individual JKs"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> R3 1200<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> GTX 660<br></li><li><strong>Storage:</strong> 400 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> R5 1500X<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> GTX 960<br></li><li><strong>Storage:</strong> 400 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981120,
+    "title": "Tiger Soldier Ⅰ",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981120/library_600x900.jpg?t=1572161440",
+    "publishers": [
+      "TigerQiuQiu"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel(r) Core (TM)2 CPU -T7200 @ 2.50 GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> ATI Mobility Raedon X1600 / Nvidia GeForce 8600M GT<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> Onboard</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981130,
+    "title": "Lucky Skiing",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "哈视奇科技"
+    ],
+    "genres": [
+      "Casual",
+      "Racing",
+      "Simulation",
+      "Sports"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Win7 Win8 Win10<br></li><li><strong>Processor:</strong> Intel Core i5<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Storage:</strong> 5 GB available space<br></li><li><strong>VR Support:</strong> SteamVR</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Storage:</strong> 10 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981160,
+    "title": "Woman's body",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Laush Studio"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP and newer<br></li><li><strong>Processor:</strong> Intel core 2 quad q6600<br></li><li><strong>Memory:</strong> 2048 MB RAM<br></li><li><strong>Graphics:</strong> NVIDIA Geforce EN9600GT<br></li><li><strong>Storage:</strong> 40 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981180,
+    "title": "Mars Wars",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "lonewolfdesign"
+    ],
+    "genres": [
+      "Action",
+      "Indie",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows<br></li><li><strong>Processor:</strong> TBA<br></li><li><strong>Graphics:</strong> TBA<br></li><li><strong>Sound Card:</strong> TBA<br></li><li><strong>Additional Notes:</strong> Things are changing so I will try to get the requirements when it is closer to launch.</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981260,
+    "title": "Love In Drawing",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981260/library_600x900.jpg?t=1570234933",
+    "publishers": [
+      "RewindApp"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7/8/10 - 64bits<br></li><li><strong>Processor:</strong> 2 GHz Intel Pentium 4 or AMD Athlon or equivalent<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD Graphique<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> All</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 981270,
+    "title": "Runa's School Story",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Dreamtale Games"
+    ],
+    "genres": [
+      "Adventure"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> 7, 8, 10 or later<br></li><li><strong>Processor:</strong> 1.8 Ghz Processor<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> DirectX compatible video card<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 350 MB available space<br></li><li><strong>Sound Card:</strong> any</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981280,
+    "title": "Reksarych's Sudoku",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Братство (Brotherhood)"
+    ],
+    "genres": [
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7, Windows 8, Windows 10<br></li><li><strong>Processor:</strong> AMD Athlon II X3 435<br></li><li><strong>Graphics:</strong> N/A<br></li><li><strong>Storage:</strong> 13 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981290,
+    "title": "CGENcore",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "O L Y M P U S"
+    ],
+    "genres": [
+      "Casual",
+      "Free To Play",
+      "Indie",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Microsoft® Windows Server 2008, Windows 7, or Windows 8 Classic<br></li><li><strong>Processor:</strong> 2.33GHz or faster x86-compatible processor, or Intel Atom™ 1.6GHz or faster processor for netbook class devices<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981300,
+    "title": "PUSSY",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Cyber Keks"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8/10<br></li><li><strong>Processor:</strong> 2 Ghz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> 1 GB<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981310,
+    "title": "Ishmael",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981310/library_600x900.jpg?t=1614010897",
+    "publishers": [
+      "Jordan Magnuson"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "Free To Play",
+      "Indie",
+      "RPG",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> 64-bit Windows OS<br></li><li><strong>Memory:</strong> 512 MB RAM</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981420,
+    "title": "Game Soup",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Game Soup LLC"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel i3 or equivalent<br></li><li><strong>Memory:</strong> 300 MB RAM<br></li><li><strong>Graphics:</strong> NVidia GTX 660 or equivalent<br></li><li><strong>Storage:</strong> 300 MB available space<br></li><li><strong>Sound Card:</strong> Onboard sound</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981430,
+    "title": "Gordian Quest",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981430/library_600x900.jpg?t=1755329203",
+    "publishers": [
+      "Mixed Realms Pte Ltd",
+      "Spiral Up Games"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie",
+      "RPG",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 or higher<br></li><li><strong>Processor:</strong> 2.0 Ghz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> 1Gb Video Memory<br></li><li><strong>Storage:</strong> 1 GB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981440,
+    "title": "The Great Emu War Of 1932",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981440/library_600x900.jpg?t=1589614461",
+    "publishers": [
+      "HoneyBeeSoftware"
+    ],
+    "genres": [
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel i5, 2.8+ GHZ<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 570, AMD Radeon 6870, or equivalent<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 4 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel i5, 2.8+ GHZ<br></li><li><strong>Memory:</strong> 12 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 570, AMD Radeon 6870, or equivalent<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 6 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981450,
+    "title": "GeminiArms",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981450/library_600x900.jpg?t=1635470308",
+    "publishers": [
+      "TERARIN GAMES"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> windows10,8,7<br></li><li><strong>Processor:</strong> CPU 1.5GHz<br></li><li><strong>Memory:</strong> １ GB RAM<br></li><li><strong>Graphics:</strong> 1280 x 720<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 50 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> windows10,8,7<br></li><li><strong>Processor:</strong> CPU 1.5GHz<br></li><li><strong>Memory:</strong> ２ GB RAM<br></li><li><strong>Graphics:</strong> 1280 x 720<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 50 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981500,
+    "title": "Market Dominion",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981500/library_600x900.jpg?t=1585155794",
+    "publishers": [
+      "Iguana Mercenary"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 64-bit<br></li><li><strong>Processor:</strong> Intel Pentium Dual Core<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce MX150<br></li><li><strong>Storage:</strong> 175 MB available space<br></li><li><strong>Additional Notes:</strong> 64-bit system required</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 981540,
+    "title": "Stellar Sphere",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Titan Deep Space Company"
+    ],
+    "genres": [
+      "Action",
+      "Indie",
+      "Sports"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel I3 1.8Ghz<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Intel graphics 4400<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 1 GB available space<br></li><li><strong>Sound Card:</strong> Internal</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel I5<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia Geforce 960 or equivalent<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 1 GB available space<br></li><li><strong>Sound Card:</strong> Internal</li></ul>"
+    }
+  },
+  {
+    "appid": 981550,
+    "title": "GACHIMUCHI M♂NLY PUZZLE",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "M♂NLY"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows® XP/Vista/7/8/8.1/10<br></li><li><strong>Processor:</strong> 1.2 GHz Pentium 4<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> DirectX® 9.0c compatible<br></li><li><strong>Storage:</strong> 1 GB available space<br></li><li><strong>Sound Card:</strong> DirectSound</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981600,
+    "title": "Eternium",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981600/library_600x900.jpg?t=1737441487",
+    "publishers": [
+      "Making Fun"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "RPG",
+      "Free To Play"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Intel® Pentium® D or AMD® Athlon™ 64 X2<br></li><li><strong>Memory:</strong> 4096 MB RAM<br></li><li><strong>Graphics:</strong> NVIDIA® GeForce® 8 Series, ATI™ Radeon™ HD 2000 Series, Intel® HD Graphics 2000<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 1024 MB available space<br></li><li><strong>Sound Card:</strong> Not required</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981620,
+    "title": "Hexa",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Salus Games"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP SP2 or Later<br></li><li><strong>Processor:</strong> Intel P4 or Greater<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981630,
+    "title": "Guntastic",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981630/library_600x900.jpg?t=1667121193",
+    "publishers": [
+      "Ludicrous Games"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Graphics:</strong> AMD Radeon HD6400 (or equivalent)<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 400 MB available space<br></li><li><strong>Additional Notes:</strong> One or more gamepads are required for local multiplayer.</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981660,
+    "title": "The Detective Chapters: Part One",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981660/library_600x900.jpg?t=1610598445",
+    "publishers": [
+      "Mayhem Games USA"
+    ],
+    "genres": [
+      "Adventure",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> WINDOWS® 7, 8, 8.1, 10 (64-BIT Required)<br></li><li><strong>Processor:</strong> WINDOWS® 7, 8, 8.1, 10 (64-BIT Required)<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Intel® Core™ i5-4460, 2.70GHz or AMD FX™-6300 or better<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 30 GB available space<br></li><li><strong>Sound Card:</strong> DirectSound compatible (must support DirectX® 9.0c or higher)<br></li><li><strong>Additional Notes:</strong> Hardware specification target 1080P/30FPS. May require reduction in Texture Quality settings or turning Texture streaming to OFF due to high VRAM requirements. *Internet connection required for game activation.</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> WINDOWS® 7, 8, 8.1, 10 (64-BIT Required)<br></li><li><strong>Processor:</strong> WINDOWS® 7, 8, 8.1, 10 (64-BIT Required)<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Intel® Core™ i7 3770 3.4GHz or AMD or better<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 30 MB available space<br></li><li><strong>Sound Card:</strong> DirectSound compatible (must support DirectX® 9.0c or higher)<br></li><li><strong>Additional Notes:</strong> Hardware specification target 1080P/30FPS. May require reduction in Texture Quality settings or turning Texture streaming to OFF due to high VRAM requirements. *Internet connection required for game activation.</li></ul>"
+    }
+  },
+  {
+    "appid": 981690,
+    "title": "Gun Chain",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981690/library_600x900.jpg?t=1586163204",
+    "publishers": [
+      "SoulShared Games LLC"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> WINDOWS® 7, 8.1, 10 (64-BIT Required)<br></li><li><strong>Processor:</strong> Intel® Core™ i5-4460, AMD FX™-6300, or better<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA® GeForce® GTX 760 or AMD Radeon™ R7 260x with 2GB Video RAM, or better<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 8 GB available space<br></li><li><strong>VR Support:</strong> SteamVR</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981710,
+    "title": "Just Roll With It",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Team Spicy"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7, Windows 8.1, Windows 10<br></li><li><strong>Processor:</strong> not potato<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> not potato<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 5 GB available space<br></li><li><strong>Additional Notes:</strong> Requires a 64-bit processor and OS</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 981720,
+    "title": "Lore Finder",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Kitsune Games"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP (Service Pack 3)<br></li><li><strong>Processor:</strong> Dual Core 2.0 GHz<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> OpenGL 3.0+ support (2.1 with ARB extensions acceptable)<br></li><li><strong>Storage:</strong> 300 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981750,
+    "title": "Crystar",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981750/library_600x900.jpg?t=1565949551",
+    "publishers": [
+      "FURYU CORPORATION"
+    ],
+    "genres": [
+      "Action",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 64-bit<br></li><li><strong>Processor:</strong> Intel Core i3-4170 @ 3.70GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA@ GeForce@ GTX 460 or better<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 10 GB available space<br></li><li><strong>Sound Card:</strong> DirectX compatible soundcard or onboard chipset</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 981770,
+    "title": "SENRAN KAGURA Reflexions",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981770/library_600x900.jpg?t=1622848427",
+    "publishers": [
+      "XSEED Games",
+      "Marvelous USA, Inc.",
+      "Marvelous"
+    ],
+    "genres": [
+      "Adventure",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7+<br></li><li><strong>Processor:</strong> Intel Core i3-2100 @ 3.1 GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 550Ti<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 9 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel Core i3-6100 @ 3.7 GHz<br></li><li><strong>Memory:</strong> 6 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 750<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 9 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981790,
+    "title": "Halloween Girl",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981790/library_600x900.jpg?t=1679950779",
+    "publishers": [
+      "KuKo"
+    ],
+    "genres": [
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Microsoft Windows<br></li><li><strong>Processor:</strong> Intel i3 + Intel HD Graphics<br></li><li><strong>Graphics:</strong> DirectX or OpenGL compatible card<br></li><li><strong>Storage:</strong> 500 MB available space<br></li><li><strong>Sound Card:</strong> DirectSound Compatible<br></li><li><strong>Additional Notes:</strong> Keyboard, Mouse</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981830,
+    "title": "GIGABUSTER",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981830/library_600x900.jpg?t=1664616402",
+    "publishers": [
+      "mrgigam"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 or higher<br></li><li><strong>Processor:</strong> 2.5 GHz equivalent<br></li><li><strong>Memory:</strong> 4 MB RAM<br></li><li><strong>Graphics:</strong> 1+ GB of VRAM<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 or higher<br></li><li><strong>Processor:</strong> 3.0 GHz equivalent<br></li><li><strong>Memory:</strong> 4 MB RAM<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981870,
+    "title": "Land of Chaos Online II: Revolution",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981870/library_600x900.jpg?t=1745864185",
+    "publishers": [
+      "Lolizen Entertainment"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "Massively Multiplayer",
+      "RPG",
+      "Strategy",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 64 Bit<br></li><li><strong>Processor:</strong> Amd FX 4100 , Intel i3 2100k Or 2core+ 3ghz<br></li><li><strong>Memory:</strong> 3 GB RAM<br></li><li><strong>Graphics:</strong> AMD R5 230, Nvidia GT430<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 4 GB available space<br></li><li><strong>Sound Card:</strong> Any<br></li><li><strong>Additional Notes:</strong> Not tested yet.</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 64 Bit<br></li><li><strong>Processor:</strong> AMD FX 4300+, Intel 5300+ Or 4Core+ 3ghz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GTX 750+, R9 250+<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 6 GB available space<br></li><li><strong>Sound Card:</strong> Any<br></li><li><strong>Additional Notes:</strong> Not tested yet.</li></ul>"
+    }
+  },
+  {
+    "appid": 981880,
+    "title": "GrowRilla VR",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981880/library_600x900.jpg?t=1667052415",
+    "publishers": [
+      "Salmi Games"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-4590 equivalent or greater<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 970 / AMD Radeon R9 290 or greater<br></li><li><strong>Storage:</strong> 300 MB available space<br></li><li><strong>VR Support:</strong> SteamVR or Oculus PC. Standing or Room Scale</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981890,
+    "title": "Olympic Games Tokyo 2020 – The Official Video Game™",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981890/library_600x900.jpg?t=1627035765",
+    "publishers": [
+      "SEGA"
+    ],
+    "genres": [
+      "Casual",
+      "Sports"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel Core i5-2300 | AMD FX-4350<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GeForce GTS 450, 1 GB | AMD Radeon HD 5770, 1 GB<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel Core i7-3770 | AMD FX-8350<br></li><li><strong>Memory:</strong> 6 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GeForce GTX 660, 2 GB | AMD Radeon HD 7870, 2 GB<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 981900,
+    "title": "Kings' Cross",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Elina Faritovna Balakina"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows Vista or later<br></li><li><strong>Processor:</strong> 2.33 Ghz or faster x86-compatible processor or Intel Atom™ 1.6GHz or faster processor for netbook class devices<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Storage:</strong> 300 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981960,
+    "title": "Horror Girl Puzzle",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Anatoliy Loginovskikh"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7, 8, 10<br></li><li><strong>Processor:</strong> 2.3 GHz Dual Core<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> Intel HD 4000<br></li><li><strong>Storage:</strong> 160 MB available space<br></li><li><strong>Sound Card:</strong> Any<br></li><li><strong>Additional Notes:</strong> 1080p, 16:9 recommended. Mouse.</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981980,
+    "title": "Panda Hero",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "familyplay",
+      "Markt+Technik"
+    ],
+    "genres": [
+      "Action",
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 11 / 10 / 8 / 7<br></li><li><strong>Processor:</strong> Dual-Core: 2Ghz<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> Intel HD graphics 4400 or more, Radeon HD graphics 5430 or more<br></li><li><strong>DirectX:</strong> Version 9.0a<br></li><li><strong>Storage:</strong> 350 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 981990,
+    "title": "Don't Shoot Rabbit / 不要射中兔子",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/981990/0dfa2fe1209442a6aa7c89f54d8f78d2b5dcfb04/library_600x900.jpg?t=1743996652",
+    "publishers": [
+      "Fs"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> <br></li><li><strong>Processor:</strong> <br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> <br></li><li><strong>Storage:</strong> 50 MB available space<br></li><li><strong>Sound Card:</strong> <br></li><li><strong>Additional Notes:</strong> </li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982020,
+    "title": "Eurobi Racing",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Nyanko Gaming"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie",
+      "Racing",
+      "Sports",
+      "Strategy",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Honestly Probably anything<br></li><li><strong>Processor:</strong> If it can run Google Chrome you're good<br></li><li><strong>Memory:</strong> 1 MB RAM<br></li><li><strong>Graphics:</strong> Not required<br></li><li><strong>Storage:</strong> 500 MB available space<br></li><li><strong>Sound Card:</strong> Recommended</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7+<br></li><li><strong>Processor:</strong> Intel i9 9900k or better<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> RTX 2080 Ti<br></li><li><strong>Storage:</strong> 500 MB available space<br></li><li><strong>Sound Card:</strong> Yes</li></ul>"
+    }
+  },
+  {
+    "appid": 982040,
+    "title": "Don't Die, Minerva!",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982040/library_600x900.jpg?t=1575327661",
+    "publishers": [
+      "Xaviant Games"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "RPG",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Win7 SP1, Windows 8.1, or Windows 10 (64-Bit Required)<br></li><li><strong>Processor:</strong> Intel Core i5 3GHz or equivalent<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> DX11 GPU with 1GB VRAM: GTX 750 / HD 7790 or equivalent<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 982050,
+    "title": "Caracoland",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Rosasoft"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8/10<br></li><li><strong>Processor:</strong> 2 GHz dual-core processor<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Storage:</strong> 32 MB available space<br></li><li><strong>Additional Notes:</strong> You need a graphics card that supports WebGL</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982060,
+    "title": "Undholm",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Pixelmeal Games, LLC"
+    ],
+    "genres": [
+      "Indie",
+      "Simulation",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Processor:</strong> Core 2 Duo<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD Graphics 3000 with 384 MB of RAM<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982090,
+    "title": "Noms the Fish",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982090/library_600x900.jpg?t=1667671936",
+    "publishers": [
+      "Alien Octopus Studio"
+    ],
+    "genres": [
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Processor:</strong> 1.0 GHz<br></li><li><strong>Memory:</strong> 128 MB RAM<br></li><li><strong>DirectX:</strong> Version 8.0<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> DirectX 8</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 8<br></li><li><strong>Processor:</strong> 1.0 GHz<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> DirectX 9+</li></ul>"
+    }
+  },
+  {
+    "appid": 982100,
+    "title": "Samozbor: Rebellion",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982100/library_600x900.jpg?t=1572511978",
+    "publishers": [
+      "derevotyan"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>Processor:</strong> 1.6 GHz<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Storage:</strong> 60 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>Processor:</strong> 3 GHz<br></li><li><strong>Memory:</strong> 2048 MB RAM<br></li><li><strong>Storage:</strong> 60 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982120,
+    "title": "Giant Celebration",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Giant Cranium"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "Indie",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-4590 equivalent or better<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA 980<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>VR Support:</strong> SteamVR<br></li><li><strong>Additional Notes:</strong> VR ONLY! Installation on SSD HIGHLY Recommended</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i7-7700 or better<br></li><li><strong>Memory:</strong> 16 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA 1080Ti<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Additional Notes:</strong> VR ONLY! Installation on SSD HIGHLY Recommended</li></ul>"
+    }
+  },
+  {
+    "appid": 982180,
+    "title": "Slave Ghost",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Ghost_RUS Games"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP\\Vista\\7\\8\\10<br></li><li><strong>Processor:</strong> 1.2GHz processor<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> 256 MB<br></li><li><strong>Storage:</strong> 120 MB available space<br></li><li><strong>Additional Notes:</strong> minimum 1280x720 screen resolution</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982210,
+    "title": "CUBESCAPE",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982210/3aa05d78c612b7b4e8f99dcdf7e03722b766ea4c/library_600x900.jpg?t=1756605959",
+    "publishers": [
+      "Tesseract"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7+<br></li><li><strong>Processor:</strong> 1.8 GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia Geforce GTX 750 TI<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7+<br></li><li><strong>Processor:</strong> 2.5 GHz<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 1070 8 GB GDDR5<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982220,
+    "title": "Globesweeper",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982220/library_600x900.jpg?t=1667200556",
+    "publishers": [
+      "Incandescent Games"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP / Vista / 7 / 8 / 10<br></li><li><strong>Processor:</strong> SSE2 instruction set support<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> DX9 (shader model 3.0) or DX11 with feature level 9.3 capabilities<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982250,
+    "title": "Spoils of Plunder",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982250/library_600x900.jpg?t=1612988854",
+    "publishers": [
+      "Dapper Grim Studios"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 64-bit<br></li><li><strong>Processor:</strong> Core i3<br></li><li><strong>Memory:</strong> 4 MB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce 700-series 1 Gb<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10 64-bit<br></li><li><strong>Processor:</strong> Core i7<br></li><li><strong>Memory:</strong> 8 MB RAM<br></li><li><strong>Graphics:</strong> Nvidia Geforce 900-series 2Gb<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 15 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982270,
+    "title": "Dealer's Life",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982270/library_600x900.jpg?t=1753717281",
+    "publishers": [
+      "Abyte Entertainment"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows XP and up<br></li><li><strong>Processor:</strong> 64bit CPU, 1 Ghz and up<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Storage:</strong> 150 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 982290,
+    "title": "Airborne Kingdom",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982290/library_600x900.jpg?t=1755813571",
+    "publishers": [],
+    "genres": [
+      "Adventure",
+      "Indie",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Microsoft Windows 7/8/10<br></li><li><strong>Processor:</strong> Intel Core i7-3770 or AMD FX-8350<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 660, 2 GB or AMD Radeon HD 7870, 2 GB<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Microsoft Windows 10<br></li><li><strong>Processor:</strong> Intel Core i7-8700 or AMD Ryzen 7 1800x<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060, 3 GB or AMD Radeon RX 580, 4 GB<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982300,
+    "title": "Shop Legends",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982300/library_600x900.jpg?t=1735031135",
+    "publishers": [
+      "Cloudcade"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "RPG",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Storage:</strong> 1 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Memory:</strong> 16 GB RAM</li></ul>"
+    }
+  },
+  {
+    "appid": 982320,
+    "title": "Battle of the Boros",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Andrew Heymann"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Microsoft® Windows® XP / Vista / 7 (32-bit/64-bit)<br></li><li><strong>Processor:</strong> Intel® Pentium® 4 2.0 GHz equivalent or faster processor.<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> 1024 x 768 pixels or higher desktop resolution<br></li><li><strong>Storage:</strong> 400 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982350,
+    "title": "Mon Amour",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982350/library_600x900.jpg?t=1633558200",
+    "publishers": [
+      "Onion Games"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> 1.3Ghz+<br></li><li><strong>Memory:</strong> ４ GB RAM<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 982370,
+    "title": "Line Dance Virtual",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982370/library_600x900.jpg?t=1701122318",
+    "publishers": [
+      "Dance-Virtual",
+      "Miragic Labs"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Sports",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7 SP1, Windows 8.1, or Windows 10<br></li><li><strong>Processor:</strong> Intel® i5-4590 / AMD FX 8350<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce® GTX 970 / AMD Radeon™ R9 290 equivalent or greater<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>VR Support:</strong> SteamVR</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7/8.1/10 (64bit)<br></li><li><strong>Processor:</strong> Intel Core i7 Skylake or equivalent<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GTX 1060 or equivalent<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 3 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982380,
+    "title": "Gods and Kings",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Xuanjin Studio"
+    ],
+    "genres": [
+      "Free To Play",
+      "RPG",
+      "Strategy",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Processor:</strong> Intel Core2 Duo E7500/ AMD AthlonX2 B28<br></li><li><strong>Memory:</strong> 2000 MB RAM<br></li><li><strong>Graphics:</strong> Geforce 9800GT / AMD  HD 4830<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 2000 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows7<br></li><li><strong>Processor:</strong> Intel Core i5 / AMD Ryzen 5<br></li><li><strong>Memory:</strong> 4000 MB RAM<br></li><li><strong>Graphics:</strong> Geforce GTX 1050 / AMD R9 270X<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 3000 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982390,
+    "title": "Boom Boom Bovine",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Wonderthing"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Dual Core<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> 512MB<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> Any standard sound card</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Dual Core<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> 1GB<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> Any standard sound card</li></ul>"
+    }
+  },
+  {
+    "appid": 982400,
+    "title": "赫炎的印加诺克 Fullvoice ReBORN",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982400/library_600x900.jpg?t=1569230521",
+    "publishers": [
+      "Nekoday"
+    ],
+    "genres": [
+      "Adventure"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 SP1, Windows 8.1, Windows 10<br></li><li><strong>Processor:</strong> Intel Core i3 2.00 GHz 或等效 AMD 处理器<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Intel® HD Graphics 3000<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 7 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 SP1, Windows 8.1, Windows 10<br></li><li><strong>Processor:</strong> Intel Core i3 2.00 GHz 或等效 AMD 处理器<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Intel® HD Graphics 3000<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 7 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982410,
+    "title": "Bachata Virtual",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982410/library_600x900.jpg?t=1600960570",
+    "publishers": [
+      "Froliq"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Sports",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 SP1, Windows 8.1, or Windows 10<br></li><li><strong>Processor:</strong> Intel® i5-4590 / AMD FX 8350<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce® GTX 970 / AMD Radeon™ R9 290 equivalent or greater<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>VR Support:</strong> SteamVR</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8.1/10 (64bit)<br></li><li><strong>Processor:</strong> Intel Core i7 Skylake or equivalent<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GTX 1060 or equivalent<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 3 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982450,
+    "title": "GEMINI DISORDER",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "SAD GIRLS GAMES"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows Vista/7/8/10 (64 bit)<br></li><li><strong>Processor:</strong> 1 Ghz<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> DirectX® 9 Compatible Graphics Card<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows Vista/7/8/10 (64 bit)<br></li><li><strong>Processor:</strong> 2.0 GHz Core 2 Duo<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> OpenGL 2.0 or DirectX 9.0c<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982480,
+    "title": "Supreme Casino City",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Ziopops Limited"
+    ],
+    "genres": [
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> windows 10<br></li><li><strong>Processor:</strong> 2.0 GHz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> Direct X 9 compatible<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 465 MB available space<br></li><li><strong>Sound Card:</strong> Direct X compatible</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> windows 10<br></li><li><strong>Processor:</strong> 2.0 GHz<br></li><li><strong>Memory:</strong> 4 MB RAM<br></li><li><strong>Graphics:</strong> Direct X 11 compatible<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 465 MB available space<br></li><li><strong>Sound Card:</strong> Direct X compatible</li></ul>"
+    }
+  },
+  {
+    "appid": 982540,
+    "title": "Hyss",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982540/library_600x900.jpg?t=1567770282",
+    "publishers": [
+      "Sunscale Studios"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 64-bit<br></li><li><strong>Processor:</strong> Intel Core i3-3220 or AMD FX-6300<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Geforce 560 or Radeon 6850<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 1118 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 64-bit or later<br></li><li><strong>Processor:</strong> Quad-core Intel or AMD processor, 2.5 GHz or faster<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce 470 GTX or AMD Radeon 6870 HD series card or higher.<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 1118 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982580,
+    "title": "女巫与六便士 the sibyl and sixpence",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982580/library_600x900.jpg?t=1574138312",
+    "publishers": [
+      "吃了就睡工作室"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> windows7/8/10<br></li><li><strong>Processor:</strong> any type<br></li><li><strong>Graphics:</strong> any type<br></li><li><strong>Sound Card:</strong> you must have one, need not too expensive</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> windows 10<br></li><li><strong>Processor:</strong> i9 9900K<br></li><li><strong>Graphics:</strong> GTX-1080ti<br></li><li><strong>Sound Card:</strong> LEWITT Stream</li></ul>"
+    }
+  },
+  {
+    "appid": 982670,
+    "title": "Clan N",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982670/library_600x900.jpg?t=1617961339",
+    "publishers": [
+      "Creamative",
+      "Maple Whispering Limited"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 or later<br></li><li><strong>Processor:</strong> 1.66 GHz Dual Core Processor or equivalent<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982690,
+    "title": "DATAFLOW",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982690/library_600x900.jpg?t=1725426210",
+    "publishers": [
+      "Half-Face Games"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Free To Play"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Processor:</strong> 1 GHz<br></li><li><strong>Memory:</strong> 64 MB RAM<br></li><li><strong>Graphics:</strong> Integrated video<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Storage:</strong> 100 MB available space<br></li><li><strong>Sound Card:</strong> Integrated audio</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982700,
+    "title": "Space Battle VR",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Raba Games"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> 32/64-bit Windows 7 / 8.1 / 10<br></li><li><strong>Processor:</strong> Intel Core i5-4590/AMD FX 8350<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 970, AMD Radeon R9 290<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 4 GB available space<br></li><li><strong>Sound Card:</strong> Standard<br></li><li><strong>VR Support:</strong> SteamVR<br></li><li><strong>Additional Notes:</strong> VR support is required</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> 32/64-bit Windows 7 / 8.1 / 10<br></li><li><strong>Processor:</strong> Intel Core i5-4590/AMD FX 8350<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GeForce GTX 1060, AMD Radeon RX 480<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 4 GB available space<br></li><li><strong>Sound Card:</strong> Standard<br></li><li><strong>Additional Notes:</strong> VR support is required</li></ul>"
+    }
+  },
+  {
+    "appid": 982710,
+    "title": "Cop Academy",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Rubika Supinfogame"
+    ],
+    "genres": [
+      "Free To Play",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7/8.1/10 (64bit)<br></li><li><strong>Processor:</strong> Intel Core i5<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GTX 960 or equivalent<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 360 MB available space<br></li><li><strong>VR Support:</strong> SteamVR. Standing or Room Scale</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS *:</strong> Windows 7/8.1/10 (64bit)<br></li><li><strong>Processor:</strong> Intel Core i7<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Nvidia GTX 1060 or equivalent<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Storage:</strong> 360 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982720,
+    "title": "Paradise Lost",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982720/library_600x900.jpg?t=1623253762",
+    "publishers": [
+      "Walkabout"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> i5<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> GeForce GTX 960<br></li><li><strong>Storage:</strong> 30 GB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> i7<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> Geforce GTX 1060<br></li><li><strong>Storage:</strong> 30 GB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 982750,
+    "title": "Puzzles for smart: Underwater Kingdom",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Laush Studio"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP and newer<br></li><li><strong>Processor:</strong> Athlon 2 X3 450<br></li><li><strong>Memory:</strong> 2048 MB RAM<br></li><li><strong>Graphics:</strong> GeForce EN9600 GT<br></li><li><strong>Storage:</strong> 90 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982800,
+    "title": "Moon Tycoon",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982800/library_600x900.jpg?t=1572385037",
+    "publishers": [
+      "Anarchy Enterprises"
+    ],
+    "genres": [
+      "Indie",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP, Vista, 7, 8, 10<br></li><li><strong>Processor:</strong> 1.8 GHz Processor<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> 8MB video card compatible with DirectX 7<br></li><li><strong>Storage:</strong> 700 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982840,
+    "title": "Bomber Barn",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982840/library_600x900.jpg?t=1572381324",
+    "publishers": [
+      "Late Leaf Games"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Processor:</strong> Dual Core 2.4Ghz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> GeForce 8800 GT / AMD HD 6850 / Intel HD Graphics 4400 or above<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982850,
+    "title": "Tess Elated",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982850/library_600x900.jpg?t=1669554595",
+    "publishers": [
+      "Wainstop James"
+    ],
+    "genres": [
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP SP3 or later<br></li><li><strong>Processor:</strong> 200 Mhz Pentium processor or higher<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Storage:</strong> 128 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 982920,
+    "title": "HammerBorn: Tears Of Mani",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/982920/library_600x900.jpg?t=1650569472",
+    "publishers": [
+      "Hareware Studios"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "RPG",
+      "Simulation",
+      "Strategy",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 and up<br></li><li><strong>Processor:</strong> quad core or better<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> Some integrated GFX, but recommend a dedicated card<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 750 MB available space<br></li><li><strong>Sound Card:</strong> Any current should work<br></li><li><strong>VR Support:</strong> SteamVR. Standing or Room Scale</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 and up<br></li><li><strong>Processor:</strong> Core i5, AMD hex, or better<br></li><li><strong>Memory:</strong> 16 GB RAM<br></li><li><strong>Graphics:</strong> Dedicated ATI, NVIDIA, or better.<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 1 GB available space<br></li><li><strong>Sound Card:</strong> Any current should work</li></ul>"
+    }
+  },
+  {
+    "appid": 982980,
+    "title": "Project Aeronaut",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Adam Puckette"
+    ],
+    "genres": [
+      "Action",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-4590 or greater<br></li><li><strong>Graphics:</strong> NVIDIA GTX 970 or greater<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 2 GB available space<br></li><li><strong>VR Support:</strong> SteamVR. Standing or Room Scale<br></li><li><strong>Additional Notes:</strong> VR Headset required</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-6600k or greater<br></li><li><strong>Graphics:</strong> NVIDIA GTX 1060 or greater<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Additional Notes:</strong> VR Headset required</li></ul>"
+    }
+  },
+  {
+    "appid": 982990,
+    "title": "Muzzleloaded",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Frontside Games"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> XP<br></li><li><strong>Processor:</strong> Core 2 Duo<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> Discreet video card<br></li><li><strong>Storage:</strong> 400 MB available space<br></li><li><strong>Sound Card:</strong> Yes</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983030,
+    "title": "W.A.N.T.E.D - WANTED The Game",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983030/882425d45716a55a5710ed4937c6eb48f084d0fb/library_600x900.jpg?t=1759269614",
+    "publishers": [
+      "Gaming Limited"
+    ],
+    "genres": [
+      "Action",
+      "Adventure",
+      "Indie",
+      "Massively Multiplayer",
+      "Racing",
+      "Early Access"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 or higher<br></li><li><strong>Processor:</strong> Quad Core processor &gt; 2.5Ghz<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA® GeForce™ GTX 1060, AMD® Radeon™ RX560<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 66 GB available space<br></li><li><strong>Sound Card:</strong> 100% DirectX 11 compatible<br></li><li><strong>Additional Notes:</strong> Best load times with SSD - Also use Pagefile Cache with SSD if you have too less RAM</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10 or higher<br></li><li><strong>Processor:</strong> Octa Core processor &gt; 3.0GHz<br></li><li><strong>Memory:</strong> 16 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA® GeForce™ GTX 2070, AMD® Radeon™ 5700XT<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 66 GB available space<br></li><li><strong>Sound Card:</strong> 100% DirectX 11 compatible<br></li><li><strong>Additional Notes:</strong> Best load times with SSD - Also use Pagefile Cache with SSD if you have too less RAM</li></ul>"
+    }
+  },
+  {
+    "appid": 983040,
+    "title": "Koboomballs",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Yargybot"
+    ],
+    "genres": [
+      "Action"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7 SP1<br></li><li><strong>Processor:</strong> SSE2 instruction set support<br></li><li><strong>Memory:</strong> 1 GB RAM<br></li><li><strong>Graphics:</strong> DX10 (shader model 4.0)<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 300 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983070,
+    "title": "Hyperborea",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Flova Interactive"
+    ],
+    "genres": [
+      "Adventure",
+      "Indie",
+      "RPG"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8/8.1/10<br></li><li><strong>Processor:</strong> Intel Core 2 Duo or better<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> DirectX 9/OpenGL 4.1 capable GPU<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 2 GB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983100,
+    "title": "Walk On the Ground Simulator",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Unity Council Studios LLC"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "RPG",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Storage:</strong> 300 MB available space<br></li><li><strong>Additional Notes:</strong> Level data is generated and saved as you explore so memory usage can grow significantly.</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system</li></ul>"
+    }
+  },
+  {
+    "appid": 983120,
+    "title": "TendyTrainer",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "SmallBois Productions"
+    ],
+    "genres": [
+      "Simulation",
+      "Sports",
+      "Free To Play"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-4590<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 1050<br></li><li><strong>Storage:</strong> 200 MB available space<br></li><li><strong>VR Support:</strong> Oculus PC. Room Scale 3m by 2m area required</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel i5-4590<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 1050<br></li><li><strong>Storage:</strong> 200 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 983140,
+    "title": "Monster Jaunt",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983140/library_600x900.jpg?t=1667776430",
+    "publishers": [
+      "Sketch House Games"
+    ],
+    "genres": [
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8/8.1/10<br></li><li><strong>Processor:</strong> Intel Core2 Duo or equivalent<br></li><li><strong>Memory:</strong> 512 MB RAM<br></li><li><strong>Graphics:</strong> Nvidia GeForce 9600 or equivalent<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 720 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7/8/8.1/10<br></li><li><strong>Processor:</strong> Intel Core i3 or equivalent<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> Nvidia GeForce GTX 660 or equivalent<br></li><li><strong>DirectX:</strong> Version 10<br></li><li><strong>Storage:</strong> 720 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 983150,
+    "title": "Sakura no Mori † Dreamers 2",
+    "premium": true,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983150/library_600x900.jpg?t=1574746074",
+    "publishers": [
+      "HIKARI FIELD"
+    ],
+    "genres": [
+      "Adventure"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows10/8/7/Vista<br></li><li><strong>Processor:</strong> Pentium4 1.4GHz<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> 64MB<br></li><li><strong>DirectX:</strong> Version 9.0c<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 4.7 GB available space<br></li><li><strong>Sound Card:</strong> PCM，WAVE</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983160,
+    "title": "Junk on Wheels",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983160/library_600x900.jpg?t=1604269428",
+    "publishers": [
+      "Infravision Inc."
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie",
+      "Racing"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Intel Dual-Core 2.4 GHz<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA GTX 670 2GB/AMD Radeon HD 7870 2GB or better<br></li><li><strong>DirectX:</strong> Version 11<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Sound Card:</strong> DirectX®-compatible</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li>Requires a 64-bit processor and operating system<br></li><li><strong>OS:</strong> Windows 10<br></li><li><strong>Processor:</strong> Quad Core Processor<br></li><li><strong>Memory:</strong> 8 GB RAM<br></li><li><strong>Graphics:</strong> NVIDIA Geforce RTX 2060 / AMD Radeon 6800 XT<br></li><li><strong>DirectX:</strong> Version 12<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 3 GB available space<br></li><li><strong>Sound Card:</strong> DirectX®-compatible</li></ul>"
+    }
+  },
+  {
+    "appid": 983170,
+    "title": "Infinite Chili Sauce  无尽的辣酱",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983170/library_600x900.jpg?t=1560603318",
+    "publishers": [
+      "AppleCoffee"
+    ],
+    "genres": [
+      "Casual",
+      "Indie",
+      "Simulation"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> win7<br></li><li><strong>Processor:</strong> i3<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> nvidia<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS:</strong> win10<br></li><li><strong>Processor:</strong> i7<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Graphics:</strong> nvidia<br></li><li><strong>Storage:</strong> 100 MB available space</li></ul>"
+    }
+  },
+  {
+    "appid": 983190,
+    "title": "GANUSH",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "CODE Co., Ltd."
+    ],
+    "genres": [
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows® 7/8/8.1/10<br></li><li><strong>Processor:</strong> Intel Core2 Duo or better<br></li><li><strong>Memory:</strong> 4 GB RAM<br></li><li><strong>Graphics:</strong> DirectX 9/OpenGL 4.1 capable GPU<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 500 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983240,
+    "title": "Boobs or [redacted]",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "KZG"
+    ],
+    "genres": [
+      "Casual"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7<br></li><li><strong>Storage:</strong> 300 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983260,
+    "title": "Pixel Ship Shooter",
+    "premium": false,
+    "cover_url": "NO CONTENT",
+    "publishers": [
+      "Altope Interactive"
+    ],
+    "genres": [
+      "Action",
+      "Casual",
+      "Indie"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows XP<br></li><li><strong>Memory:</strong> 1024 MB RAM<br></li><li><strong>Network:</strong> Broadband Internet connection<br></li><li><strong>Storage:</strong> 700 MB available space</li></ul>",
+      "recommended": ""
+    }
+  },
+  {
+    "appid": 983280,
+    "title": "Chocolate makes you happy: New Year",
+    "premium": false,
+    "cover_url": "https://shared.steamstatic.com/store_item_assets/steam/apps/983280/library_600x900.jpg?t=1745437539",
+    "publishers": [
+      "Blender Games"
+    ],
+    "genres": [
+      "Adventure",
+      "Casual",
+      "Indie",
+      "Simulation",
+      "Strategy"
+    ],
+    "specification": {
+      "minimum": "<strong>Minimum:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7, Vista, 8, 8.1, 10, 11<br></li><li><strong>Processor:</strong> Intel or AMD 2 GHz<br></li><li><strong>Memory:</strong> 2 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD Graphics, AMD Radeon Graphics, NVIDIA GeForce<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 200 MB available space<br></li><li><strong>Sound Card:</strong> Any</li></ul>",
+      "recommended": "<strong>Recommended:</strong><br><ul class=\"bb_ul\"><li><strong>OS *:</strong> Windows 7, Vista, 8, 8.1, 10, 11<br></li><li><strong>Processor:</strong> Intel or AMD 2.4 Ghz<br></li><li><strong>Memory:</strong> 3 GB RAM<br></li><li><strong>Graphics:</strong> Intel HD Graphics, AMD Radeon Graphics, NVIDIA GeForce<br></li><li><strong>DirectX:</strong> Version 9.0<br></li><li><strong>Storage:</strong> 200 MB available space<br></li><li><strong>Sound Card:</strong> Any</li></ul>"
+    }
+  }
+]

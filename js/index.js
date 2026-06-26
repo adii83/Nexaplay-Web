@@ -1007,18 +1007,28 @@ document.addEventListener('DOMContentLoaded', () => {
     initCatalogControls();
     initMarquee();
 
+    const hideGlobalLoader = () => {
+      const loader = document.getElementById('global-loader');
+      if (loader) {
+        loader.classList.add('global-loader--hidden');
+        setTimeout(() => loader.remove(), 600);
+      }
+    };
+
     try {
       await loadCatalogData();
       updateCatalogCounter(orderedCatalogData.length);
       renderTrendingGames();
       updateHeroCapsulesImages();
       renderCatalog(true);
+      hideGlobalLoader();
     } catch (error) {
       console.error(error);
       const grid = document.getElementById('catalog-grid');
       if (grid) {
         grid.innerHTML = '<p class="text-body">Katalog game gagal dimuat.</p>';
       }
+      hideGlobalLoader();
     }
 
     initScrollReveals();
