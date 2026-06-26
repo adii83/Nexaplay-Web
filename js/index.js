@@ -133,7 +133,7 @@ function renderTrendingGames() {
    ———————————————————————————————————————— */
 
 async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'no-store' });
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status}`);
   }
@@ -204,7 +204,7 @@ async function loadCatalogData() {
   const [priorityAppidsRaw, catalogRaw, popularAppidsText] = await Promise.all([
     fetchJson(PRIORITY_APPIDS_URL),
     fetchJson(CATALOG_URL),
-    fetch(POPULAR_APPIDS_URL, { cache: 'no-store' }).then(res => res.text()).catch(() => "[]")
+    fetch(POPULAR_APPIDS_URL).then(res => res.text()).catch(() => "[]")
   ]);
 
   const priorityAppids = Array.isArray(priorityAppidsRaw) ? priorityAppidsRaw : [];
