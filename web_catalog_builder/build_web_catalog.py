@@ -368,8 +368,21 @@ def write_outputs(
 
     chunks_dir = output_dir / "chunks"
     ensure_dir(chunks_dir)
+    
+    search_index = []
+    
     for index, chunk_items in enumerate(chunked(items, chunk_size), start=1):
         write_json_file(chunks_dir / f"catalog-{index:04d}.json", chunk_items)
+        for item in chunk_items:
+            search_index.append({
+                "appid": item["appid"],
+                "title": item["title"],
+                "premium": item["premium"],
+                "cover_url": item["cover_url"],
+                "chunk": index
+            })
+            
+    write_json_file(output_dir / "search_index.json", search_index)
 
 
 def remove_old_chunks(output_dir: Path) -> None:

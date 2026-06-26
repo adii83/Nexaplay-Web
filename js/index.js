@@ -7,9 +7,9 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const isMobile = window.innerWidth < 768;
 
-const PRIORITY_APPIDS_URL = './appid.json';
-const POPULAR_APPIDS_URL = './appid_populer.json';
-const CATALOG_URL = './web_catalog_builder/output/catalog.json';
+const PRIORITY_APPIDS_URL = 'appid.json';
+const POPULAR_APPIDS_URL = 'appid_populer.json';
+const CATALOG_URL = './web_catalog_builder/output/search_index.json';
 const CATALOG_BATCH_SIZE = 20;
 
 let currentFilter = 'all';
@@ -155,6 +155,8 @@ function normalizeCatalogItem(item) {
     title,
     premium: Boolean(item.premium),
     cover_url: typeof item.cover_url === 'string' ? item.cover_url : '',
+    chunk: typeof item.chunk === 'number' ? item.chunk : null,
+    _fullDataLoaded: false,
     publishers: Array.isArray(item.publishers) ? item.publishers : [],
     genres: Array.isArray(item.genres) ? item.genres : [],
     specification: item.specification && typeof item.specification === 'object'
@@ -564,12 +566,36 @@ function renderCatalogGenres(genres) {
     .join('');
 }
 
-function openCatalogModal(appid, triggerCard = null) {
+async function openCatalogModal(appid, triggerCard = null) {
   const item = getCatalogItemByAppid(appid);
   if (!item) return;
 
   if (triggerCard) {
     lastFocusedCatalogCard = triggerCard;
+  }
+
+  // Fetch full data from chunk if it hasn't been loaded yet
+  if (!item._fullDataLoaded && item.chunk) {
+    try {
+      const chunkUrl = `./web_catalog_builder/output/chunks/catalog-${String(item.chunk).padStart(4, '0')}.json`;
+      const chunkData = await fetchJson(chunkUrl);
+      const fullItemData = chunkData.find(g => Number(g.appid) === appid);
+      if (fullItemData) {
+        Object.assign(item, fullItemData);
+        item._fullDataLoaded = true;
+        // Normalize nested fields that might be raw from chunk
+        item.publishers = Array.isArray(item.publishers) ? item.publishers : [];
+        item.genres = Array.isArray(item.genres) ? item.genres : [];
+        item.specification = item.specification && typeof item.specification === 'object'
+          ? { 
+              minimum: typeof item.specification.minimum === 'string' ? item.specification.minimum : '', 
+              recommended: typeof item.specification.recommended === 'string' ? item.specification.recommended : '' 
+            }
+          : { minimum: '', recommended: '' };
+      }
+    } catch (e) {
+      console.error('Failed to load full chunk data', e);
+    }
   }
 
   activeCatalogModalAppId = appid;
