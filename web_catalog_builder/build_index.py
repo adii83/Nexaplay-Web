@@ -27,10 +27,12 @@ for item in items:
     cover_data = ""
     cover_url = item.get("cover_url", "NO CONTENT")
     if cover_url != "NO CONTENT":
-        if "?t=" in cover_url:
-            cover_data = cover_url.split("?t=")[1]
+        if cover_url.startswith("https://shared.steamstatic.com/store_item_assets/steam/apps/"):
+            cover_data = cover_url.replace("https://shared.steamstatic.com/store_item_assets/steam/apps/", "")
+        elif cover_url.startswith("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/"):
+            cover_data = cover_url.replace("https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/", "")
         else:
-            cover_data = "1"
+            cover_data = cover_url
             
     search_index.append([
         item["appid"],

@@ -154,12 +154,10 @@ function normalizeCatalogItem(item) {
   
   let cover_url = '';
   if (coverData) {
-    if (coverData === "1") {
-        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${appid}/library_600x900.jpg`;
-    } else if (coverData.startsWith("http")) {
+    if (coverData.startsWith("http")) {
         cover_url = coverData;
     } else {
-        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${appid}/library_600x900.jpg?t=${coverData}`;
+        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${coverData}`;
     }
   }
 
