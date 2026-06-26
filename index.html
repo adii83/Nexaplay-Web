@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexaPlay — 95.000++ Game Steam | Akses Premium Sekali Klik</title>
+  <meta name="description" content="NexaPlay memberikan akses ke 95.000+ game Steam. Sekali klik, otomatis masuk ke library pribadi kamu. Premium, aman, dan permanen.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/index.css">
+
+  <!-- Favicon (inline SVG) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23FAFAFA'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%230A0A0A' font-size='18' font-weight='bold' font-family='sans-serif'>N</text></svg>">
+</head>
+<body>
+
+  <!-- ═══ CUSTOM CURSOR ═══ -->
+  <div id="custom-cursor"></div>
+  <div id="custom-cursor-dot"></div>
+
+  <!-- ═══ MOBILE NAV OVERLAY ═══ -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#hero" class="mobile-nav__link">Beranda</a>
+    <a href="#catalog" class="mobile-nav__link">Katalog</a>
+    <a href="#trending" class="mobile-nav__link">Game Populer</a>
+    <a href="#faq" class="mobile-nav__link">FAQ</a>
+    <a href="showcase.html" class="btn btn--primary btn--sm" style="margin-top:24px;">Lihat Produk</a>
+  </div>
+
+  <!-- ═══ NAVBAR ═══ -->
+  <nav class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <!-- Logo -->
+      <a href="index.html" class="navbar__logo">
+        <span class="navbar__logo-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="6" fill="#FAFAFA"/>
+            <path d="M9 23V9h2.5l6.5 9.5V9H21v14h-2.5L12 13.5V23H9z" fill="#0A0A0A"/>
+          </svg>
+        </span>
+        NexaPlay
+      </a>
+
+      <!-- Navigation links -->
+      <div class="navbar__nav">
+        <a href="#hero" class="navbar__link navbar__link--active">Beranda</a>
+        <a href="#trending" class="navbar__link">Game Populer</a>
+        <a href="#catalog" class="navbar__link">Katalog</a>
+        <a href="#trust" class="navbar__link">Keunggulan</a>
+      </div>
+
+      <!-- Actions -->
+      <div class="navbar__actions">
+        <!-- Search -->
+        <div class="navbar__search">
+          <svg class="navbar__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" class="navbar__search-input" placeholder="Cari game..." id="nav-search">
+        </div>
+        <!-- CTA -->
+        <a href="showcase.html" class="btn btn--primary btn--sm">
+          Lihat Produk
+          <svg class="btn__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </a>
+        <!-- Mobile toggle -->
+        <button class="navbar__menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO SECTION
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="hero section" id="hero">
+    <div class="container">
+      <div class="hero__layout">
+        <!-- Text Content -->
+        <div class="hero__content">
+          <span class="hero__eyebrow hero-anim">NEXAPLAY PRESENTS</span>
+
+          <h1 class="hero__headline hero-anim">
+            <span>95.000+ Game.</span>
+            <span>Satu Klik.</span>
+            <span>Selesai.</span>
+          </h1>
+
+          <p class="hero__subheadline hero-anim">
+            Akses 95.000+ game Steam tanpa ribet. Sekali klik, otomatis masuk ke library pribadi kamu — permanen, tanpa biaya tambahan.
+          </p>
+
+          <div class="hero__actions hero-anim">
+            <a href="showcase.html" class="btn btn--primary btn--lg">
+              Lihat Produk
+              <svg class="btn__arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </a>
+            <a href="#catalog" class="btn btn--secondary">
+              Jelajahi Katalog
+            </a>
+          </div>
+
+          <div class="hero__stats hero-anim">
+            <div class="stat-pill">
+              <span class="stat-pill__number" data-counter="97.9" data-counter-suffix="k+" data-counter-decimals="1">0</span>
+              <span class="stat-pill__label">Games</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-pill__number">24/7</span>
+              <span class="stat-pill__label">Support</span>
+            </div>
+          </div>
+
+          <div class="hero__trust-badge hero-anim">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            Dipercaya 10.000+ Gamer Indonesia
+          </div>
+        </div>
+
+        <!-- Parallax Visuals -->
+        <div class="hero__visuals" id="hero-visuals">
+          <div class="hero__capsule-grid" id="hero-capsules">
+            <!-- Capsules injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TRENDING SECTION
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section trending" id="trending">
+    <div class="container">
+      <div class="trending__header reveal">
+        <div class="trending__header-text">
+          <span class="text-eyebrow">Trending Sekarang</span>
+          <div class="trending__title-row">
+            <h2 class="text-h2">Game Terpopuler</h2>
+            <a href="#catalog" class="btn btn--ghost btn--sm">
+              Lihat Semua
+              <svg class="btn__arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="game-grid reveal" id="trending-grid">
+        <!-- Trending cards injected by JS -->
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CATALOG SECTION
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section" id="catalog">
+    <div class="container">
+      <div class="section__header reveal">
+        <span class="text-eyebrow">Koleksi Lengkap</span>
+        <h2 class="text-h2">Jelajahi Katalog Game</h2>
+        <p class="text-body">Temukan game impianmu dari koleksi 95.000+ judul yang terus bertambah setiap saat.</p>
+      </div>
+
+      <!-- Controls: Filters + Search -->
+      <div class="catalog__controls reveal">
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-tab filter-tab--active" data-filter="all">All Games</button>
+          <button class="filter-tab" data-filter="Premium">Premium</button>
+          <button class="filter-tab" data-filter="Standard">Standard</button>
+        </div>
+        <div class="catalog__search-wrapper">
+          <div class="search-bar">
+            <svg class="search-bar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+            <input type="text" class="search-bar__input" placeholder="Cari judul game..." id="catalog-search">
+          </div>
+          <div class="catalog__search-tip">
+            <span class="catalog__search-tip-icon">💡</span>
+            <span>Gunakan AppID Game dari <a href="https://steamdb.info/" target="_blank" rel="noopener noreferrer">SteamDB</a> untuk pencarian lebih akurat</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Grid -->
+      <div class="game-grid" id="catalog-grid">
+        <!-- Catalog cards injected by JS -->
+      </div>
+
+      <!-- Counter -->
+      <div class="catalog__counter reveal">
+        <div class="catalog__counter-number">
+          Total <span data-counter="95676" data-counter-suffix="+">0</span> Game
+        </div>
+        <div class="catalog__counter-text">*Koleksi terus bertambah setiap saat</div>
+      </div>
+
+      <!-- Load More -->
+      <div class="catalog__load-more">
+        <button class="btn btn--secondary" id="load-more-btn">
+          Muat Game Lainnya
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 3v10M4 9l4 4 4-4"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PUBLISHER MARQUEE
+       ═══════════════════════════════════════════════════════════ -->
+  <div class="marquee" id="marquee">
+    <div class="marquee__track" id="marquee-track">
+      <!-- Publishers injected by JS (duplicated for infinite scroll) -->
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       TRUST / KEUNGGULAN SECTION
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="section trust" id="trust">
+    <div class="container">
+      <div class="trust__header reveal">
+        <span class="text-eyebrow">Kenapa NexaPlay?</span>
+        <h2 class="text-h2">Keunggulan yang Membedakan</h2>
+      </div>
+
+      <div class="trust-grid">
+        <!-- Card 1: Protection Bypass -->
+        <div class="trust-card reveal">
+          <div class="trust-card__icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 4L6 11v10c0 10.5 6.8 20.3 16 23 9.2-2.7 16-12.5 16-23V11L22 4z"/>
+              <path d="M15 22l5 5 9-9"/>
+            </svg>
+          </div>
+          <h3 class="trust-card__title">Protection Bypass</h3>
+          <p class="trust-card__desc">Mendukung game dengan proteksi Denuvo — mainkan judul AAA terbaru tanpa batasan apapun.</p>
+        </div>
+
+        <!-- Card 2: Kompatibel Publisher Besar -->
+        <div class="trust-card reveal">
+          <div class="trust-card__icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="3"/>
+              <rect x="24" y="4" width="16" height="16" rx="3"/>
+              <rect x="4" y="24" width="16" height="16" rx="3"/>
+              <rect x="24" y="24" width="16" height="16" rx="3"/>
+            </svg>
+          </div>
+          <h3 class="trust-card__title">Kompatibel Publisher Besar</h3>
+          <p class="trust-card__desc">EA, Ubisoft, Rockstar, dan lainnya — semua publisher major kompatibel dengan NexaPlay.</p>
+        </div>
+
+        <!-- Card 3: 24/7 Support -->
+        <div class="trust-card reveal">
+          <div class="trust-card__icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 40c9.94 0 18-8.06 18-18S31.94 4 22 4 4 12.06 4 22s8.06 18 18 18z"/>
+              <path d="M22 12v10l7 4"/>
+            </svg>
+          </div>
+          <h3 class="trust-card__title">24/7 Support</h3>
+          <p class="trust-card__desc">Tim support siap membantu kapan saja. Kendala teknis? Kami bantu selesaikan dalam hitungan menit.</p>
+        </div>
+
+        <!-- Card 4: Sekali Bayar -->
+        <div class="trust-card reveal">
+          <div class="trust-card__icon">
+            <svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 22C4 12.06 12.06 4 22 4s18 8.06 18 18-8.06 18-18 18S4 31.94 4 22z"/>
+              <path d="M22 14v16M18 18c0-2 1.8-4 4-4s4 2 4 4-1.8 3-4 3-4 1-4 3 1.8 4 4 4 4-2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="trust-card__title">Sekali Bayar, Akses Selamanya</h3>
+          <p class="trust-card__desc">Tidak ada biaya langganan bulanan. Bayar sekali, game kamu permanen seumur hidup.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <div class="footer__logo">NexaPlay</div>
+          <p class="footer__desc">Platform akses game digital premium — 95.000+ game Steam dalam satu klik.</p>
+        </div>
+        <div class="footer__nav">
+          <div class="footer__nav-col">
+            <span class="footer__nav-title">Navigasi</span>
+            <a href="#hero" class="footer__nav-link">Beranda</a>
+            <a href="#trending" class="footer__nav-link">Game Populer</a>
+            <a href="#catalog" class="footer__nav-link">Katalog</a>            
+          </div>
+          <div class="footer__nav-col">
+            <span class="footer__nav-title">Produk</span>
+            <a href="showcase.html" class="footer__nav-link">Lihat Showcase</a>
+            <a href="showcase.html#pricing" class="footer__nav-link">Paket Harga</a>
+            <a href="showcase.html#faq" class="footer__nav-link">FAQ</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        &copy; 2026 NexaPlay. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══ SCRIPTS ═══ -->
+  <!-- GSAP + ScrollTrigger (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <!-- App Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/index.js"></script>
+
+</body>
+</html>

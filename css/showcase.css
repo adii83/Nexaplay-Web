@@ -1,0 +1,284 @@
+/* ============================================================
+   SHOWCASE.CSS — NexaPlay Showcase/Sales Page Specific Styles
+   MOBILE-FIRST: Base = 320px, scale UP
+   Hero showcase · Pricing · FAQ · Final CTA
+   ============================================================ */
+
+/* ═══════════════════════════════════════════════════════════
+   SHOWCASE HERO
+   ═══════════════════════════════════════════════════════════ */
+
+.showcase-hero {
+  position: relative;
+  padding-top: calc(var(--navbar-height) + var(--space-2xl));
+  padding-bottom: var(--space-3xl);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Ambient glow — scaled */
+.showcase-hero::before {
+  content: '';
+  position: absolute;
+  top: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.showcase-hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.showcase-hero__title {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 6vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white-solid);
+}
+
+.showcase-hero__subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.6;
+  padding: 0 var(--space-sm);
+}
+
+/* Video player wrapper */
+.showcase-hero__video-wrapper {
+  margin-top: var(--space-xl);
+  max-width: 860px;
+  width: 100%;
+  position: relative;
+}
+
+/* Subtle glow behind video — reduced on mobile */
+.showcase-hero__video-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .showcase-hero {
+    padding-top: calc(var(--navbar-height) + var(--space-3xl));
+    padding-bottom: var(--space-4xl);
+  }
+
+  .showcase-hero::before {
+    width: 700px;
+    height: 700px;
+    top: -10%;
+  }
+
+  .showcase-hero__content {
+    gap: var(--space-lg);
+  }
+
+  .showcase-hero__subtitle {
+    font-size: 17px;
+    line-height: 1.65;
+    padding: 0;
+  }
+
+  .showcase-hero__video-wrapper {
+    margin-top: var(--space-2xl);
+  }
+
+  .showcase-hero__video-wrapper::before {
+    inset: -30px;
+    border-radius: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .showcase-hero {
+    padding-top: calc(var(--navbar-height) + var(--space-4xl));
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   PRICING SECTION
+   ═══════════════════════════════════════════════════════════ */
+
+.pricing {
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+.pricing__header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.pricing__header .text-eyebrow {
+  margin-bottom: var(--space-sm);
+}
+
+.pricing__header .text-body {
+  max-width: 480px;
+  margin: var(--space-sm) auto 0;
+}
+
+/* Pricing card CTA styling */
+.pricing-card .btn {
+  width: 100%;
+  justify-content: center;
+  margin-top: var(--space-sm);
+}
+
+/* Premium CTA glow */
+.pricing-card--premium .btn--primary {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.06);
+}
+
+@media (hover: hover) {
+  .pricing-card--premium .btn--primary:hover {
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.15);
+  }
+}
+
+@media (min-width: 768px) {
+  .pricing__header {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .pricing__header .text-eyebrow {
+    margin-bottom: var(--space-md);
+  }
+
+  .pricing__header .text-body {
+    margin: var(--space-md) auto 0;
+  }
+
+  .pricing-card--premium .btn--primary {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FAQ SECTION
+   ═══════════════════════════════════════════════════════════ */
+
+.faq {
+  position: relative;
+}
+
+.faq__header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.faq__wrapper {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .faq__header {
+    margin-bottom: var(--space-3xl);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   FINAL CTA SECTION
+   ═══════════════════════════════════════════════════════════ */
+
+.final-cta {
+  position: relative;
+  text-align: center;
+  background: var(--bg-secondary);
+  overflow: hidden;
+}
+
+/* Ambient glow — scaled */
+.final-cta::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.final-cta__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.final-cta__headline {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 5vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white-solid);
+  max-width: 650px;
+}
+
+.final-cta__sub {
+  font-size: 15px;
+  color: var(--text-secondary);
+  max-width: 480px;
+  line-height: 1.6;
+}
+
+.final-cta .btn--primary.btn--lg {
+  font-size: 15px;
+  padding: 18px 36px;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.08);
+}
+
+@media (hover: hover) {
+  .final-cta .btn--primary.btn--lg:hover {
+    box-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) scale(1.02);
+  }
+}
+
+@media (min-width: 768px) {
+  .final-cta::before {
+    width: 600px;
+    height: 600px;
+  }
+
+  .final-cta__content {
+    gap: var(--space-lg);
+  }
+
+  .final-cta__sub {
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  .final-cta .btn--primary.btn--lg {
+    font-size: 18px;
+    padding: 22px 52px;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+  }
+}

@@ -1,0 +1,442 @@
+/* ============================================================
+   BASE.CSS — NexaPlay Design System Foundation
+   Monochrome palette · Typography · Utilities · Reset
+   MOBILE-FIRST APPROACH: Base = mobile, scale UP
+   ============================================================ */
+
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* --- CSS Custom Properties (Design Tokens) --- */
+:root {
+  /* ── Monochrome Palette ── */
+  --bg-primary:     #0A0A0A;
+  --bg-secondary:   #131313;
+  --surface:        #1C1C1C;
+  --border:         #2E2E2E;
+  --text-tertiary:  #6B6B6B;
+  --text-secondary: #A0A0A0;
+  --text-primary:   #FAFAFA;
+  --white-solid:    #FFFFFF;
+
+  /* ── Typography ── */
+  --font-heading: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  /* ── Spacing Scale (mobile-first base) ── */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 56px;
+  --space-5xl: 72px;
+
+  /* ── Border Radius ── */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-fast:   200ms var(--ease-out-expo);
+  --transition-medium: 400ms var(--ease-out-expo);
+  --transition-slow:   600ms var(--ease-out-expo);
+
+  /* ── Layout ── */
+  --container-max: 1320px;
+  --container-padding: 16px;
+
+  /* ── Navbar ── */
+  --navbar-height: 60px;
+}
+
+/* --- CSS Reset --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  /* Prevent iOS auto-zoom on input focus */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+}
+
+/* Custom cursor only on fine-pointer (mouse) devices */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a { cursor: none; }
+  button { cursor: none; }
+}
+
+img, video, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+input, textarea {
+  font: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  /* Prevent iOS zoom on focus — must be >= 16px */
+  font-size: 16px;
+}
+
+::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white-solid);
+}
+
+/* --- Typography System (mobile-first with clamp) --- */
+
+/* Display — Hero headline */
+.text-display {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 6vw, 84px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--white-solid);
+}
+
+/* H1 */
+.text-h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4.5vw, 56px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* H2 */
+.text-h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* H3 */
+.text-h3 {
+  font-family: var(--font-heading);
+  font-size: clamp(18px, 2.2vw, 28px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+/* Body */
+.text-body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+/* Body small */
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Eyebrow label */
+.text-eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+}
+
+/* Label/Badge */
+.text-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-tertiary);
+}
+
+/* --- Layout Utilities --- */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
+.section {
+  padding: var(--space-5xl) 0;
+  position: relative;
+}
+
+.section--compact {
+  padding: var(--space-4xl) 0;
+}
+
+/* --- Noise Texture Overlay --- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* --- Glow Utility --- */
+.glow {
+  position: relative;
+}
+
+.glow::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.glow--strong::before {
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+}
+
+.glow--subtle::before {
+  inset: -20%;
+  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+}
+
+/* --- Custom Cursor (only for mouse devices) --- */
+#custom-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s var(--ease-out-expo),
+              height 0.3s var(--ease-out-expo),
+              border-color 0.3s var(--ease-out-expo),
+              background 0.3s var(--ease-out-expo);
+  mix-blend-mode: difference;
+  display: none; /* Hidden by default (mobile-first) */
+}
+
+#custom-cursor.cursor--hover {
+  width: 50px;
+  height: 50px;
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+#custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: var(--white-solid);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  display: none; /* Hidden by default (mobile-first) */
+}
+
+/* Show custom cursor ONLY on mouse/trackpad devices */
+@media (hover: hover) and (pointer: fine) {
+  #custom-cursor,
+  #custom-cursor-dot {
+    display: block;
+  }
+}
+
+/* --- Scroll Reveal Base State --- */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.reveal-ready {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Visually Hidden (accessibility) --- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS — SCALE UP FROM MOBILE BASE
+   ═══════════════════════════════════════════════════════════ */
+
+/* Phablet / Large mobile (480px+) */
+@media (min-width: 480px) {
+  :root {
+    --container-padding: 20px;
+    --space-4xl: 64px;
+    --space-5xl: 80px;
+  }
+
+  .text-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.2em;
+  }
+
+  .text-body {
+    font-size: 16px;
+  }
+}
+
+/* Tablet portrait (768px+) */
+@media (min-width: 768px) {
+  :root {
+    --container-padding: 24px;
+    --navbar-height: 68px;
+    --space-3xl: 56px;
+    --space-4xl: 80px;
+    --space-5xl: 100px;
+  }
+}
+
+/* Tablet landscape / small laptop (1024px+) */
+@media (min-width: 1024px) {
+  :root {
+    --navbar-height: 72px;
+    --space-2xl: 48px;
+    --space-3xl: 64px;
+    --space-4xl: 96px;
+    --space-5xl: 128px;
+  }
+}
+
+/* Desktop (1280px+) */
+@media (min-width: 1280px) {
+  :root {
+    --container-padding: 32px;
+  }
+}
+
+/* Large desktop (1600px+) */
+@media (min-width: 1600px) {
+  :root {
+    --container-max: 1440px;
+  }
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- Touch Device Hover Fix ---
+   Prevent "sticky" hover states on touch screens */
+@media (hover: none) {
+  .game-card:hover {
+    transform: none;
+    border-color: var(--border);
+  }
+
+  .game-card:hover::after {
+    opacity: 0;
+  }
+
+  .game-card:active {
+    transform: scale(0.98);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .trust-card:hover {
+    transform: none;
+    border-color: var(--border);
+  }
+
+  .btn--primary:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn--primary:active {
+    background: var(--text-primary);
+    transform: scale(0.97);
+  }
+}
