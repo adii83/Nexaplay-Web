@@ -24,13 +24,21 @@ def write_chunk(idx, data):
 
 for item in items:
     current_chunk.append(item)
-    search_index.append({
-        "appid": item["appid"],
-        "title": item["title"],
-        "premium": item["premium"],
-        "cover_url": item["cover_url"],
-        "chunk": chunk_index
-    })
+    cover_data = ""
+    cover_url = item.get("cover_url", "NO CONTENT")
+    if cover_url != "NO CONTENT":
+        if "?t=" in cover_url:
+            cover_data = cover_url.split("?t=")[1]
+        else:
+            cover_data = "1"
+            
+    search_index.append([
+        item["appid"],
+        item["title"],
+        1 if item["premium"] else 0,
+        cover_data,
+        chunk_index
+    ])
     
     if len(current_chunk) >= CHUNK_SIZE:
         write_chunk(chunk_index, current_chunk)

@@ -141,30 +141,40 @@ async function fetchJson(url) {
 }
 
 function normalizeCatalogItem(item) {
-  if (!item || typeof item !== 'object') return null;
+  if (!item || !Array.isArray(item)) return null;
 
-  const appid = Number(item.appid);
-  const title = typeof item.title === 'string'
-    ? item.title.trim()
-    : (typeof item.name === 'string' ? item.name.trim() : '');
+  // item format: [appid, title, premium, cover_data, chunk_index]
+  const appid = Number(item[0]);
+  const title = typeof item[1] === 'string' ? item[1].trim() : '';
 
   if (!Number.isFinite(appid) || !title) return null;
+
+  const premium = item[2] === 1;
+  const coverData = item[3];
+  
+  let cover_url = '';
+  if (coverData) {
+    if (coverData === "1") {
+        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${appid}/library_600x900.jpg`;
+    } else if (coverData.startsWith("http")) {
+        cover_url = coverData;
+    } else {
+        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${appid}/library_600x900.jpg?t=${coverData}`;
+    }
+  }
+
+  const chunk = typeof item[4] === 'number' ? item[4] : null;
 
   return {
     appid,
     title,
-    premium: Boolean(item.premium),
-    cover_url: typeof item.cover_url === 'string' ? item.cover_url : '',
-    chunk: typeof item.chunk === 'number' ? item.chunk : null,
+    premium,
+    cover_url,
+    chunk,
     _fullDataLoaded: false,
-    publishers: Array.isArray(item.publishers) ? item.publishers : [],
-    genres: Array.isArray(item.genres) ? item.genres : [],
-    specification: item.specification && typeof item.specification === 'object'
-      ? {
-          minimum: typeof item.specification.minimum === 'string' ? item.specification.minimum : '',
-          recommended: typeof item.specification.recommended === 'string' ? item.specification.recommended : '',
-        }
-      : { minimum: '', recommended: '' },
+    publishers: [],
+    genres: [],
+    specification: { minimum: '', recommended: '' },
   };
 }
 
