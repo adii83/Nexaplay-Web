@@ -10,16 +10,21 @@ const isMobile = window.innerWidth < 768;
 const PRIORITY_APPIDS_URL = 'appid.json';
 const POPULAR_APPIDS_URL = 'appid_populer.json';
 const CATALOG_URL = './web_catalog_builder/output/search_index.json';
+const CATALOG_OVERRIDES_URL = './web_catalog_builder/output/overrides.json';
+const R2_METADATA_BASE_URL = 'https://meta.nexaplaymetadata.online/Metadata';
 const CATALOG_BATCH_SIZE = 20;
 
 let currentFilter = 'all';
 let visibleCatalogCount = CATALOG_BATCH_SIZE;
 let catalogData = [];
+let catalogOverrides = {};
 let orderedCatalogData = [];
 let activeCatalogModalAppId = null;
+let catalogModalRequestGeneration = 0;
 let lastFocusedCatalogCard = null;
-let bodyOverflowBeforeModal = '';
+let bodyOverflowBeforeModal = null;
 let activeCatalogSpecTab = 'minimum';
+let catalogModalCloseTimer = null;
 
 /* ————————————————————————————————————————
    1. HERO ENTRANCE ANIMATION
@@ -123,7 +128,7 @@ function renderTrendingGames() {
     .filter(Boolean);
 
   grid.innerHTML = trendingGames.map(game =>
-    createGameCardHTML(game, { showRank: true, interactive: true })
+    createGameCardHTML(safeCardData(game), { showRank: true, interactive: true })
   ).join('');
 }
 
@@ -132,47 +137,36 @@ function renderTrendingGames() {
    4. CATALOG DATA LOADING
    ———————————————————————————————————————— */
 
-async function fetchJson(url) {
-  const response = await fetch(url);
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error(`Failed to fetch ${url}: ${response.status}`);
   }
   return response.json();
 }
 
-function normalizeCatalogItem(item) {
-  if (!item || !Array.isArray(item)) return null;
-
-  // item format: [appid, title, premium, cover_data, chunk_index]
-  const appid = Number(item[0]);
-  const title = typeof item[1] === 'string' ? item[1].trim() : '';
-
-  if (!Number.isFinite(appid) || !title) return null;
-
-  const premium = item[2] === 1;
-  const coverData = item[3];
-  
-  let cover_url = '';
-  if (coverData) {
-    if (coverData.startsWith("http")) {
-        cover_url = coverData;
-    } else {
-        cover_url = `https://shared.steamstatic.com/store_item_assets/steam/apps/${coverData}`;
-    }
+async function fetchCatalogMetadata(appid) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  try {
+    return await fetchJson(`${R2_METADATA_BASE_URL}/${appid}.json`, {
+      cache: 'no-cache',
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
   }
+}
 
-  const chunk = typeof item[4] === 'number' ? item[4] : null;
+function normalizeCatalogItem(item) {
+  return NexaCatalogData.normalizeCatalogItem(item);
+}
 
+function safeCardData(item) {
   return {
-    appid,
-    title,
-    premium,
-    cover_url,
-    chunk,
-    _fullDataLoaded: false,
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
+    ...item,
+    title: NexaCatalogData.escapeHtml(item.title),
+    cover_url: NexaCatalogData.safeHttpUrl(item.cover_url),
   };
 }
 
@@ -201,16 +195,23 @@ function prioritizeCatalogItems(priorityAppids, allItems) {
 }
 
 async function loadCatalogData() {
-  const [priorityAppidsRaw, catalogRaw, popularAppidsText] = await Promise.all([
+  const [priorityAppidsRaw, catalogRaw, popularAppidsText, overridesRaw] = await Promise.all([
     fetchJson(PRIORITY_APPIDS_URL),
     fetchJson(CATALOG_URL),
-    fetch(POPULAR_APPIDS_URL).then(res => res.text()).catch(() => "[]")
+    fetch(POPULAR_APPIDS_URL).then(res => res.text()).catch(() => "[]"),
+    fetchJson(CATALOG_OVERRIDES_URL).catch(error => {
+      console.warn('Catalog overrides unavailable', error);
+      return {};
+    }),
   ]);
 
   const priorityAppids = Array.isArray(priorityAppidsRaw) ? priorityAppidsRaw : [];
   const catalogItems = Array.isArray(catalogRaw)
     ? catalogRaw.map(normalizeCatalogItem).filter(Boolean)
     : [];
+  catalogOverrides = overridesRaw && typeof overridesRaw === 'object' && !Array.isArray(overridesRaw)
+    ? overridesRaw
+    : {};
 
   let popularAppidsRaw = [];
   try {
@@ -453,9 +454,7 @@ function createCatalogModal() {
 function parseSpecHtml(specHtml) {
   if (!hasMeaningfulHtml(specHtml)) return [];
 
-  // Create a temporary DOM element to parse the HTML
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = specHtml;
+  const tempDiv = new DOMParser().parseFromString(specHtml, 'text/html').body;
 
   const items = [];
   const textContent = tempDiv.textContent || tempDiv.innerText || '';
@@ -515,99 +514,124 @@ function parseSpecHtml(specHtml) {
 function renderCatalogSpecContent(targetId, specHtml, fallbackText) {
   const container = document.getElementById(targetId);
   if (!container) return;
+  container.replaceChildren();
 
   if (!hasMeaningfulHtml(specHtml)) {
-    container.innerHTML = `<p class="catalog-modal__empty">${fallbackText}</p>`;
+    const empty = document.createElement('p');
+    empty.className = 'catalog-modal__empty';
+    empty.textContent = fallbackText;
+    container.appendChild(empty);
     return;
   }
 
   const items = parseSpecHtml(specHtml);
-
   if (items.length > 0) {
-    container.innerHTML = `
-      <ul class="catalog-modal__spec-list">
-        ${items.map((item, idx) => `
-          <li class="catalog-modal__spec-item">
-            <span class="catalog-modal__spec-item-label">${item.label}</span>
-            <span class="catalog-modal__spec-item-value">${item.value}</span>
-          </li>
-        `).join('')}
-      </ul>
-    `;
-  } else {
-    // Fallback: render raw HTML in spec-body container
-    container.innerHTML = `<div class="catalog-modal__spec-body">${specHtml}</div>`;
+    const list = document.createElement('ul');
+    list.className = 'catalog-modal__spec-list';
+    items.forEach(item => {
+      const row = document.createElement('li');
+      row.className = 'catalog-modal__spec-item';
+      const label = document.createElement('span');
+      label.className = 'catalog-modal__spec-item-label';
+      label.textContent = item.label;
+      const value = document.createElement('span');
+      value.className = 'catalog-modal__spec-item-value';
+      value.textContent = item.value;
+      row.append(label, value);
+      list.appendChild(row);
+    });
+    container.appendChild(list);
+    return;
   }
+
+  const body = document.createElement('div');
+  body.className = 'catalog-modal__spec-body';
+  body.textContent = specHtml;
+  container.appendChild(body);
 }
 
 function renderCatalogModalImage(item) {
   const wrap = document.getElementById('catalog-modal-image-wrap');
   if (!wrap) return;
+  wrap.replaceChildren();
 
-  if (item.cover_url && item.cover_url !== 'NO CONTENT') {
-    wrap.innerHTML = `<img class="catalog-modal__image" src="${item.cover_url}" alt="${item.title}" loading="lazy" decoding="async">`;
+  const coverUrl = NexaCatalogData.safeHttpUrl(item.cover_url);
+  if (coverUrl) {
+    const image = document.createElement('img');
+    image.className = 'catalog-modal__image';
+    image.src = coverUrl;
+    image.alt = item.title;
+    image.loading = 'lazy';
+    image.decoding = 'async';
+    wrap.appendChild(image);
     return;
   }
 
-  const gradient = generateCardPlaceholder(item.appid || 1);
-  wrap.innerHTML = `
-    <div class="catalog-modal__placeholder" style="background:${gradient};">
-      <span>NO CONTENT</span>
-    </div>
-  `;
+  const placeholder = document.createElement('div');
+  placeholder.className = 'catalog-modal__placeholder';
+  placeholder.style.background = generateCardPlaceholder(item.appid || 1);
+  const text = document.createElement('span');
+  text.textContent = 'NO CONTENT';
+  placeholder.appendChild(text);
+  wrap.appendChild(placeholder);
 }
 
 function renderCatalogGenres(genres) {
   const section = document.getElementById('catalog-modal-genres-section');
   const container = document.getElementById('catalog-modal-genres');
   if (!section || !container) return;
+  container.replaceChildren();
 
   if (!Array.isArray(genres) || genres.length === 0) {
     section.hidden = true;
-    container.innerHTML = '';
     return;
   }
 
   section.hidden = false;
-  container.innerHTML = genres
-    .map(genre => `<span class="catalog-modal__genre-chip">${genre}</span>`)
-    .join('');
+  genres.forEach(genre => {
+    const chip = document.createElement('span');
+    chip.className = 'catalog-modal__genre-chip';
+    chip.textContent = genre;
+    container.appendChild(chip);
+  });
 }
 
 async function openCatalogModal(appid, triggerCard = null) {
   const item = getCatalogItemByAppid(appid);
   if (!item) return;
 
+  const requestGeneration = ++catalogModalRequestGeneration;
+
+  let modalItem = item;
+  let detailAvailable = true;
+  try {
+    const metadata = await fetchCatalogMetadata(appid);
+    if (!NexaCatalogData.isUsableMetadata(metadata)) {
+      throw new Error('R2 metadata payload unavailable');
+    }
+    const extracted = NexaCatalogData.extractModalData(metadata);
+    modalItem = NexaCatalogData.mergeModalData(
+      extracted,
+      catalogOverrides[String(appid)] || {},
+      item,
+    );
+  } catch (error) {
+    if (requestGeneration !== catalogModalRequestGeneration) return;
+    detailAvailable = false;
+    console.error(`Failed to load R2 metadata for AppID ${appid}`, error);
+  }
+
+  if (requestGeneration !== catalogModalRequestGeneration) return;
+
   if (triggerCard) {
     lastFocusedCatalogCard = triggerCard;
   }
 
-  // Fetch full data from chunk if it hasn't been loaded yet
-  if (!item._fullDataLoaded && item.chunk) {
-    try {
-      const chunkUrl = `./web_catalog_builder/output/chunks/catalog-${String(item.chunk).padStart(4, '0')}.json`;
-      const chunkData = await fetchJson(chunkUrl);
-      const fullItemData = chunkData.find(g => Number(g.appid) === appid);
-      if (fullItemData) {
-        Object.assign(item, fullItemData);
-        item._fullDataLoaded = true;
-        // Normalize nested fields that might be raw from chunk
-        item.publishers = Array.isArray(item.publishers) ? item.publishers : [];
-        item.genres = Array.isArray(item.genres) ? item.genres : [];
-        item.specification = item.specification && typeof item.specification === 'object'
-          ? { 
-              minimum: typeof item.specification.minimum === 'string' ? item.specification.minimum : '', 
-              recommended: typeof item.specification.recommended === 'string' ? item.specification.recommended : '' 
-            }
-          : { minimum: '', recommended: '' };
-      }
-    } catch (e) {
-      console.error('Failed to load full chunk data', e);
-    }
-  }
-
   activeCatalogModalAppId = appid;
   const modal = createCatalogModal();
+  clearTimeout(catalogModalCloseTimer);
+  catalogModalCloseTimer = null;
+  modal.classList.remove('is-closing');
   const backdrop = document.getElementById('catalog-modal-backdrop');
   const scrollFade = document.getElementById('catalog-modal-scroll-fade');
   const closeButton = modal.querySelector('.catalog-modal__close');
@@ -620,14 +644,18 @@ async function openCatalogModal(appid, triggerCard = null) {
   const specTabs = document.getElementById('catalog-modal-spec-tabs');
 
   // Populate header
-  if (appidEl) appidEl.textContent = String(item.appid);
-  if (titleEl) titleEl.textContent = item.title;
-  if (statusEl) statusEl.textContent = item.premium ? 'PREMIUM' : 'STANDARD';
+  if (appidEl) appidEl.textContent = String(modalItem.appid);
+  if (titleEl) titleEl.textContent = modalItem.title;
+  if (statusEl) statusEl.textContent = modalItem.premium ? 'PREMIUM' : 'STANDARD';
 
   // Publisher handling
-  const hasPublisher = item.publishers.length > 0;
+  const hasPublisher = detailAvailable
+    ? modalItem.publishers.length > 0
+    : true;
   if (publisherEl) {
-    publisherEl.textContent = hasPublisher ? item.publishers.join(', ') : '';
+    publisherEl.textContent = detailAvailable
+      ? modalItem.publishers.join(', ')
+      : 'Detail belum tersedia';
     publisherEl.style.display = hasPublisher ? '' : 'none';
   }
   if (separatorEl) {
@@ -635,21 +663,29 @@ async function openCatalogModal(appid, triggerCard = null) {
   }
 
   // Image
-  renderCatalogModalImage(item);
+  renderCatalogModalImage(modalItem);
 
   // Genres
-  renderCatalogGenres(item.genres);
+  renderCatalogGenres(detailAvailable ? modalItem.genres : []);
 
   // Specification
-  const hasMinimum = hasMeaningfulHtml(item.specification.minimum);
-  const hasRecommended = hasMeaningfulHtml(item.specification.recommended);
+  const hasMinimum = detailAvailable && hasMeaningfulHtml(modalItem.specification.minimum);
+  const hasRecommended = detailAvailable && hasMeaningfulHtml(modalItem.specification.recommended);
   const hasAnySpec = hasMinimum || hasRecommended;
 
   if (specSection) {
-    specSection.hidden = !hasAnySpec;
+    specSection.hidden = detailAvailable && !hasAnySpec;
   }
 
-  if (hasAnySpec) {
+  if (!detailAvailable) {
+    if (specTabs) specTabs.style.display = 'none';
+    renderCatalogSpecContent(
+      'catalog-modal-minimum',
+      '',
+      'Detail game belum tersedia. Tutup lalu buka kembali untuk mencoba lagi.'
+    );
+    setCatalogSpecTab('minimum');
+  } else if (hasAnySpec) {
     // Toggle visibility: show only if both exist
     if (specTabs) {
       specTabs.style.display = (hasMinimum && hasRecommended) ? '' : 'none';
@@ -657,12 +693,12 @@ async function openCatalogModal(appid, triggerCard = null) {
 
     renderCatalogSpecContent(
       'catalog-modal-minimum',
-      item.specification.minimum,
+      modalItem.specification.minimum,
       'Specification minimum belum tersedia.'
     );
     renderCatalogSpecContent(
       'catalog-modal-recommended',
-      item.specification.recommended,
+      modalItem.specification.recommended,
       'Specification recommended belum tersedia.'
     );
 
@@ -696,7 +732,9 @@ async function openCatalogModal(appid, triggerCard = null) {
   // Scroll modal to top
   modal.scrollTop = 0;
 
-  bodyOverflowBeforeModal = document.body.style.overflow;
+  if (!document.body.classList.contains('body--modal-open')) {
+    bodyOverflowBeforeModal = document.body.style.overflow;
+  }
   document.body.style.overflow = 'hidden';
   document.body.classList.add('body--modal-open');
 
@@ -710,12 +748,16 @@ async function openCatalogModal(appid, triggerCard = null) {
 }
 
 function closeCatalogModal() {
+  catalogModalRequestGeneration += 1;
+
   const modal = document.getElementById('catalog-modal');
   const backdrop = document.getElementById('catalog-modal-backdrop');
   const scrollFade = document.getElementById('catalog-modal-scroll-fade');
   if (!modal) return;
 
   activeCatalogModalAppId = null;
+  clearTimeout(catalogModalCloseTimer);
+  catalogModalCloseTimer = null;
 
   // Hide scroll fade
   if (scrollFade) {
@@ -730,10 +772,12 @@ function closeCatalogModal() {
       backdrop.classList.remove('is-active');
     }
 
-    setTimeout(() => {
+    catalogModalCloseTimer = setTimeout(() => {
+      catalogModalCloseTimer = null;
       modal.classList.remove('is-closing');
       modal.setAttribute('aria-hidden', 'true');
       document.body.style.overflow = bodyOverflowBeforeModal;
+      bodyOverflowBeforeModal = null;
       document.body.classList.remove('body--modal-open');
       if (lastFocusedCatalogCard && typeof lastFocusedCatalogCard.focus === 'function') {
         lastFocusedCatalogCard.focus();
@@ -747,8 +791,10 @@ function closeCatalogModal() {
     }
     modal.setAttribute('aria-hidden', 'true');
 
-    setTimeout(() => {
+    catalogModalCloseTimer = setTimeout(() => {
+      catalogModalCloseTimer = null;
       document.body.style.overflow = bodyOverflowBeforeModal;
+      bodyOverflowBeforeModal = null;
       document.body.classList.remove('body--modal-open');
       if (lastFocusedCatalogCard && typeof lastFocusedCatalogCard.focus === 'function') {
         lastFocusedCatalogCard.focus();
@@ -809,7 +855,7 @@ function renderCatalog(resetPage = true) {
   }
 
   grid.innerHTML = visible.map(game =>
-    createGameCardHTML(game, { showRank: false, interactive: true })
+    createGameCardHTML(safeCardData(game), { showRank: false, interactive: true })
   ).join('');
 
   const loadMoreBtn = document.getElementById('load-more-btn');
