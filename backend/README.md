@@ -1,6 +1,16 @@
 # NexaPlay Website Catalog API
 
-FastAPI service exposing bounded reads from VPS-local `catalog.sqlite`. Existing Catalog Builder, Publisher, R2 manifest, and patch format stay unchanged.
+FastAPI service exposing bounded reads from VPS-local `catalog.sqlite`. External Catalog Builder/Publisher, R2 manifest, and patch format stay unchanged.
+
+## Production status
+
+- Public API: `https://api.nexaplayid.store`
+- Internal listener: `127.0.0.1:8010`
+- Deployment root: `/home/nexaplay/nexaplay_web`
+- Environment file: `/home/nexaplay/nexaplay_web/backend/.env`
+- SQLite: `/home/nexaplay/nexaplay_web/data/catalog.sqlite`
+
+Port `8000` belongs to the existing Telegram service. NexaPlay Web must remain on port `8010`.
 
 ## Runtime flow
 
@@ -32,7 +42,7 @@ Numeric `q` performs exact positive AppID lookup. Other `q` values use Desktop-c
 Production configuration is maintained locally in `backend/.env.production`. It is gitignored and contains target VPS paths, not Windows paths. Upload it without editing values on the server:
 
 ```bash
-install -m 0640 -o root -g www-data \
+sudo install -m 0640 -o root -g www-data \
   /path/to/uploaded/.env.production \
   /home/nexaplay/nexaplay_web/backend/.env
 ```
@@ -55,7 +65,7 @@ Remote priority URL is `https://raw.githubusercontent.com/adii83/Nexaplay-Metada
 ```bash
 sudo useradd --system --home /home/nexaplay --create-home nexaplay
 sudo install -d -o nexaplay -g www-data /home/nexaplay/nexaplay_web/data
-sudo install -o nexaplay -g www-data /path/to/catalog_seed.sqlite /home/nexaplay/nexaplay_web/data/catalog.sqlite
+sudo install -m 0640 -o nexaplay -g www-data /path/to/catalog_seed.sqlite /home/nexaplay/nexaplay_web/data/catalog.sqlite
 cd /home/nexaplay/nexaplay_web/backend
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
@@ -74,6 +84,8 @@ sudo systemctl enable --now nexaplay-api.service nexaplay-catalog-update.timer
 
 Service runs one safe update attempt before API start. Failure does not block API startup. Timer retries every five minutes. Keep `NEXAPLAY_BACKGROUND_UPDATES=0` when timer is enabled. Process lock prevents overlapping updater runs.
 
+Uvicorn listens only on `127.0.0.1:8010`. Nginx owns public HTTP/HTTPS access and proxies `api.nexaplayid.store` to that listener.
+
 Install `nginx/api.nexaplayid.store.conf` as a separate site. Do not edit Telegram/Discord server blocks. Obtain TLS certificate, enable site, run `sudo nginx -t`, then reload Nginx.
 
 See `DEPLOY_FILES.md` for exact local-to-VPS file mappings. Initial `catalog.sqlite` is uploaded separately and never committed to this repository.
@@ -85,7 +97,11 @@ Updater reads current `catalog_version`, validates schema/version bounds, builds
 Manual update and status:
 
 ```bash
-sudo -u nexaplay /home/nexaplay/nexaplay_web/backend/.venv/bin/python -m app.update_catalog
+cd /home/nexaplay/nexaplay_web/backend
+set -a
+source .env
+set +a
+./.venv/bin/python -m app.update_catalog
 systemctl status nexaplay-api.service nexaplay-catalog-update.timer
 journalctl -u nexaplay-api.service -u nexaplay-catalog-update.service --since today
 curl -fsS https://api.nexaplayid.store/api/health
@@ -115,5 +131,5 @@ NEXAPLAY_SEED_CATALOG_DB=/path/to/catalog_seed.sqlite \
 
 1. Stop API and timer: `sudo systemctl stop nexaplay-api.service nexaplay-catalog-update.timer`.
 2. Move failed VPS DB aside; restore last backup or known compatible seed as `data/catalog.sqlite`.
-3. Run `python -m app.update_catalog`; verify health locally on `127.0.0.1:8000`.
+3. Load `.env` and run `./.venv/bin/python -m app.update_catalog`; verify health locally on `127.0.0.1:8010`.
 4. Restart API. If API cutover itself must be reverted, restore the prior GitHub Pages commit and restore the last known-good VPS SQLite backup.

@@ -472,6 +472,12 @@ body::before {
   animation: spin-glow 2s cubic-bezier(0.79, 0.14, 0.15, 0.86) infinite;
 }
 
+.global-loader__spinner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 .global-loader__text {
   font-family: var(--font-heading);
   font-size: 16px;

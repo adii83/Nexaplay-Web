@@ -1,8 +1,11 @@
 # NexaPlay Website Data Flow Audit Before SQLite Migration
 
+> [!NOTE]
+> Sections 1-22 are a historical pre-migration snapshot and intentionally mention removed systems. Sections 23 onward describe the current SQLite/FastAPI architecture. For active operations, use [`README.md`](README.md) and [`Tutorial.md`](Tutorial.md).
+
 Audit date: 2026-09-16 (Asia/Bangkok)
 
-Scope: analysis only. No migration, backend, UI, deployment, or catalog source was changed.
+Historical scope for sections 1-22: analysis only. No migration, backend, UI, deployment, or catalog source was changed during that audit.
 
 ## 1. Executive Summary
 
@@ -883,9 +886,13 @@ Local appid_trending.json -> ordered Game Terpopuler IDs
                                          |
                                          v
                                   FastAPI backend
+                              127.0.0.1:8010 only
                                          |
                                          v
-                                GitHub Pages website
+                       Nginx api.nexaplayid.store
+                                         |
+                                         v
+                       GitHub Pages nexaplayid.store
 ```
 
 SQLite is website metadata authority. `price_normalized`, `price_display`, and `protection` remain patch-managed but are absent from public API responses.
@@ -899,7 +906,8 @@ SQLite is website metadata authority. `price_normalized`, `price_display`, and `
 - `GET /api/games/trending` reads local `appid_trending.json`, preserves order, resolves metadata from SQLite, skips only invalid/missing IDs, and retains posterless games for the existing placeholder.
 - `GET /api/stats` returns `actual_count` from `COUNT(*)` and presentation-only `display_count` from `backend/data/display_stats.json` (or configured path). Whole elapsed hours are calculated on request; no hourly worker or write exists. State writes are atomic and occur only at initialization or when actual count overtakes the projected display count.
 - Public routes are `GET /api/health`, `GET /api/games`, `GET /api/games/trending`, `GET /api/games/{appid}`, and `GET /api/stats`.
-- `backend/systemd/` and `backend/nginx/` provide isolated deployment templates. Existing Telegram and Discord configuration is untouched.
+- Uvicorn listens only on `127.0.0.1:8010`; Nginx exposes `https://api.nexaplayid.store`. Port `8000` remains assigned to the existing Telegram service.
+- `backend/systemd/` and `backend/nginx/` provide isolated deployment configuration. Existing Telegram and Discord configuration is untouched.
 
 ### Frontend implementation
 
@@ -917,7 +925,7 @@ SQLite is website metadata authority. `price_normalized`, `price_display`, and `
 - Remote `https://raw.githubusercontent.com/adii83/Nexaplay-Metadata-Override/main/appid_populer.json`: active normal catalog priority only; 249 AppIDs when checked on 2026-09-16. Metadata always comes from SQLite.
 - No active remote `appid.json` requirement remains.
 
-Local legacy `appid.json` and static catalog artifacts remain physical rollback data and are not fetched by current browser runtime. Local `appid_trending.json` is active runtime configuration.
+Local legacy `appid.json` and static catalog artifacts were removed after production verification. Local `appid_trending.json` remains active runtime configuration.
 
 ### Verification evidence
 
@@ -925,27 +933,17 @@ Local legacy `appid.json` and static catalog artifacts remain physical rollback 
 - Frontend suite: 10 tests passed, covering API URL construction, stale-request protection, poster placeholders, count formatting, and removal of obsolete featured/catalog flows.
 - Copied production-seed integration passed without modifying the source database: 163,262 actual games, 10,429 Premium, 152,833 Standard, and 155,892 poster-bearing browse rows. Seed update chain version 2 -> 4 also passed on a disposable copy.
 - Browser smoke passed at desktop and 390x844 mobile widths: dynamic counts, 10 ordered trending cards, remote-priority browse order, 20 -> 40 unique Load More results, posterless AppID 7650 search placeholder, Premium/Standard filters, detail genre/specification content, trending placeholder rendering, zero horizontal mobile overflow, and static-count/catalog-error fallback when API is unavailable.
-- Production database and VPS remain untouched.
+- Production runs behind Nginx at `https://api.nexaplayid.store`; systemd API and updater timer are enabled.
 
 ### Artifact status
 
-SAFE TO DELETE LATER, after deployed API/TLS/CORS observation and explicit cleanup approval:
+REMOVED FROM CURRENT WORKING TREE:
 
-- `web_catalog_builder/output/search_index.json`
-- `web_catalog_builder/output/search_index.json.gz`
-- `web_catalog_builder/output/overrides.json`
-- `web_catalog_builder/output/r2_manifest.json`
-- `web_catalog_builder/output/catalog.json`
-- `web_catalog_builder/output/chunks/`
-- `web_catalog_builder/output/resume_state.json*`
-- `web_catalog_builder/games_list.json`
-- old web catalog builder scripts/tests and `integrations/nexaplay-metadata-override/` sync bundle
+- legacy `web_catalog_builder/` source, tests, indexes, full catalog, chunks, state, and caches
+- legacy `integrations/nexaplay-metadata-override/` website sync bundle
+- local legacy `appid.json`
 
-KEEP FOR ROLLBACK now:
-
-- all files listed above
-- local legacy `appid.json` and deleted-path history for `appid_populer.json`
-- historical migration specs and audit content
+Historical Git blobs remain until a separately approved history rewrite. Historical Markdown is retained and explicitly labeled obsolete.
 
 STILL REFERENCED:
 
@@ -954,11 +952,12 @@ STILL REFERENCED:
 - `backend/`
 - existing external Catalog Builder, Publisher, R2 manifest, and patches
 
-### Pending external steps
+### Production operations
 
-1. Provision VPS seed copy, environment, systemd units, Nginx/TLS, DNS, and permissions using `backend/README.md`.
-2. Verify production API health/CORS from `https://nexaplayid.store`, then deploy frontend commit to GitHub Pages.
-3. Observe production before any rollback artifact cleanup.
+1. Maintain backend configuration through local ignored `backend/.env.production`, uploaded as `/home/nexaplay/nexaplay_web/backend/.env`.
+2. Monitor `nexaplay-api.service` and `nexaplay-catalog-update.timer`.
+3. Publish catalog manifest and patches through the existing external Publisher; timer applies them without backend redeployment.
+4. Maintain DNS through Hostinger, TLS through Certbot, and CORS for the two website origins.
 
 ## 24. LOCAL PRODUCTION PREPARATION AND CLEANUP (2026-09-16)
 

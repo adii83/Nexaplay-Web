@@ -1,5 +1,8 @@
 # R2 Hybrid Catalog Sync Implementation Plan
 
+> [!WARNING]
+> **OBSOLETE HISTORICAL PLAN.** This plan targets the removed `web_catalog_builder` and cross-repository web sync system. It is retained only as migration history and must not be executed. Current production uses FastAPI + VPS SQLite; see [`README.md`](../../../README.md) and [`Tutorial.md`](../../../Tutorial.md).
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Replace chunk-based game details with live R2 metadata and provide an incremental cross-repository synchronization package driven by `new_games.json` and `nexaplay_override.json`.

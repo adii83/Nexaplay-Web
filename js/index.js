@@ -59,7 +59,7 @@ function initHeroCapsules() {
   const container = document.getElementById('hero-capsules');
   if (!container) return;
 
-  const heroAppids = [3357650, 3321460, 3764200, 3159330, 3405690, 2483190];
+  const heroAppids = [3751950, 2840770, 2842040, 2215200, 3764200, 3321460];
 
   heroAppids.forEach((appid) => {
     const gradient = generateCardPlaceholder(appid);

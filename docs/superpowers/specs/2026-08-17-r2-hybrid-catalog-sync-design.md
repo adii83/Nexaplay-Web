@@ -1,5 +1,8 @@
 # R2 Hybrid Catalog Synchronization Design
 
+> [!WARNING]
+> **OBSOLETE HISTORICAL DESIGN.** This document describes the retired static/hybrid website catalog architecture. It is retained only as migration history. Do not execute its setup steps or recreate its files. Current production uses FastAPI + VPS SQLite; see [`README.md`](../../../README.md) and [`Tutorial.md`](../../../Tutorial.md).
+
 ## Purpose
 
 Automate NexaPlay catalog additions and metadata refreshes without rebuilding or maintaining the existing full catalog and 1,469 detail chunk files manually.

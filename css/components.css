@@ -60,9 +60,10 @@
   justify-content: center;
 }
 
-.navbar__logo-icon svg {
+.navbar__logo-icon img {
   width: 28px;
   height: 28px;
+  display: block;
 }
 
 /* Nav links hidden on mobile */
@@ -240,7 +241,7 @@
     height: 30px;
   }
 
-  .navbar__logo-icon svg {
+  .navbar__logo-icon img {
     width: 30px;
     height: 30px;
   }
@@ -283,7 +284,7 @@
     height: 32px;
   }
 
-  .navbar__logo-icon svg {
+  .navbar__logo-icon img {
     width: 32px;
     height: 32px;
   }

@@ -60,7 +60,7 @@
 
 .hero__headline {
   font-family: var(--font-heading);
-  font-size: clamp(32px, 7vw, 72px);
+  font-size: clamp(26px, 8vw, 60px);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.02em;
@@ -69,6 +69,10 @@
 
 .hero__headline span {
   display: block;
+}
+
+.hero__headline > span {
+  white-space: nowrap;
 }
 
 .hero__subheadline {
@@ -269,6 +273,10 @@
 
   .hero__content {
     align-items: flex-start;
+  }
+
+  .hero__headline {
+    font-size: clamp(46px, 4.5vw, 60px);
   }
 
   .hero__subheadline {

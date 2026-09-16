@@ -2,6 +2,8 @@
 
 Canonical VPS root: `/home/nexaplay/nexaplay_web`
 
+Production API listener: `127.0.0.1:8010`. Port `8000` remains reserved for the existing Telegram service.
+
 ## A. Backend source to upload
 
 | Local | VPS |
@@ -26,7 +28,7 @@ Both systemd services read that exact VPS path. Keep mode `0640`, owner `root`, 
 | --- | --- |
 | Current external `catalog.sqlite` seed | `/home/nexaplay/nexaplay_web/data/catalog.sqlite` |
 
-Database is not stored in this repository. Upload it separately and set owner `nexaplay:www-data`.
+Database is not stored in this repository. Upload it separately with mode `0640` and owner `nexaplay:www-data`.
 
 ## D. Systemd configuration
 
@@ -44,6 +46,12 @@ Database is not stored in this repository. Upload it separately and set owner `n
 
 Enable through `/etc/nginx/sites-enabled/`, then validate with `nginx -t` before reload.
 
+Expected proxy mapping:
+
+```text
+api.nexaplayid.store -> http://127.0.0.1:8010
+```
+
 ## F. Files staying on GitHub Pages
 
 - `index.html`
@@ -55,3 +63,15 @@ Enable through `/etc/nginx/sites-enabled/`, then validate with `nginx -t` before
 - `js/`
 
 Do not publish `backend/.env.production`, `backend/.env`, runtime JSON state, SQLite files, systemd units, or Nginx configuration as public site assets.
+
+## Post-upload verification
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart nexaplay-api.service
+sudo systemctl restart nexaplay-catalog-update.timer
+systemctl status nexaplay-api.service --no-pager
+systemctl status nexaplay-catalog-update.timer --no-pager
+curl -sS http://127.0.0.1:8010/api/health
+curl -sS https://api.nexaplayid.store/api/health
+```

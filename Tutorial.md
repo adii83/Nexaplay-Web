@@ -1,781 +1,616 @@
-Status keamanan saat ini
+# Tutorial Operasional NexaPlay Web
+
+Panduan ini adalah runbook production NexaPlay Web saat ini. Gunakan untuk setup awal, deployment, update katalog, pemeriksaan kesehatan, maintenance, dan troubleshooting.
+
+Dokumentasi utama singkat tersedia di [README.md](README.md). Detail khusus backend tersedia di [backend/README.md](backend/README.md).
+
+## 1. Arsitektur Production
+
+```text
+Catalog Builder / Publisher eksternal
+        |
+        v
+Cloudflare R2 catalog_manifest.json + patches
+        |
+        v
+VPS catalog.sqlite
+        |
+        v
+FastAPI + Uvicorn pada 127.0.0.1:8010
+        |
+        v
+Nginx: api.nexaplayid.store
+        |
+        v
+GitHub Pages: nexaplayid.store
+```
+
+Komponen penting:
+
+- Frontend adalah HTML/CSS/JavaScript statis di GitHub Pages.
+- Backend adalah FastAPI yang membaca SQLite production.
+- Nginx meneruskan `api.nexaplayid.store` ke `127.0.0.1:8010`.
+- Port `8000` milik service Telegram lama. Jangan gunakan port itu untuk NexaPlay Web.
+- Metadata game berasal dari SQLite, bukan dari JSON katalog di browser.
+- `appid_trending.json` menentukan urutan Game Terpopuler.
+- Remote `appid_populer.json` hanya menentukan prioritas urutan katalog normal.
+- Updater menerapkan patch R2 ke SQLite tanpa mengubah format publisher lama.
+
+## 2. URL Production
+
+| Fungsi | URL |
+| --- | --- |
+| Website | `https://nexaplayid.store` |
+| API | `https://api.nexaplayid.store` |
+| Health | `https://api.nexaplayid.store/api/health` |
+| Manifest katalog | `https://meta.nexaplaymetadata.online/catalog/catalog_manifest.json` |
+| Priority AppID | `https://raw.githubusercontent.com/adii83/Nexaplay-Metadata-Override/main/appid_populer.json` |
+
+Endpoint API:
+
+- `GET /api/health`
+- `GET /api/games`
+- `GET /api/games/trending`
+- `GET /api/games/{appid}`
+- `GET /api/stats`
+
+## 3. Struktur Lokal dan VPS
+
+Struktur source lokal penting:
+
+```text
+<project-root>/
+├── index.html
+├── showcase.html
+├── appid_trending.json
+├── assets/
+├── css/
+├── js/
+└── backend/
+    ├── app/
+    ├── tests/
+    ├── nginx/
+    ├── systemd/
+    ├── .env.example
+    ├── .env.production
+    ├── DEPLOY_FILES.md
+    └── requirements.txt
+```
+
+Struktur VPS:
+
+```text
+/home/nexaplay/nexaplay_web/
+├── appid_trending.json
+├── backend/
+│   ├── app/
+│   ├── .venv/
+│   ├── .env
+│   ├── nginx/
+│   ├── systemd/
+│   └── requirements.txt
+└── data/
+    ├── catalog.sqlite
+    ├── priority_appids.json
+    └── display_stats.json
+```
+
+Path production kanonis:
+
+- Backend: `/home/nexaplay/nexaplay_web/backend`
+- Environment: `/home/nexaplay/nexaplay_web/backend/.env`
+- SQLite: `/home/nexaplay/nexaplay_web/data/catalog.sqlite`
+- Trending: `/home/nexaplay/nexaplay_web/appid_trending.json`
 
-Aman pada level kode dan test lokal:
+## 4. Environment Production
 
-- Indeks: 146.846 game valid
-- Builder: 19/19 lulus
-- Synchronizer: 24/24 lulus
-- Adapter browser: 16/16 lulus
-- Total: 59/59 lulus
-- Atomic write dan rollback multi-file ikut diuji.
-- ETag retry, invalid metadata, duplicate AppID, override, dan kegagalan replace ikut diuji.
+File lokal:
 
-Belum dapat disebut terverifikasi produksi sampai empat hal diuji lewat GitHub:
+```text
+backend/.env.production
+```
 
-1. Secret R2 benar.
-2. NEXAPLAY_WEB_TOKEN bisa push ke adii83/Nexaplay-Web.
-3. CORS R2 menerima https://nexaplayid.store.
-4. Manual dry-run dan satu production run berhasil.
+Upload sebagai:
 
-Berikut urutan aman dari awal.
+```text
+/home/nexaplay/nexaplay_web/backend/.env
+```
 
----
+Jangan mengedit nilai production manual dengan `nano` bila file lokal sudah menjadi sumber konfigurasi. Upload ulang file, atur permission, lalu restart service.
 
-Fase 1 — Siapkan perubahan Nexaplay-Web
+```bash
+sudo install -m 0640 -o root -g www-data \
+  /path/to/uploaded/.env.production \
+  /home/nexaplay/nexaplay_web/backend/.env
+```
 
-GitHub Action akan checkout adii83/Nexaplay-Web dari GitHub, bukan membaca working tree lokal. Jadi perubahan hybrid web harus sudah masuk main sebelum production run.
+Environment aktif:
 
-1.1 Pastikan file runtime masuk commit
+- `NEXAPLAY_CATALOG_DB`
+- `NEXAPLAY_MANIFEST_URL`
+- `NEXAPLAY_PRIORITY_URL`
+- `NEXAPLAY_PRIORITY_CACHE`
+- `NEXAPLAY_PRIORITY_REFRESH_SECONDS`
+- `NEXAPLAY_TRENDING_PATH`
+- `NEXAPLAY_DISPLAY_STATS_PATH`
+- `NEXAPLAY_UPDATE_INTERVAL_SECONDS`
+- `NEXAPLAY_BACKGROUND_UPDATES`
+- `NEXAPLAY_NETWORK_TIMEOUT_SECONDS`
+- `NEXAPLAY_ALLOWED_ORIGINS`
+- `NEXAPLAY_ENV`
 
-File penting:
+`backend/.env.production` dan `backend/.env` harus tetap local/ignored. Jangan menaruh token, password, private key, credential Hostinger, atau secret R2 di dokumentasi atau Git.
 
-index.html
-showcase.html
-js/index.js
-js/catalog-data.js
-assets/favicon.png
-assets/favicon.svg
-tests/catalog-data.test.js
-web_catalog_builder/build_index.py
-web_catalog_builder/catalog_index.py
-web_catalog_builder/README.md
-web_catalog_builder/tests/
-web_catalog_builder/output/search_index.json
-web_catalog_builder/output/overrides.json
+## 5. Setup VPS Pertama
 
-Jangan langsung memakai:
+### 5.1 Buat user dan direktori
 
-git add .
+```bash
+sudo useradd --system --home /home/nexaplay --create-home nexaplay
+sudo install -d -o nexaplay -g www-data /home/nexaplay/nexaplay_web/backend
+sudo install -d -o nexaplay -g www-data /home/nexaplay/nexaplay_web/data
+```
 
-Working tree juga mengandung .claude/, graphify-out/, dan artefak tooling lain.
+Jika user sudah ada, jangan dibuat ulang.
 
-1.2 Jalankan validasi
+### 5.2 Upload source backend
 
-Dari root Nexaplay-Web
-python -m unittest discover \
-  -s web_catalog_builder/tests \
-  -p "test_*.py" \
-  -v
+Ikuti pemetaan di [backend/DEPLOY_FILES.md](backend/DEPLOY_FILES.md). Minimal upload:
 
-python -m unittest discover \
-  -s integrations/nexaplay-metadata-override/tests \
-  -p "test_*.py" \
-  -v
+- `backend/app/`
+- `backend/requirements.txt`
+- `appid_trending.json`
+- `backend/.env.production` sebagai `backend/.env`
 
-node --test tests/catalog-data.test.js
+### 5.3 Upload SQLite awal
 
-Hasil yang diharapkan:
+SQLite tidak disimpan di repository web. Upload seed/current database secara terpisah:
 
-Validated 146846 unique games with four-field tuples
-19 Python builder tests OK
-24 synchronizer tests OK
-16 Node tests pass
+```bash
+sudo install -m 0640 -o nexaplay -g www-data \
+  /path/to/catalog.sqlite \
+  /home/nexaplay/nexaplay_web/data/catalog.sqlite
+```
 
-1.3 Buat branch dan commit selektif
+### 5.4 Buat virtual environment
 
-git switch -c r2-hybrid-catalog
+```bash
+cd /home/nexaplay/nexaplay_web/backend
+python3 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+```
 
-Stage file runtime:
-  web_catalog_builder/catalog_index.py \
-  web_catalog_builder/README.md \
-  web_catalog_builder/tests \
-  web_catalog_builder/output/search_index.json \
-  web_catalog_builder/output/overrides.json
+### 5.5 Install systemd
 
-Opsional: simpan source bundle integrasi dan dokumentasinya di repository web:
+```bash
+sudo install -m 0644 systemd/nexaplay-api.service /etc/systemd/system/
+sudo install -m 0644 systemd/nexaplay-catalog-update.service /etc/systemd/system/
+sudo install -m 0644 systemd/nexaplay-catalog-update.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now nexaplay-api.service nexaplay-catalog-update.timer
+```
 
-git add -- \
-  integrations/nexaplay-metadata-override \
-  docs/superpowers
+API wajib listen hanya pada `127.0.0.1:8010`.
 
-Periksa sebelum commit:
+### 5.6 Install Nginx
 
-git status --short
-git diff --cached --stat
+```bash
+sudo install -m 0644 \
+  nginx/api.nexaplayid.store.conf \
+  /etc/nginx/sites-available/api.nexaplayid.store
 
-Commit dan push:
+sudo ln -s \
+  /etc/nginx/sites-available/api.nexaplayid.store \
+  /etc/nginx/sites-enabled/api.nexaplayid.store
 
-git commit -m "Add hybrid R2 catalog synchronization"
-git push -u origin r2-hybrid-catalog
+sudo nginx -t
+sudo systemctl reload nginx
+```
 
-Buka Pull Request menuju main, periksa diff, lalu merge. Setelah merge:
+Nginx untuk API harus memakai:
 
-git switch main
-git pull --ff-only origin main
+```text
+api.nexaplayid.store -> http://127.0.0.1:8010
+```
 
-Pastikan js/catalog-data.js dan assets/favicon.* ikut masuk. Commit parsial tanpa file tersebut me
+Jangan mengubah proxy Telegram:
 
-adii83/Nexaplay-Metadata-Override
+```text
+tele.nexaplayid.store -> service lama pada port 8000
+```
 
-Struktur final:
+## 6. DNS dan HTTPS
 
-Nexaplay-Metadata-Override/
-├── .github/
-│   └── workflows/
-│       └── sync-nexaplay-web.yml
-├── scripts/
-│   └── sync_nexaplay_web.py
-├── tests/
-│   └── test_sync_nexaplay_web.py
-├── docs/
-│   └── nexaplay-web-sync.md
-├── new_games.json
-└── nexaplay_override.json
+DNS dikelola melalui Hostinger:
 
-2.1 Clone repository metadata
+```text
+A api  -> IP VPS production
+A tele -> IP VPS production
+```
 
-git clone https://github.com/adii83/Nexaplay-Metadata-Override.git
-cd Nexaplay-Metadata-Override
+Kedua subdomain boleh memakai IP sama karena Nginx memilih virtual host berdasarkan `server_name`.
 
-Pastikan file sumber sudah ada:
+HTTPS memakai Certbot dan Let's Encrypt. Certificate API:
 
-new_games.json
-nexaplay_override.json
+```text
+/etc/letsencrypt/live/api.nexaplayid.store/fullchain.pem
+/etc/letsencrypt/live/api.nexaplayid.store/privkey.pem
+```
 
-Synchronizer memperlakukan:
+Pemeriksaan:
 
-- new_games.json sebagai izin memasukkan game baru.
-- nexaplay_override.json sebagai koreksi metadata.
-- Penghapusan AppID dari new_games.json tidak menghapus game website.
+```bash
+sudo nginx -t
+systemctl list-timers --all | grep -i certbot
+sudo certbot renew --dry-run
+sudo systemctl reload nginx
+```
 
----
+## 7. Health Check Setelah Deployment
 
-Fase 3 — Matikan Actions sementara
+### Dari VPS langsung
 
-Ini langkah penting.
+```bash
+curl -sS http://127.0.0.1:8010/api/health
+```
 
-Workflow saat ini punya trigger:
+### Melalui HTTPS
 
-on:
-  push:
-    branches: [main]
+```bash
+curl -i https://api.nexaplayid.store/api/health
+curl -sS https://api.nexaplayid.store/api/stats
+curl -sS https://api.nexaplayid.store/api/games/trending
+```
 
-Manual dry_run: true hanya berlaku untuk workflow_dispatch. Push pertama ke main akan menjalankan production sync, bukan dry-run.
+Health response berbentuk:
 
-Sebelum memindahkan file:
-
-1. Buka adii83/Nexaplay-Metadata-Override.
-2. Masuk Settings.
-3. Pilih Actions → General.
-4. Pada Actions permissions, pilih Disable actions.
-5. Simpan.
-
-Tujuan: push instalasi workflow tidak langsung menulis ke repository web.
-
-Push yang terjadi saat Actions dinonaktifkan tidak dijalankan ulang otomatis setelah Actions diaktifkan.
-
----
-
-Fase 4 — Salin bundle integrasi
-
-Pilihan A — PowerShell Windows
-
-Sesuaikan $meta dengan lokasi clone repository metadata:
-
-$web = "D:\My Project\NEXAPLAY\Apps\__Web_Nexaplay"
-$meta = "D:\My Project\NEXAPLAY\Apps\Nexaplay-Metadata-Override"
-
-New-Item -ItemType Directory -Force "$meta\scripts" | Out-Null
-New-Item -ItemType Directory -Force "$meta\tests" | Out-Null
-New-Item -ItemType Directory -Force "$meta\.github\workflows" | Out-Null
-New-Item -ItemType Directory -Force "$meta\docs" | Out-Null
-
-Copy-Item `
-  "$web\integrations\nexaplay-metadata-override\scripts\sync_nexaplay_web.py" `
-  "$meta\scripts\sync_nexaplay_web.py"
-
-Copy-Item `
-  "$web\integrations\nexaplay-metadata-override\tests\test_sync_nexaplay_web.py" `
-  "$meta\tests\test_sync_nexaplay_web.py"
-
-Copy-Item `
-  "$web\integrations\nexaplay-metadata-override\.github\workflows\sync-nexaplay-web.yml" `
-  "$meta\.github\workflows\sync-nexaplay-web.yml"
-
-Copy-Item `
-  "$web\integrations\nexaplay-metadata-override\README.md" `
-  "$meta\docs\nexaplay-web-sync.md"
-
-Pilihan B — Git Bash/Linux
-
-Dijalankan dari root Nexaplay-Web:
-
-META="../Nexaplay-Metadata-Override"
-
-mkdir -p \
-  "$META/scripts" \
-  "$META/tests" \
-  "$META/.github/workflows" \
-  "$META/docs"
-
-cp integrations/nexaplay-metadata-override/scripts/sync_nexaplay_web.py \
-  "$META/scripts/"
-
-cp integrations/nexaplay-metadata-override/tests/test_sync_nexaplay_web.py \
-  "$META/tests/"
-
-cp integrations/nexaplay-metadata-override/.github/workflows/sync-nexaplay-web.yml \
-  "$META/.github/workflows/"
-
-cp integrations/nexaplay-metadata-override/README.md \
-  "$META/docs/nexaplay-web-sync.md"
-
----
-
-Fase 5 — Uji hasil salinan
-
-Masuk repository metadata:
-
-cd ../Nexaplay-Metadata-Override
-
-Jalankan test:
-
-Ran 24 tests
-OK
-
-Periksa CLI:
-
-python scripts/sync_nexaplay_web.py --help
-
-Periksa file:
-
-git status --short
-
-File baru yang diharapkan:
-
-.github/workflows/sync-nexaplay-web.yml
-scripts/sync_nexaplay_web.py
-tests/test_sync_nexaplay_web.py
-docs/nexaplay-web-sync.md
-
----
-
-Fase 6 — Buat token Cloudflare R2
-
-6.1 Buat R2 API token read-only
-
-Di Cloudflare Dashboard:
-
-1. Buka R2 Object Storage.
-2. Pilih Manage R2 API Tokens.
-3. Pilih Create API token.
-4. Batasi ke bucket metadata.
-5. Berikan izin minimum:
-   - Object Delete
-   - Bucket Write
-7. Simpan nilai:
-   - Access Key ID
-   - Secret Access Key
-
-Secret Access Key biasanya hanya ditampilkan sekali.
-
-6.2 Catat informasi R2
-
-Diperlukan:
-
-R2_ACCOUNT_ID
-R2_ACCESS_KEY_ID
-R2_SECRET_ACCESS_KEY
-R2_BUCKET_NAME
-
-Jangan memasukkan nilai tersebut ke file YAML, commit, dokumentasi, atau log.
-
----
-
-Fase 7 — Buat token GitHub untuk repository web
-
-Workflow berjalan di repository metadata, tetapi harus push ke repository web.
-
-7.1 Buat fine-grained PAT
-
-Di GitHub:
-
-1. Klik foto profil.
-6. Generate new token.
-7. Resource owner: akun adii83.
-8. Repository access: Only select repositories.
-9. Pilih:
-adii83/Nexaplay-Web
-10. Repository permissions:
-Contents: Read and write
-11. Metadata tetap read-only otomatis.
-12. Pilih masa berlaku.
-13. Generate dan salin token.
-
-Nama secret nanti:
-
-NEXAPLAY_WEB_TOKEN
-
-Jangan memakai token R2 untuk ini. Jangan memakai GITHUB_TOKEN repository metadata karena token tersebut tidak otomatis dapat menulis repository lain.
-
-7.2 Periksa branch protection
-
-Di adii83/Nexaplay-Web:
-
-Settings → Branches / Rules → main
-
-Workflow saat ini melakukan:
-
-git push origin HEAD:main
-
-Jika main melarang direct push tanpa pengecualian, production sync akan gagal. Pilihan:
-
-- Izinkan pemilik token/bot melewati rule; atau
-- Ubah workflow agar membuat Pull Request.
-
-Workflow sekarang dirancang untuk direct push biasa tanpa force push.
-
----
-
-Fase 8 — Tambahkan repository secrets
-
-Buka:
-
-adii83/Nexaplay-Metadata-Override
-→ Settings
-→ Secrets and variables
-→ Actions
-→ Repository secrets
-
-Tambahkan lima secret:
-
-R2_ACCOUNT_ID
-R2_ACCESS_KEY_ID
-R2_SECRET_ACCESS_KEY
-R2_BUCKET_NAME
-NEXAPLAY_WEB_TOKEN
-
-Periksa:
-
-- Nama harus persis sama.
-- Jangan ada spasi tambahan.
-- NEXAPLAY_WEB_TOKEN menunjuk token GitHub, bukan token R2.
-- R2 token read-only.
-
----
-
-Fase 9 — Atur CORS Cloudflare R2
-
-Ini diperlukan agar browser nexaplayid.store bisa mengambil detail metadata.
-
-Pasang CORS policy pada bucket metadata:
-
-[
-  {
-    "AllowedOrigins": ["https://nexaplayid.store"],
-    "AllowedMethods": ["GET", "HEAD"],
-    "AllowedHeaders": ["*"],
-    "ExposeHeaders": ["ETag"],
-    "MaxAgeSeconds": 3600
-  }
-]
-
-Pastikan origin tepat:
-
-https://nexaplayid.store
-
-Jika situs juga memakai www, tambahkan eksplisit:
-
-"AllowedOrigins": [
-  "https://nexaplayid.store",
-  "https://www.nexaplayid.store"
-]
-
-Jangan memakai * jika tidak dibutuhkan.
-
-Uji satu objek lewat browser setelah deployment:
-
-https://meta.nexaplaymetadata.online/Metadata/<APPID>.json
-
-Target:
-
-- Status 200.
-- Tidak ada error CORS.
-- Response JSON valid.
-- Header CORS mengizinkan domain website.
-
----
-
-Fase 10 — Commit bundle ke repository metadata
-
-Actions masih harus dalam kondisi dinonaktifkan.
-
-Dari root Nexaplay-Metadata-Override:
-
-git switch -c nexaplay-web-catalog-sync
-
-Stage file:
-
-git add -- \
-  .github/workflows/sync-nexaplay-web.yml \
-  scripts/sync_nexaplay_web.py \
-  tests/test_sync_nexaplay_web.py \
-  docs/nexaplay-web-sync.md
-
-Periksa:
-
-git status --short
-git diff --cached --stat
-
-Commit:
-
-git commit -m "Add NexaPlay web catalog synchronization"
-git push -u origin nexaplay-web-catalog-sync
-
-Buka Pull Request ke main. Karena Actions dinonaktifkan, merge tidak menjalankan workflow.
-
-Setelah merge:
-
-git switch main
-adii83/Nexaplay-Metadata-Override/.github/workflows/sync-nexaplay-web.yml
-
----
-
-Fase 11 — Aktifkan GitHub Actions
-
-Di adii83/Nexaplay-Metadata-Override:
-
-1. Settings.
-2. Actions → General.
-3. Aktifkan Actions kembali.
-4. Izinkan actions yang dibutuhkan.
-5. Simpan.
-
-Lakukan ini tidak berdekatan dengan jadwal 02:17 UTC, agar ada waktu menjalankan dry-run.
-
-Konversi waktu:
-
-02:17 UTC = 09:17 WIB
-02:17 UTC = 10:17 WITA
-02:17 UTC = 11:17 WIT
-
----
-
-Fase 12 — Jalankan dry-run pertama
-
-Buka:
-
-adii83/Nexaplay-Metadata-Override
-→ Actions
-→ Sync NexaPlay Web Catalog
-→ Run workflow
-
-Pilih:
-
-Branch: main
-dry_run: true
-
-Klik Run workflow.
-
-12.1 Langkah yang harus hijau
-
-Workflow harus melewati:
-
-Checkout metadata source
-Test synchronizer
-Checkout NexaPlay Web
-List R2 metadata objects
-Synchronize catalog
-
-Langkah berikut harus dilewati pada dry-run:
-
-Commit and push generated catalog
-
-Ini benar karena dry-run tidak boleh menulis repository web.
-
-12.2 Periksa log
-
-Pastikan tidak ada:
-
-403 Forbidden
-AccessDenied
-Repository not found
-Bad credentials
-CORS error
-invalid metadata
-duplicate AppID
-missing existing index
-
-Dry-run tetap:
-
-- Membaca listing R2.
-- Mengambil metadata yang diperlukan.
-- Menjalankan validasi.
-- Menghitung perubahan.
-- Tidak commit dan tidak push.
-
-12.3 Jika dry-run gagal
-
-Jangan jalankan dry_run: false.
-
-Pemetaan error umum:
-
-┌─────────────────────────┬────────────────────────────────────────────┐
-│          Error          │                  Periksa                   │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ AccessDenied saat list  │ R2_ACCESS_KEY_ID, secret, bucket, Bucket   │
-│ R2                      │ List                                       │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ NoSuchBucket            │ R2_BUCKET_NAME                             │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ Repository not found    │ akses NEXAPLAY_WEB_TOKEN                   │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ 403 saat checkout web   │ token kedaluwarsa atau repo belum dipilih  │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ Tests gagal             │ file script/test/workflow tidak sinkron    │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ Existing index missing  │ perubahan web belum merged ke main         │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ Builder/import gagal    │ catalog_index.py belum masuk repository    │
-│                         │ web                                        │
-├─────────────────────────┼────────────────────────────────────────────┤
-│ Duplicate AppID         │ data games_list.json atau new_games.json   │
-│                         │ invalid                                    │
-└─────────────────────────┴────────────────────────────────────────────┘
-
----
-
-Fase 13 — Jalankan production sync pertama
-
-Hanya setelah dry-run hijau.
-
-Buka workflow lagi:
-
-Actions
-→ Sync NexaPlay Web Catalog
-→ Run workflow
-
-Pilih:
-
-Branch: main
-dry_run: false
-
-Production run akan:
-
-1. Checkout repository metadata.
-2. Menjalankan 24 test synchronizer.
-3. Checkout adii83/Nexaplay-Web.
-4. Mengambil listing R2.
-5. Membangun baseline ETag.
-6. Mengambil metadata hanya untuk:
-   - AppID baru yang diizinkan;
-   - game dengan override aktif;
-   - objek yang perlu diproses.
-7. Menulis empat output:
-web_catalog_builder/games_list.json
-web_catalog_builder/output/search_index.json
-web_catalog_builder/output/overrides.json
-web_catalog_builder/output/r2_manifest.json
-8. Membuat commit:
-Sync NexaPlay web catalog
-9. Menjalankan:
-git pull --rebase origin main
-git push origin HEAD:main
- dan LastModified sebagai baseline.
-
----
-
-Fase 14 — Verifikasi hasil production
-
-14.1 Periksa repository web
-
-Buka commit history adii83/Nexaplay-Web.
-
-Cari commit:
-
-Sync NexaPlay web catalog
-
-Periksa hanya empat output yang berubah:
-
-web_catalog_builder/games_list.json
-web_catalog_builder/output/search_index.json
-web_catalog_builder/output/overrides.json
-web_catalog_builder/output/r2_manifest.json
-
-Jika tidak ada perubahan, workflow akan menampilkan:
-
-No catalog changes
-
-Itu normal.
-
-14.2 Periksa manifest
-
-Pastikan file ini dibuat:
-
-web_catalog_builder/output/r2_manifest.json
-
-Manifest harus menyimpan state objek seperti:
-
+```json
 {
-  "etag": "object-etag",
-  "last_modified": "ISO-8601 timestamp"
+  "status": "ok",
+  "catalog_version": 4,
+  "latest_remote_version": 4,
+  "last_update_status": "NoChange"
 }
+```
 
-Jangan menghapus manifest. Tanpa manifest, run berikut dapat dianggap baseline baru.
+Nilai versi dapat berubah mengikuti katalog.
 
-14.3 Periksa website
+### CORS
 
-Buka https://nexaplayid.store, lalu:
+Origin production yang diizinkan:
 
-1. Pastikan halaman katalog tampil.
-2. Cari game berdasarkan judul.
-3. Cari game berdasarkan AppID.
-4. Uji filter Premium.
-5. Uji filter Standard.
-6. Buka satu modal game.
-7. Periksa title dan cover.
-8. Periksa developer, publisher, genre, dan requirement.
-9. Tutup lalu buka game lain dengan cepat.
-10. Pastikan detail game pertama tidak menimpa game kedua.
-11. Buka DevTools → Network.
-12. Pastikan request:
-/Metadata/<appid>.json
-    mendapat 200.
-13. Pastikan tidak ada error CORS.
-14. Uji mobile/modal focus dan Escape.
+- `https://nexaplayid.store`
+- `https://www.nexaplayid.store`
 
-14.4 Periksa fallback
+Pemeriksaan dari Windows:
 
-Jika metadata satu game tidak tersedia:
+```powershell
+curl.exe -i -H "Origin: https://nexaplayid.store" "https://api.nexaplayid.store/api/health"
+```
 
-- Kartu tetap tampil.
-- Modal tetap terbuka.
-- Title/cover dasar berasal dari search index.
-- Teks “Detail belum tersed
-- Seluruh katalog tidak ikut gagal.
+Expected:
 
----
+```text
+HTTP 200
+Access-Control-Allow-Origin: https://nexaplayid.store
+```
 
-Fase 15 — Biarkan schedule aktif
+## 8. Systemd dan Monitoring
 
-Setelah production run pertama lulus, tidak perlu perubahan tambahan.
+Service:
 
-Workflow berjalan:
+- `nexaplay-api.service`
+- `nexaplay-catalog-update.service`
+- `nexaplay-catalog-update.timer`
 
-schedule:
-  - cron: "17 2 * * *"
+Status:
 
-Artinya setiap hari sekitar:
+```bash
+systemctl status nexaplay-api.service --no-pager
+systemctl status nexaplay-catalog-update.timer --no-pager
+systemctl list-timers | grep nexaplay
+```
 
-02:17 UTC
-09:17 WIB
-10:17 WITA
-11:17 WIT
+Restart API:
 
-GitHub cron dapat terlambat beberapa menit saat runner sibuk.
+```bash
+sudo systemctl restart nexaplay-api.service
+```
 
-Trigger lain:
+Log:
 
-push ke main saat new_games.json berubah
-push ke main saat nexaplay_override.json berubah
-perubahan script/test/workflow
-manual workflow_dispatch
+```bash
+journalctl -u nexaplay-api.service -n 100 --no-pager
+journalctl -u nexaplay-catalog-update.service -n 100 --no-pager
+```
 
-concurrency mencegah dua sinkronisasi berjalan bersamaan:
+Timer updater:
 
-group: nexaplay-web-catalog-sync
-cancel-in-progress: false
+```ini
+OnBootSec=5min
+OnUnitActiveSec=5min
+RandomizedDelaySec=15s
+Persistent=true
+```
 
----
+API dan timer enabled akan hidup kembali setelah reboot. `ExecStartPre` API juga mencoba menjalankan updater sebelum Uvicorn mulai.
 
-Fase 16 — Operasional harian
+## 9. Update Katalog
 
-Menambah game baru
+Alur update:
 
-1. Tambahkan AppID ke:
-new_games.json
-2. Commit dan push ke main repository metadata.
-3. Workflow otomatis berjalan.
-4. Game ditambahkan hanya jika metadata valid.
-5. Setelah berhasil, output repository web diperbarui.
+```text
+Catalog Builder / Publisher lokal
+        |
+        v
+catalog_manifest.json + patches di Cloudflare R2
+        |
+        v
+timer VPS membaca manifest
+        |
+        v
+patch diterapkan transaksional ke catalog.sqlite
+        |
+        v
+FastAPI langsung membaca katalog terbaru
+```
 
-Objek R2 baru saja tidak otomatis masuk katalog. AppID tetap harus diizinkan melalui new_games.json.
+Jika hanya manifest dan patch berubah:
 
-Mengubah metadata
+- Tidak perlu deploy backend.
+- Tidak perlu restart API.
+- Timer biasanya mengambil update dalam sekitar 5 menit ditambah random delay maksimum 15 detik.
 
-Jika file Metadata/<appid>.json berubah:
+Jalankan updater manual:
 
-1. ETag berubah.
-2. Scheduled run mendeteksi perubahan.
-3. Hanya metadata tersebut yang diunduh.
-4. Search index dan master diperbarui jika diperlukan.
-5. Premium/Standard game lama dipertahankan.
+```bash
+cd /home/nexaplay/nexaplay_web/backend
+set -a
+source .env
+set +a
+./.venv/bin/python -m app.update_catalog
+```
 
-Menambah override
+Contoh jika sudah terbaru:
 
-1. Edit:
-nexaplay_override.json
-2. Commit ke main.
-3. Workflow langsung berjalan.
-4. Projection ditulis ke:
-web_catalog_builder/output/overrides.json
+```json
+{
+  "status": "NoChange",
+  "initial_version": 4,
+  "current_version": 4,
+  "applied": 0,
+  "message": "Catalog already current.",
+  "latest_remote_version": 4
+}
+```
 
----
+## 10. Pemeriksaan SQLite
 
-Fase 17 — Rollback aman
+```bash
+cd /home/nexaplay/nexaplay_web/backend
+./.venv/bin/python - <<'PY'
+import sqlite3
 
-Jika data hasil sync salah
+p = "/home/nexaplay/nexaplay_web/data/catalog.sqlite"
+c = sqlite3.connect(p)
 
-1. Disable workflow:
-Actions → Sync NexaPlay Web Catalog → Disable workflow
-2. Di repository web, revert commit bot:
-git revert <hash-commit-sync>
+print("integrity =", c.execute("PRAGMA integrity_check").fetchone()[0])
+print(
+    "catalog_version =",
+    c.execute(
+        "SELECT value FROM catalog_meta WHERE key=?",
+        ("catalog_version",),
+    ).fetchone()[0],
+)
+print("games =", c.execute("SELECT COUNT(*) FROM games").fetchone()[0])
+
+c.close()
+PY
+```
+
+Jangan menjalankan query tulis manual pada database production kecuali ada prosedur pemulihan yang jelas.
+
+## 11. Priority dan Trending
+
+Normal catalog priority berasal dari:
+
+```text
+https://raw.githubusercontent.com/adii83/Nexaplay-Metadata-Override/main/appid_populer.json
+```
+
+File tersebut hanya berisi urutan AppID. Metadata tetap berasal dari SQLite. Backend menyimpan cache production di:
+
+```text
+/home/nexaplay/nexaplay_web/data/priority_appids.json
+```
+
+Game Terpopuler berasal dari file lokal:
+
+```text
+/home/nexaplay/nexaplay_web/appid_trending.json
+```
+
+Setelah mengubah trending:
+
+1. Validasi JSON berupa array AppID positif.
+2. Upload file ke path production.
+3. Restart API tidak wajib karena endpoint membaca file saat request, tetapi health check tetap dianjurkan.
+
+## 12. Deploy Perubahan Backend
+
+Jika hanya source Python berubah:
+
+1. Upload file yang berubah ke `/home/nexaplay/nexaplay_web/backend/`.
+2. Jangan install dependency bila `requirements.txt` tidak berubah.
+3. Restart dan verifikasi:
+
+```bash
+sudo systemctl restart nexaplay-api.service
+systemctl status nexaplay-api.service --no-pager
+curl -sS https://api.nexaplayid.store/api/health
+```
+
+Jika dependency berubah:
+
+```bash
+cd /home/nexaplay/nexaplay_web/backend
+./.venv/bin/pip install -r requirements.txt
+sudo systemctl restart nexaplay-api.service
+```
+
+Jika systemd berubah:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart nexaplay-api.service
+sudo systemctl restart nexaplay-catalog-update.timer
+```
+
+Jika Nginx berubah:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## 13. Deploy Frontend
+
+Frontend production berjalan dari GitHub Pages branch `main`.
+
+1. Jalankan test frontend:
+
+```powershell
+node --test tests/catalog-data.test.js
+```
+
+2. Stage hanya file terkait. Jangan gunakan `git add .` secara default:
+
+```bash
+git add -- index.html js/index.js css/index.css
+git diff --cached --stat
+git commit -m "Update NexaPlay web frontend"
+git fetch origin
+git status -sb
 git push origin main
-3. Perbaiki data atau script.
-4. Jalankan manual dry-run lagi.
-5. Aktifkan kembali setelah valid.
+```
 
-Jangan memakai:
+3. Verifikasi:
 
-git push --force
-git reset --hard origin/main
+- `https://nexaplayid.store`
+- Browser console tanpa error baru
+- Request API menuju `https://api.nexaplayid.store`
+- Search, filter, trending, detail, counter, dan mobile layout
 
-Jika runtime hybrid bermasalah
+## 14. Test Lokal
 
-Pertahankan sementara:
+Backend:
 
-web_catalog_builder/output/catalog.json
-web_catalog_builder/output/chunks/
+```powershell
+cd backend
+python -m venv .venv
+./.venv/Scripts/pip.exe install -r requirements-dev.txt
+./.venv/Scripts/python.exe -B -m unittest discover -s tests -v
+```
 
-Jangan hapus jalur lama sampai hal berikut terverifikasi produksi:
+Frontend:
 
-- Card
-- Search
-- Filter
-- Modal R2
-- Override
-- Cache
-- CORS
-- Fallback
+```powershell
+node --test tests/catalog-data.test.js
+```
 
-Jika perlu rollback total, revert commit fitur hybrid web, bukan hanya commit hasil sync.
+Database production tidak boleh dipakai langsung oleh test. Gunakan fixture atau copy sementara.
 
+## 15. Backup dan Rollback
 
-- [ ] Workflow di .github/workflows/
-- [ ] Script di scripts/
-- [ ] Test di tests/
-- [ ] Dokumentasi di docs/
-- [ ] new_games.json tersedia
-- [ ] nexaplay_override.json tersedia
+Sebelum mengganti seed SQLite secara manual:
 
-GitHub dan R2
+```bash
+sudo systemctl stop nexaplay-api.service nexaplay-catalog-update.timer
+sudo cp --preserve=mode,ownership,timestamps \
+  /home/nexaplay/nexaplay_web/data/catalog.sqlite \
+  "/home/nexaplay/nexaplay_web/data/catalog.sqlite.$(date -u +%Y%m%dT%H%M%SZ).backup"
+```
 
-- [ ] Lima secret tersedia
-- [ ] R2 token read-only
-- [ ] PAT hanya untuk Nexaplay-Web
-- [ ] PAT punya Contents: Read and write
-- [ ] Branch protection mengizinkan bot push
-- [ ] CORS R2 benar
+Pemulihan:
 
-Aktivasi
+1. Hentikan API dan timer.
+2. Pulihkan database terakhir yang valid.
+3. Jalankan updater manual.
+4. Cek integrity dan health pada `127.0.0.1:8010`.
+5. Mulai kembali API dan timer.
 
-- [ ] Actions dimatikan saat instalasi
-- [ ] Bundle sudah merged
-- [ ] Actions diaktifkan kembali
-- [ ] Manual dry-run hijau
-- [ ] Manual production run hijau
-- [ ] Commit bot muncul di repository web
-- [ ] Modal metadata berhasil di website
-- [ ] Schedule harian aktif
+```bash
+sudo systemctl start nexaplay-api.service nexaplay-catalog-update.timer
+```
 
-Urutan paling penting: merge perubahan web → matikan Actions → pindahkan workflow → pasang secrets → aktifkan Actions → dry-run → production run → verifikasi website.
+Jangan memakai `git reset --hard`, force-push, atau rewrite history sebagai prosedur rollback operasional.
+
+## 16. Troubleshooting Cepat
+
+### API public gagal tetapi service hidup
+
+```bash
+curl -sS http://127.0.0.1:8010/api/health
+sudo nginx -t
+journalctl -u nginx -n 100 --no-pager
+```
+
+Jika local API berhasil tetapi HTTPS gagal, periksa Nginx, DNS, firewall, dan certificate.
+
+### Port bentrok
+
+```bash
+sudo ss -ltnp | grep -E ':8000|:8010'
+```
+
+Expected:
+
+- Telegram tetap pada port `8000`.
+- NexaPlay Web API pada `127.0.0.1:8010`.
+
+### Updater gagal
+
+```bash
+journalctl -u nexaplay-catalog-update.service -n 100 --no-pager
+curl -I https://meta.nexaplaymetadata.online/catalog/catalog_manifest.json
+```
+
+Updater mempertahankan database committed terakhir bila patch invalid atau gagal diterapkan.
+
+### Priority remote gagal
+
+Backend memakai cache last-known-good. Jika remote dan cache sama-sama tidak tersedia, browse tetap berjalan memakai urutan SQLite.
+
+### CORS gagal
+
+Pastikan `NEXAPLAY_ALLOWED_ORIGINS` berisi origin exact tanpa path tambahan, lalu restart API.
+
+## 17. Sistem Legacy yang Sudah Dihapus
+
+Berikut bukan bagian dari production dan tidak boleh dibuat ulang:
+
+- `web_catalog_builder/`
+- Browser runtime `catalog.json`
+- `chunks/`
+- Legacy `search_index.json`
+- Sync NexaPlay Web Catalog bot/workflow
+- `generate-catalog-manifest` GitHub Action lama
+- `nexaplay-catalog-bot`
+- Browser direct-fetch metadata R2 sebagai sumber katalog utama
+
+Dokumen di `docs/superpowers/` menyimpan sejarah desain lama dan ditandai obsolete. Jangan menjalankan instruksinya.
+
+## 18. Checklist Maintenance
+
+- [ ] `nexaplay-api.service` active
+- [ ] `nexaplay-catalog-update.timer` active
+- [ ] Local health `127.0.0.1:8010` berhasil
+- [ ] Public health HTTPS berhasil
+- [ ] CORS mengembalikan origin website
+- [ ] SQLite integrity `ok`
+- [ ] Catalog version sesuai manifest
+- [ ] Nginx config valid
+- [ ] Certbot timer aktif
+- [ ] Telegram tetap memakai port `8000`
+- [ ] NexaPlay Web tetap memakai port `8010`
+- [ ] Tidak ada secret atau SQLite production di Git
