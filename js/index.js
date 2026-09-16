@@ -59,18 +59,14 @@ function initHeroCapsules() {
   const container = document.getElementById('hero-capsules');
   if (!container) return;
 
-  const heroAppids = [3751950, 2840770, 2842040, 2215200, 3764200, 3321460];
-
-  heroAppids.forEach((appid) => {
-    const gradient = generateCardPlaceholder(appid);
+  for (let index = 0; index < 6; index += 1) {
     const capsule = document.createElement('div');
     capsule.className = 'hero__capsule';
-    capsule.dataset.heroAppid = appid;
-    capsule.style.background = gradient;
+    capsule.style.background = generateCardPlaceholder(index + 1);
     capsule.style.backgroundSize = 'cover';
     capsule.style.backgroundPosition = 'center';
     container.appendChild(capsule);
-  });
+  }
 
   if (isTouchDevice) {
     gsap.fromTo(container,
@@ -163,6 +159,7 @@ function safeCardData(item) {
 
 async function loadCatalogData() {
   await Promise.all([loadTrendingGames(), loadCatalogPage(true)]);
+  updateHeroCapsulesImages();
 }
 
 
@@ -181,7 +178,6 @@ async function loadTrendingGames() {
     console.warn('Trending games unavailable', error);
   }
   renderTrendingGames();
-  updateHeroCapsulesImages();
 }
 
 async function loadCatalogPage(reset = false) {
@@ -855,17 +851,19 @@ function updateHeroCapsulesImages() {
   const container = document.getElementById('hero-capsules');
   if (!container) return;
 
-  const catalogMap = new Map();
-  trendingGames.forEach(item => catalogMap.set(item.appid, item));
-
   const capsules = container.querySelectorAll('.hero__capsule');
-  capsules.forEach(capsule => {
-    const appid = Number(capsule.dataset.heroAppid);
-    if (!appid) return;
-    const game = catalogMap.get(appid);
-    if (game && game.cover_url && game.cover_url !== 'NO CONTENT') {
-      capsule.style.backgroundImage = `url('${game.cover_url}')`;
-    }
+  const seen = new Set();
+  const games = [...trendingGames, ...catalogItems].filter(game => {
+    if (!game.cover_url || seen.has(game.appid)) return false;
+    seen.add(game.appid);
+    return true;
+  }).slice(0, capsules.length);
+
+  capsules.forEach((capsule, index) => {
+    const game = games[index];
+    if (!game) return;
+    capsule.dataset.heroAppid = game.appid;
+    capsule.style.backgroundImage = `url("${game.cover_url}")`;
   });
 }
 

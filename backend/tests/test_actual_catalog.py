@@ -53,23 +53,7 @@ class ActualCatalogTests(unittest.TestCase):
 
                 connection = sqlite3.connect(copy)
                 try:
-                    has_overrides = connection.execute(
-                        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='catalog_runtime_overrides'"
-                    ).fetchone()
-                    if has_overrides:
-                        effective_sql = """
-                        SELECT g.appid,
-                               COALESCE(o.name, g.name),
-                               COALESCE(o.library_capsule, g.library_capsule),
-                               COALESCE(o.genre, g.genre),
-                               COALESCE(o.tier, g.tier),
-                               g.pc_requirements
-                        FROM games g
-                        LEFT JOIN catalog_runtime_overrides o ON o.appid = g.appid
-                        WHERE g.appid=?
-                        """
-                    else:
-                        effective_sql = """
+                    effective_sql = """
                         SELECT appid, name, library_capsule, genre, tier, pc_requirements
                         FROM games
                         WHERE appid=?

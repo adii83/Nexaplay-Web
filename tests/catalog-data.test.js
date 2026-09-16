@@ -101,6 +101,13 @@ test('production frontend uses only backend catalog endpoints', () => {
   assert.match(indexSource, /currentFilter\.toLowerCase\(\)/);
 });
 
+test('hero capsules use backend library capsule data instead of hardcoded AppIDs', () => {
+  assert.equal(indexSource.includes('const heroAppids'), false);
+  assert.match(indexSource, /\[\.\.\.trendingGames, \.\.\.catalogItems\]/);
+  assert.match(indexSource, /game\.cover_url/);
+  assert.match(indexSource, /updateHeroCapsulesImages\(\)/);
+});
+
 test('formats display counts for each UI identity', () => {
   assert.equal(data.formatGameCount(163417, 'headline'), '163.000+');
   assert.equal(data.formatGameCount(163417, 'sentence'), '163.000+');

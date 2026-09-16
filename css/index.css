@@ -67,11 +67,8 @@
   color: var(--white-solid);
 }
 
-.hero__headline span {
-  display: block;
-}
-
 .hero__headline > span {
+  display: block;
   white-space: nowrap;
 }
 

@@ -28,32 +28,10 @@ def normalize_search(value: str) -> str:
 class CatalogRepository:
     def __init__(self, database: CatalogDatabase):
         self.database = database
-        with database.connect() as connection:
-            has_overrides = connection.execute(
-                "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'catalog_runtime_overrides'"
-            ).fetchone()
-        self._effective_sql = self._build_effective_sql(bool(has_overrides))
-
-    @staticmethod
-    def _build_effective_sql(has_overrides: bool) -> str:
-        if not has_overrides:
-            return """
-                WITH effective AS (
-                    SELECT appid, name, normalized_name, library_capsule, genre, tier, pc_requirements
-                    FROM games
-                )
-            """
-        return """
+        self._effective_sql = """
             WITH effective AS (
-                SELECT g.appid,
-                       COALESCE(o.name, g.name) AS name,
-                       COALESCE(o.normalized_name, g.normalized_name) AS normalized_name,
-                       COALESCE(o.library_capsule, g.library_capsule) AS library_capsule,
-                       COALESCE(o.genre, g.genre) AS genre,
-                       COALESCE(o.tier, g.tier) AS tier,
-                       g.pc_requirements AS pc_requirements
-                FROM games g
-                LEFT JOIN catalog_runtime_overrides o ON o.appid = g.appid
+                SELECT appid, name, normalized_name, library_capsule, genre, tier, pc_requirements
+                FROM games
             )
         """
 

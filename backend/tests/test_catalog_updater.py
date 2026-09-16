@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 from app.catalog_updater import CatalogUpdater, Download
+from app.catalog_repository import CatalogRepository
 from app.database import CatalogDatabase
 from tests.helpers import create_catalog, patch_row
 
@@ -93,6 +94,38 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(row, (40, "Game 40", "game 40", "https://example.test/40.jpg", '["Action"]', 345678, "Rp 345.678", 1, "premium", '{"minimum":"min","recommended":"rec"}'))
         self.assertIsNone(connection.execute("SELECT 1 FROM games WHERE appid=30").fetchone())
         connection.close()
+
+    def test_patch_values_are_immediately_visible_despite_stale_override(self) -> None:
+        connection = sqlite3.connect(self.path)
+        connection.execute(
+            "INSERT INTO catalog_runtime_overrides VALUES(?,?,?,?,?,?,?,?,?)",
+            (10, "Stale Name", "stale name", "https://example.com/old-poster.jpg", '["Old"]', None, None, None, "standard"),
+        )
+        connection.commit()
+        connection.close()
+        patch3 = encoded_patch(
+            2,
+            3,
+            [
+                patch_row(
+                    10,
+                    name="Updated Ten",
+                    normalized_name="updated ten",
+                    library_capsule="https://example.com/new-poster.jpg",
+                    genre=["Fighting"],
+                    tier="premium",
+                )
+            ],
+        )
+
+        result = self.updater(manifest_bytes(3, 2, [(3, patch3)]), {3: patch3}).check_and_apply()
+        detail = CatalogRepository(CatalogDatabase(self.path)).game_detail(10)
+
+        self.assertEqual(result.status, "Applied")
+        self.assertEqual(detail["name"], "Updated Ten")
+        self.assertEqual(detail["library_capsule"], "https://example.com/new-poster.jpg")
+        self.assertEqual(detail["genre"], ["Fighting"])
+        self.assertEqual(detail["tier"], "premium")
 
     def test_size_sha_schema_from_and_missing_chain_fail(self) -> None:
         patch3 = encoded_patch(2, 3)

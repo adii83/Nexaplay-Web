@@ -95,6 +95,91 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(self.client.get("/api/games/999").status_code, 404)
         self.assertEqual(self.client.get("/api/games/0").status_code, 422)
 
+    def test_runtime_overrides_never_replace_games_metadata(self) -> None:
+        connection = sqlite3.connect(self.db_path)
+        try:
+            connection.execute(
+                "INSERT INTO games VALUES(?,?,?,?,?,?,?,?,?,?)",
+                (
+                    307780,
+                    "Mortal Kombat X",
+                    "mortal kombat x",
+                    "https://example.com/new-poster.jpg",
+                    '["Fighting"]',
+                    0,
+                    "Free",
+                    0,
+                    "premium",
+                    '{"minimum":"new min","recommended":"new rec"}',
+                ),
+            )
+            connection.execute(
+                "INSERT INTO catalog_runtime_overrides VALUES(?,?,?,?,?,?,?,?,?)",
+                (
+                    307780,
+                    "Stale Name",
+                    "stale name",
+                    "https://example.com/old-poster.jpg",
+                    '["Stale Genre"]',
+                    None,
+                    None,
+                    None,
+                    None,
+                ),
+            )
+            connection.execute(
+                "INSERT INTO catalog_runtime_overrides VALUES(?,?,?,?,?,?,?,?,?)",
+                (10, None, None, None, None, None, None, None, "premium"),
+            )
+            connection.execute(
+                "INSERT INTO catalog_runtime_overrides VALUES(?,?,?,?,?,?,?,?,?)",
+                (30, None, None, "https://example.com/stale-poster.jpg", None, None, None, None, None),
+            )
+            connection.commit()
+        finally:
+            connection.close()
+
+        detail = self.client.get("/api/games/307780").json()
+        self.assertEqual(detail, {
+            "appid": 307780,
+            "name": "Mortal Kombat X",
+            "library_capsule": "https://example.com/new-poster.jpg",
+            "genre": ["Fighting"],
+            "tier": "premium",
+            "pc_requirements": {"minimum": "new min", "recommended": "new rec"},
+        })
+        self.assertEqual(
+            [item["appid"] for item in self.client.get("/api/games", params={"q": "Mortal Kombat"}).json()["items"]],
+            [307780],
+        )
+        self.assertEqual(
+            self.client.get("/api/games", params={"q": "Stale Name"}).json()["items"],
+            [],
+        )
+        self.assertIn(10, [item["appid"] for item in self.client.get("/api/games", params={"tier": "standard"}).json()["items"]])
+        self.assertNotIn(30, [item["appid"] for item in self.client.get("/api/games").json()["items"]])
+        self.assertEqual(self.client.get("/api/games/trending").json()[0]["library_capsule"], "")
+
+    def test_catalog_without_runtime_overrides_still_works(self) -> None:
+        self.client.close()
+        connection = sqlite3.connect(self.db_path)
+        try:
+            connection.execute("DROP TABLE catalog_runtime_overrides")
+            connection.commit()
+        finally:
+            connection.close()
+        settings = Settings(
+            catalog_db=self.db_path,
+            priority_cache=Path(self.temp.name) / "priority.json",
+            trending_path=self.trending_path,
+            display_stats_path=Path(self.temp.name) / "display_stats.json",
+            allowed_origins=("https://nexaplayid.store",),
+        )
+        self.client = TestClient(
+            create_app(settings, start_background=False, priority_service=FakePriority())
+        )
+        self.assertEqual(self.client.get("/api/games/10").json()["name"], "Counter-Strike")
+
     def test_ids_order_duplicates_missing_and_validation(self) -> None:
         response = self.client.get("/api/games", params={"ids": "30,10,30,999"})
         self.assertEqual(response.status_code, 200)
