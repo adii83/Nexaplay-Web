@@ -14,6 +14,24 @@ Production API listener: `127.0.0.1:8010`. Port `8000` remains reserved for the 
 
 Tests and `requirements-dev.txt` may be uploaded for VPS verification, but are not required by runtime.
 
+### CatalogRepository metadata-authority fix
+
+For the Web fix that makes `games` authoritative and ignores Desktop runtime overrides, upload only:
+
+| Local | VPS |
+| --- | --- |
+| `backend/app/catalog_repository.py` | `/home/nexaplay/nexaplay_web/backend/app/catalog_repository.py` |
+
+Then restart and verify:
+
+```bash
+sudo systemctl restart nexaplay-api.service
+curl -fsS https://api.nexaplayid.store/api/health
+curl -fsS https://api.nexaplayid.store/api/games/307780
+```
+
+AppID `307780` is a troubleshooting example, not a permanent deployment requirement.
+
 ## B. Environment to upload
 
 | Local | VPS |

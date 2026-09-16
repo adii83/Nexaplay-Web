@@ -506,7 +506,7 @@ The bundled seed is catalog version 2; the runtime DB has applied live patches t
 
 `catalog_meta` stores key/value metadata including `catalog_version`.
 
-`catalog_runtime_overrides` is created in the runtime DB, not bundled seed. It can override name, normalized name, capsule, genre, price, protection, and tier. Current non-null override counts are: 164 protection, 7 capsule, 1 price, 1 price display, and no title/genre/tier override. PC requirements are never runtime-overridden.
+`catalog_runtime_overrides` is created in the runtime DB, not bundled seed. In the Desktop behavior audited at that time, it could override name, normalized name, capsule, genre, price, protection, and tier. Current non-null override counts were: 164 protection, 7 capsule, 1 price, 1 price display, and no title/genre/tier override. PC requirements were never runtime-overridden. This is historical Desktop context; the current Web API ignores this table. See Section 23.
 
 Indexes:
 
@@ -790,7 +790,7 @@ New backend files are intentionally not specified here because implementation is
 6. **Genre/requirements coverage:** schema exists, but thousands of common rows have empty values.
 7. **Ordering:** SQLite repository defaults to normalized-name or price-band randomized browse ordering, neither of which matches current website priority + master-list order.
 8. **Search semantics:** current AppID search is substring-based; Desktop SQLite search treats a numeric query as exact AppID.
-9. **Runtime overrides:** current Desktop runtime DB has 165 local overrides. VPS behavior must decide whether to use base `games` only or reproduce an effective override feed. Current website does not use protection/price UI, so most runtime overrides do not affect parity today.
+9. **Runtime overrides:** current Desktop runtime DB has 165 local overrides. At this historical decision point, VPS behavior still had to choose between base `games` and an effective override feed. Section 23 records the final decision: Web uses `games` only and ignores `catalog_runtime_overrides`.
 10. **Publisher pipeline source:** live artifacts and Desktop consumer were audited, but publisher source code was not present in this website checkout. Any schema addition must be made in the existing publisher, not a website-only publisher.
 11. **Baseline recovery:** manifest minimum supported version currently equals 2. A VPS database older than minimum needs a controlled seed replacement path; protocol intentionally provides no remote full SQLite.
 12. **API availability:** GitHub Pages remains usable only if VPS API, TLS, DNS, Nginx, and CORS are healthy. Define frontend error/loading behavior before cutover.
@@ -879,7 +879,7 @@ This section supersedes earlier recommendations where final product decisions ch
 Existing Catalog Builder -> Publisher -> R2 manifest + patches
                                          |
                                          v
-                              VPS-local catalog.sqlite
+                         VPS-local catalog.sqlite games table
                                          |
 Remote appid_populer.json -> five-minute priority cache
 Local appid_trending.json -> ordered Game Terpopuler IDs
@@ -895,11 +895,11 @@ Local appid_trending.json -> ordered Game Terpopuler IDs
                        GitHub Pages nexaplayid.store
 ```
 
-SQLite is website metadata authority. `price_normalized`, `price_display`, and `protection` remain patch-managed but are absent from public API responses.
+The SQLite `games` table is final website metadata authority. `price_normalized`, `price_display`, and `protection` remain patch-managed but are absent from public API responses.
 
 ### Backend implementation
 
-- `backend/app/catalog_repository.py` performs SQLite-side pagination, search, tier filtering, ordered IDs lookup, and safe JSON parsing. Empty-query browse requires an HTTP(S) `library_capsule`; search intentionally keeps posterless matches.
+- `backend/app/catalog_repository.py` reads Web metadata directly from `games`, then performs SQLite-side pagination, search, tier filtering, ordered IDs lookup, and safe JSON parsing. It does not join `catalog_runtime_overrides`. Empty-query browse requires an HTTP(S) `library_capsule`; search intentionally keeps posterless matches.
 - `backend/app/catalog_updater.py` consumes unchanged `https://meta.nexaplaymetadata.online/catalog/catalog_manifest.json`, restricts patches to same origin, validates size/SHA-256/schema/chain/rows, and applies every existing game column in one transaction per patch.
 - `backend/app/priority_service.py` caches remote `appid_populer.json` for five minutes with conditional HTTP, in-flight deduplication, atomic last-known-good state, duplicate removal, invalid-ID filtering, and network-failure fallback.
 - Priority IDs with posters are ordered before remaining poster-bearing SQLite rows. Ordering happens before `LIMIT`/`OFFSET`, so page boundaries and totals match visible browse results.
@@ -908,6 +908,16 @@ SQLite is website metadata authority. `price_normalized`, `price_display`, and `
 - Public routes are `GET /api/health`, `GET /api/games`, `GET /api/games/trending`, `GET /api/games/{appid}`, and `GET /api/stats`.
 - Uvicorn listens only on `127.0.0.1:8010`; Nginx exposes `https://api.nexaplayid.store`. Port `8000` remains assigned to the existing Telegram service.
 - `backend/systemd/` and `backend/nginx/` provide isolated deployment configuration. Existing Telegram and Discord configuration is untouched.
+
+### Final Web metadata authority
+
+Current metadata flow is:
+
+```text
+Catalog Builder -> catalog_manifest.json + patches -> updater -> games -> FastAPI -> frontend
+```
+
+The runtime path `catalog_runtime_overrides -> Web API` has been removed. A Desktop-derived SQLite snapshot may still contain that table, but its rows have no effect on Web list, search, trending, tier filtering, or detail responses. Patches update `games`; API responses use those updated values without an effective override merge. The table is not dropped or cleaned by the Web updater.
 
 ### Frontend implementation
 
@@ -929,7 +939,8 @@ Local legacy `appid.json` and static catalog artifacts were removed after produc
 
 ### Verification evidence
 
-- Backend fixture suite: 19 tests passed; two opt-in live-network tests skipped. Coverage includes remote cache behavior, priority-before-pagination, poster filtering, posterless search/trending, stats monotonicity, public fields, CORS, and updater safety.
+- Backend fixture suite: 22 tests passed; two opt-in live-network tests skipped. Coverage includes stale runtime overrides, databases without the override table, patch-to-repository visibility, remote cache behavior, priority-before-pagination, poster filtering, posterless search/trending, stats monotonicity, public fields, CORS, and updater safety.
+- Production verification confirmed that patched `games` metadata and public API output match after the repository fix. AppID `307780` was a regression example, not a permanent runtime dependency.
 - Frontend suite: 10 tests passed, covering API URL construction, stale-request protection, poster placeholders, count formatting, and removal of obsolete featured/catalog flows.
 - Copied production-seed integration passed without modifying the source database: 163,262 actual games, 10,429 Premium, 152,833 Standard, and 155,892 poster-bearing browse rows. Seed update chain version 2 -> 4 also passed on a disposable copy.
 - Browser smoke passed at desktop and 390x844 mobile widths: dynamic counts, 10 ordered trending cards, remote-priority browse order, 20 -> 40 unique Load More results, posterless AppID 7650 search placeholder, Premium/Standard filters, detail genre/specification content, trending placeholder rendering, zero horizontal mobile overflow, and static-count/catalog-error fallback when API is unavailable.

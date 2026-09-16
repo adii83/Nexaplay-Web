@@ -24,7 +24,9 @@ api.nexaplayid.store -> Nginx -> FastAPI:8010 -> catalog.sqlite
                        R2 catalog_manifest.json + patches
 ```
 
-- SQLite adalah sumber metadata game.
+- Tabel `games` di SQLite adalah source of truth dan authority final metadata Web.
+- Patch katalog diterapkan ke `games`; API Web membaca nilai terbaru langsung dari tabel tersebut.
+- `catalog_runtime_overrides` adalah layer Desktop/legacy. Tabelnya boleh tetap ada pada snapshot SQLite, tetapi API Web mengabaikannya.
 - Remote `appid_populer.json` menentukan prioritas katalog.
 - Local `appid_trending.json` menentukan Game Terpopuler.
 - Timer systemd memperbarui SQLite dari manifest dan patch R2 sekitar setiap lima menit.

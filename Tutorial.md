@@ -361,6 +361,23 @@ Jika hanya manifest dan patch berubah:
 - Tidak perlu restart API.
 - Timer biasanya mengambil update dalam sekitar 5 menit ditambah random delay maksimum 15 detik.
 
+### Source of truth metadata Web
+
+Pipeline metadata Web adalah:
+
+```text
+catalog_manifest.json + patches
+        -> catalog updater
+        -> tabel games pada catalog.sqlite
+        -> CatalogRepository
+        -> FastAPI
+        -> frontend
+```
+
+Tabel `games` adalah authority final untuk metadata Web, termasuk `appid`, `name`, `normalized_name`, `library_capsule`, `genre`, `tier`, dan `pc_requirements`. Updater menulis patch terbaru ke `games`, lalu request API berikutnya membaca nilai tersebut.
+
+Snapshot SQLite dari Desktop dapat tetap memiliki tabel `catalog_runtime_overrides`. Backend Web mengabaikan tabel itu dan tidak menggabungkannya dengan `games`. Jangan menghapus tabel atau row override sebagai prosedur Web; tidak diperlukan migration destructive.
+
 Jalankan updater manual:
 
 ```bash
@@ -576,6 +593,48 @@ curl -I https://meta.nexaplaymetadata.online/catalog/catalog_manifest.json
 ```
 
 Updater mempertahankan database committed terakhir bila patch invalid atau gagal diterapkan.
+
+### Patch berhasil tetapi Web menampilkan metadata lama
+
+1. Periksa row authoritative di `games`:
+
+```bash
+cd /home/nexaplay/nexaplay_web/backend
+
+./.venv/bin/python - <<'PY'
+import sqlite3
+
+appid = 307780
+db = "/home/nexaplay/nexaplay_web/data/catalog.sqlite"
+
+c = sqlite3.connect(db)
+row = c.execute("""
+    SELECT appid, name, library_capsule, tier
+    FROM games
+    WHERE appid = ?
+""", (appid,)).fetchone()
+
+print(row)
+c.close()
+PY
+```
+
+2. Periksa API lokal dan public:
+
+```bash
+curl -sS http://127.0.0.1:8010/api/games/307780
+curl -sS https://api.nexaplayid.store/api/games/307780
+```
+
+- Jika `games` masih lama, periksa manifest, patch, log updater, dan `catalog_version`.
+- Jika `games` dan API sudah baru, backend benar; lanjut periksa frontend, browser cache, atau CDN.
+- Jika `games` sudah baru tetapi API masih lama, periksa apakah `backend/app/catalog_repository.py` di production masih versi lama, lalu restart API:
+
+```bash
+sudo systemctl restart nexaplay-api.service
+```
+
+Setelah repository terbaru terpasang, `catalog_runtime_overrides` tidak dapat menimpa metadata `games` pada API Web.
 
 ### Priority remote gagal
 

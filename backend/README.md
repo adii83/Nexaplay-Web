@@ -15,14 +15,16 @@ Port `8000` belongs to the existing Telegram service. NexaPlay Web must remain o
 ## Runtime flow
 
 ```text
-R2 catalog_manifest.json + patches -> updater -> local catalog.sqlite
+R2 catalog_manifest.json + patches -> updater -> catalog.sqlite games table -> CatalogRepository -> API
 GitHub appid_populer.json -> validated cache -> normal catalog priority
 Local appid_trending.json -> SQLite lookup -> Game Terpopuler
 SQLite COUNT + display anchor -> /api/stats
 GitHub Pages -> https://api.nexaplayid.store -> Nginx -> FastAPI
 ```
 
-SQLite owns all game metadata. Remote `appid_populer.json` supplies only normal catalog priority order. Local `appid_trending.json` supplies only Game Terpopuler order. Browser never downloads SQLite, static search index, overrides, raw GitHub data, or R2 per-game metadata.
+The `games` table owns all Web game metadata. `CatalogRepository` reads `appid`, `name`, `normalized_name`, `library_capsule`, `genre`, `tier`, and `pc_requirements` directly from `games`. Remote `appid_populer.json` supplies only normal catalog priority order. Local `appid_trending.json` supplies only Game Terpopuler order. Browser never downloads SQLite, static search index, overrides, raw GitHub data, or R2 per-game metadata.
+
+SQLite snapshots may contain the Desktop/legacy `catalog_runtime_overrides` table. The Web API does not join or merge that table, so it cannot override current `games` values. Keep the table intact when present; no destructive migration or row cleanup is required.
 
 ## API
 
@@ -92,7 +94,7 @@ See `DEPLOY_FILES.md` for exact local-to-VPS file mappings. Initial `catalog.sql
 
 ## Updater protocol
 
-Updater reads current `catalog_version`, validates schema/version bounds, builds complete sequential chain, restricts patch paths to manifest origin, verifies byte size and SHA-256, validates unique positive AppIDs and conflicts, then applies one patch per SQLite transaction. Every game column is upserted, including `price_normalized`, `price_display`, and `protection`. Failed patch rolls back; earlier committed patches remain valid. Unsupported baselines require controlled seed replacement.
+Updater reads current `catalog_version`, validates schema/version bounds, builds complete sequential chain, restricts patch paths to manifest origin, verifies byte size and SHA-256, validates unique positive AppIDs and conflicts, then applies one patch per SQLite transaction. Every game column is upserted into `games`, including `price_normalized`, `price_display`, and `protection`. Failed patch rolls back; earlier committed patches remain valid. Unsupported baselines require controlled seed replacement.
 
 Manual update and status:
 
