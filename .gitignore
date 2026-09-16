@@ -33,4 +33,6 @@ backend/.venv/
 .codex/
 .superpowers/
 
-backend\catalog_upload.sqlite
+backend/catalog_upload.sqlite
+
+graphify-out/
