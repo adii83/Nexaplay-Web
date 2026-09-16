@@ -32,3 +32,5 @@ backend/.venv/
 .claude/
 .codex/
 .superpowers/
+
+backend\catalog_upload.sqlite

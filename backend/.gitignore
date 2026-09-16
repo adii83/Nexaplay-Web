@@ -9,3 +9,5 @@ data/*.sqlite
 data/*.sqlite-*
 data/*.db
 data/*.db-*
+
+backend\catalog_upload.sqlite
