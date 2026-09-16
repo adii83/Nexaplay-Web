@@ -8,6 +8,53 @@
 const _isMobileDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const _isSmallScreen = window.innerWidth < 768;
 
+let _latestGameStats = null;
+
+function applyGameStats() {
+  if (!_latestGameStats || typeof NexaCatalogData === 'undefined') return;
+  document.querySelectorAll('[data-game-count]').forEach(element => {
+    const formatted = NexaCatalogData.formatGameCount(
+      _latestGameStats.display_count,
+      element.dataset.gameCount
+    );
+    if (formatted) element.textContent = formatted;
+  });
+  document.querySelectorAll('[data-game-count-template]').forEach(element => {
+    const formatted = NexaCatalogData.formatGameCount(
+      _latestGameStats.display_count,
+      element.dataset.gameCountMode || 'sentence'
+    );
+    const value = element.dataset.gameCountTemplate.replace('{count}', formatted);
+    if (element.tagName === 'META') element.setAttribute('content', value);
+    else element.textContent = value;
+  });
+}
+
+async function loadGameStats() {
+  const baseUrl = window.NEXAPLAY_API_BASE_URL || (
+    ['localhost', '127.0.0.1'].includes(window.location.hostname)
+      ? 'http://127.0.0.1:8000'
+      : 'https://api.nexaplayid.store'
+  );
+  try {
+    const response = await fetch(`${baseUrl}/api/stats`, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`Stats API returned ${response.status}`);
+    const payload = await response.json();
+    if (!Number.isInteger(payload.display_count) || payload.display_count < 0) {
+      throw new Error('Stats API returned invalid display_count');
+    }
+    _latestGameStats = payload;
+    applyGameStats();
+  } catch (error) {
+    console.warn('Game stats unavailable; keeping static fallback counts', error);
+  }
+}
+
+window.NexaGameStats = {
+  applyLast: applyGameStats,
+  loadPromise: null,
+};
+
 /* ──────────────────────────────────────
    1. NAVBAR SCROLL BEHAVIOR
    ────────────────────────────────────── */
@@ -291,6 +338,7 @@ function initApp() {
   // Init core systems
   initNavbar();
   initCustomCursor();
+  window.NexaGameStats.loadPromise = loadGameStats();
 
   // These are called after page-specific content is rendered
   // initScrollReveals() and initCounters() are called from page-specific JS

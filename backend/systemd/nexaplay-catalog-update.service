@@ -1,0 +1,17 @@
+[Unit]
+Description=Update NexaPlay website catalog SQLite
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=nexaplay
+Group=www-data
+WorkingDirectory=/home/nexaplay/nexaplay_web/backend
+EnvironmentFile=/home/nexaplay/nexaplay_web/backend/.env
+ExecStart=/home/nexaplay/nexaplay_web/backend/.venv/bin/python -m app.update_catalog
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/nexaplay/nexaplay_web/data

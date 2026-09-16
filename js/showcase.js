@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FAQ
     initFAQ();
+    if (window.NexaGameStats) window.NexaGameStats.applyLast();
 
     // Anchor scrolling
     initSmoothAnchors();

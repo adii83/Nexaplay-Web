@@ -1,0 +1,23 @@
+[Unit]
+Description=NexaPlay catalog API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nexaplay
+Group=www-data
+WorkingDirectory=/home/nexaplay/nexaplay_web/backend
+EnvironmentFile=/home/nexaplay/nexaplay_web/backend/.env
+ExecStartPre=-/home/nexaplay/nexaplay_web/backend/.venv/bin/python -m app.update_catalog
+ExecStart=/home/nexaplay/nexaplay_web/backend/.venv/bin/uvicorn app.entrypoint:app --host 127.0.0.1 --port 8000 --workers 1
+Restart=on-failure
+RestartSec=5
+PrivateTmp=true
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=/home/nexaplay/nexaplay_web/data
+
+[Install]
+WantedBy=multi-user.target

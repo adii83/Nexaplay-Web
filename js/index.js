@@ -7,18 +7,21 @@
 const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 const isMobile = window.innerWidth < 768;
 
-const PRIORITY_APPIDS_URL = 'appid.json';
-const POPULAR_APPIDS_URL = 'appid_populer.json';
-const CATALOG_URL = './web_catalog_builder/output/search_index.json';
-const CATALOG_OVERRIDES_URL = './web_catalog_builder/output/overrides.json';
-const R2_METADATA_BASE_URL = 'https://meta.nexaplaymetadata.online/Metadata';
+const API_BASE_URL = window.NEXAPLAY_API_BASE_URL || (
+  ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    ? 'http://127.0.0.1:8000'
+    : 'https://api.nexaplayid.store'
+);
 const CATALOG_BATCH_SIZE = 20;
 
 let currentFilter = 'all';
-let visibleCatalogCount = CATALOG_BATCH_SIZE;
-let catalogData = [];
-let catalogOverrides = {};
-let orderedCatalogData = [];
+let catalogItems = [];
+let trendingGames = [];
+let catalogPage = 0;
+let catalogTotal = 0;
+let catalogRequestGeneration = 0;
+let catalogAbortController = null;
+let catalogLoading = false;
 let activeCatalogModalAppId = null;
 let catalogModalRequestGeneration = 0;
 let lastFocusedCatalogCard = null;
@@ -112,22 +115,14 @@ function initHeroCapsules() {
 
 function renderTrendingGames() {
   const grid = document.getElementById('trending-grid');
-  if (!grid || !window.popularAppids || !catalogData) return;
+  if (!grid) return;
+  const rankedGames = trendingGames.slice(0, 10).map((game, index) => ({
+    ...game,
+    rank: index + 1,
+    trending: true,
+  }));
 
-  const catalogMap = new Map();
-  catalogData.forEach(item => catalogMap.set(item.appid, item));
-
-  const trendingGames = window.popularAppids
-    .map((appid, index) => {
-      const game = catalogMap.get(Number(appid));
-      if (game) {
-        return { ...game, rank: index + 1, trending: true };
-      }
-      return null;
-    })
-    .filter(Boolean);
-
-  grid.innerHTML = trendingGames.map(game =>
+  grid.innerHTML = rankedGames.map(game =>
     createGameCardHTML(safeCardData(game), { showRank: true, interactive: true })
   ).join('');
 }
@@ -145,21 +140,17 @@ async function fetchJson(url, options = {}) {
   return response.json();
 }
 
-async function fetchCatalogMetadata(appid) {
+async function fetchGameDetail(appid) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 15000);
   try {
-    return await fetchJson(`${R2_METADATA_BASE_URL}/${appid}.json`, {
+    return await fetchJson(`${API_BASE_URL}/api/games/${appid}`, {
       cache: 'no-cache',
       signal: controller.signal,
     });
   } finally {
     clearTimeout(timeout);
   }
-}
-
-function normalizeCatalogItem(item) {
-  return NexaCatalogData.normalizeCatalogItem(item);
 }
 
 function safeCardData(item) {
@@ -170,63 +161,8 @@ function safeCardData(item) {
   };
 }
 
-function prioritizeCatalogItems(priorityAppids, allItems) {
-  const catalogMap = new Map();
-  allItems.forEach(item => {
-    catalogMap.set(item.appid, item);
-  });
-
-  const used = new Set();
-  const priorityItems = [];
-
-  priorityAppids.forEach(appid => {
-    const numericId = Number(appid);
-    if (!Number.isFinite(numericId) || used.has(numericId)) return;
-
-    const matchedItem = catalogMap.get(numericId);
-    if (!matchedItem) return;
-
-    priorityItems.push(matchedItem);
-    used.add(numericId);
-  });
-
-  const remainingItems = allItems.filter(item => !used.has(item.appid));
-  return priorityItems.concat(remainingItems);
-}
-
 async function loadCatalogData() {
-  const [priorityAppidsRaw, catalogRaw, popularAppidsText, overridesRaw] = await Promise.all([
-    fetchJson(PRIORITY_APPIDS_URL),
-    fetchJson(CATALOG_URL),
-    fetch(POPULAR_APPIDS_URL).then(res => res.text()).catch(() => "[]"),
-    fetchJson(CATALOG_OVERRIDES_URL).catch(error => {
-      console.warn('Catalog overrides unavailable', error);
-      return {};
-    }),
-  ]);
-
-  const priorityAppids = Array.isArray(priorityAppidsRaw) ? priorityAppidsRaw : [];
-  const catalogItems = Array.isArray(catalogRaw)
-    ? catalogRaw.map(normalizeCatalogItem).filter(Boolean)
-    : [];
-  catalogOverrides = overridesRaw && typeof overridesRaw === 'object' && !Array.isArray(overridesRaw)
-    ? overridesRaw
-    : {};
-
-  let popularAppidsRaw = [];
-  try {
-    // Bersihkan trailing comma yang tidak valid di JSON sebelum diparse
-    const cleanJsonText = popularAppidsText.replace(/,\s*\]/g, ']');
-    popularAppidsRaw = JSON.parse(cleanJsonText);
-  } catch (e) {
-    console.warn("Failed to parse appid_populer.json", e);
-  }
-
-  catalogData = catalogItems;
-  orderedCatalogData = prioritizeCatalogItems(priorityAppids, catalogItems);
-  
-  // Ambil maksimal 10 game populer
-  window.popularAppids = Array.isArray(popularAppidsRaw) ? popularAppidsRaw.slice(0, 10) : [];
+  await Promise.all([loadTrendingGames(), loadCatalogPage(true)]);
 }
 
 
@@ -234,49 +170,73 @@ async function loadCatalogData() {
    5. CATALOG GRID + FILTERS + SEARCH
    ———————————————————————————————————————— */
 
-function normalizeSearchText(str) {
-  if (!str) return '';
-  return str
-    .toLowerCase()
-    .replace(/['"’‘]/g, '') // Hapus tanda kutip (assassin's -> assassins)
-    .replace(/[™®©]/g, '')  // Hapus trademark dll
-    .replace(/[^a-z0-9\s]/g, ' ') // Ganti karakter aneh lain dengan spasi
-    .replace(/\s+/g, ' ') // Hindari spasi ganda
-    .trim();
+async function loadTrendingGames() {
+  try {
+    const payload = await fetchJson(`${API_BASE_URL}/api/games/trending`, { cache: 'no-cache' });
+    trendingGames = Array.isArray(payload)
+      ? payload.map(NexaCatalogData.normalizeApiListItem).filter(Boolean)
+      : [];
+  } catch (error) {
+    trendingGames = [];
+    console.warn('Trending games unavailable', error);
+  }
+  renderTrendingGames();
+  updateHeroCapsulesImages();
 }
 
-function getFilteredGames() {
-  let filtered = [...orderedCatalogData];
-
-  if (currentFilter !== 'all') {
-    const wantsPremium = currentFilter === 'Premium';
-    filtered = filtered.filter(game => game.premium === wantsPremium);
+async function loadCatalogPage(reset = false) {
+  if (reset) {
+    catalogRequestGeneration += 1;
+    catalogPage = 0;
+    catalogItems = [];
+    catalogTotal = 0;
+    if (catalogAbortController) catalogAbortController.abort();
   }
+  if (catalogLoading && !reset) return;
 
+  const generation = catalogRequestGeneration;
+  const page = catalogPage + 1;
   const searchInput = document.getElementById('catalog-search');
-  if (searchInput && searchInput.value.trim()) {
-    const rawQuery = searchInput.value.trim();
-    const normalizedQuery = normalizeSearchText(rawQuery);
-    
-    filtered = filtered.filter(game => {
-      const normalizedTitle = normalizeSearchText(game.title);
-      return normalizedTitle.includes(normalizedQuery) || String(game.appid).includes(rawQuery);
-    });
+  const url = NexaCatalogData.buildGamesApiUrl(API_BASE_URL, {
+    q: searchInput ? searchInput.value.trim() : '',
+    tier: currentFilter === 'all' ? '' : currentFilter.toLowerCase(),
+    page,
+    limit: CATALOG_BATCH_SIZE,
+  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  catalogAbortController = controller;
+  catalogLoading = true;
+  setLoadMoreState();
+  if (reset) renderCatalogLoading();
+
+  try {
+    const payload = await fetchJson(url, { cache: 'no-cache', signal: controller.signal });
+    if (!NexaCatalogData.isCurrentRequest(generation, catalogRequestGeneration)) return;
+    const items = Array.isArray(payload.items)
+      ? payload.items.map(NexaCatalogData.normalizeApiListItem).filter(Boolean)
+      : [];
+    catalogItems = reset ? items : catalogItems.concat(items);
+    catalogPage = Number(payload.page) || page;
+    catalogTotal = Number(payload.total) || 0;
+    renderCatalog();
+  } catch (error) {
+    if (error.name === 'AbortError' || !NexaCatalogData.isCurrentRequest(generation, catalogRequestGeneration)) return;
+    console.error('Catalog API request failed', error);
+    renderCatalogError();
+  } finally {
+    clearTimeout(timeout);
+    if (NexaCatalogData.isCurrentRequest(generation, catalogRequestGeneration)) {
+      catalogLoading = false;
+      setLoadMoreState();
+    }
   }
-
-  return filtered;
-}
-
-function updateCatalogCounter(total) {
-  const counter = document.querySelector('.catalog__counter-number [data-counter]');
-  if (!counter) return;
-
-  counter.textContent = total.toLocaleString() + '+';
-  counter.removeAttribute('data-counter');
 }
 
 function getCatalogItemByAppid(appid) {
-  return orderedCatalogData.find(item => item.appid === appid) || null;
+  return catalogItems.find(item => item.appid === appid)
+    || trendingGames.find(item => item.appid === appid)
+    || null;
 }
 
 function getFocusableModalElements(modal) {
@@ -377,8 +337,6 @@ function createCatalogModal() {
         <h3 class="catalog-modal__title" id="catalog-modal-title"></h3>
         <div class="catalog-modal__meta-row" id="catalog-modal-meta-row">
           <span class="catalog-modal__status" id="catalog-modal-status"></span>
-          <span class="catalog-modal__meta-separator" id="catalog-modal-separator">·</span>
-          <span class="catalog-modal__publisher" id="catalog-modal-publisher"></span>
         </div>
       </div>
       <div class="catalog-modal__genres-section" id="catalog-modal-genres-section">
@@ -596,38 +554,49 @@ function renderCatalogGenres(genres) {
   });
 }
 
+function populateCatalogModal(item, state = 'ready') {
+  const appidEl = document.getElementById('catalog-modal-appid');
+  const titleEl = document.getElementById('catalog-modal-title');
+  const statusEl = document.getElementById('catalog-modal-status');
+  const specSection = document.getElementById('catalog-modal-spec-section');
+  const specTabs = document.getElementById('catalog-modal-spec-tabs');
+  if (appidEl) appidEl.textContent = String(item.appid);
+  if (titleEl) titleEl.textContent = item.title;
+  if (statusEl) statusEl.textContent = item.premium ? 'PREMIUM' : 'STANDARD';
+  renderCatalogModalImage(item);
+
+  if (state !== 'ready') {
+    renderCatalogGenres([]);
+    if (specSection) specSection.hidden = false;
+    if (specTabs) specTabs.style.display = 'none';
+    renderCatalogSpecContent(
+      'catalog-modal-minimum',
+      '',
+      state === 'loading' ? 'Memuat detail game...' : 'Detail game belum tersedia. Coba lagi nanti.'
+    );
+    setCatalogSpecTab('minimum');
+    return;
+  }
+
+  renderCatalogGenres(item.genres);
+  const hasMinimum = hasMeaningfulHtml(item.specification.minimum);
+  const hasRecommended = hasMeaningfulHtml(item.specification.recommended);
+  const hasAnySpec = hasMinimum || hasRecommended;
+  if (specSection) specSection.hidden = !hasAnySpec;
+  if (!hasAnySpec) return;
+  if (specTabs) specTabs.style.display = hasMinimum && hasRecommended ? '' : 'none';
+  renderCatalogSpecContent('catalog-modal-minimum', item.specification.minimum, 'Specification minimum belum tersedia.');
+  renderCatalogSpecContent('catalog-modal-recommended', item.specification.recommended, 'Specification recommended belum tersedia.');
+  setCatalogSpecTab(hasMinimum ? 'minimum' : 'recommended');
+}
+
 async function openCatalogModal(appid, triggerCard = null) {
   const item = getCatalogItemByAppid(appid);
   if (!item) return;
-
   const requestGeneration = ++catalogModalRequestGeneration;
-
-  let modalItem = item;
-  let detailAvailable = true;
-  try {
-    const metadata = await fetchCatalogMetadata(appid);
-    if (!NexaCatalogData.isUsableMetadata(metadata)) {
-      throw new Error('R2 metadata payload unavailable');
-    }
-    const extracted = NexaCatalogData.extractModalData(metadata);
-    modalItem = NexaCatalogData.mergeModalData(
-      extracted,
-      catalogOverrides[String(appid)] || {},
-      item,
-    );
-  } catch (error) {
-    if (requestGeneration !== catalogModalRequestGeneration) return;
-    detailAvailable = false;
-    console.error(`Failed to load R2 metadata for AppID ${appid}`, error);
-  }
-
-  if (requestGeneration !== catalogModalRequestGeneration) return;
-
-  if (triggerCard) {
-    lastFocusedCatalogCard = triggerCard;
-  }
-
+  if (triggerCard) lastFocusedCatalogCard = triggerCard;
   activeCatalogModalAppId = appid;
+
   const modal = createCatalogModal();
   clearTimeout(catalogModalCloseTimer);
   catalogModalCloseTimer = null;
@@ -635,116 +604,30 @@ async function openCatalogModal(appid, triggerCard = null) {
   const backdrop = document.getElementById('catalog-modal-backdrop');
   const scrollFade = document.getElementById('catalog-modal-scroll-fade');
   const closeButton = modal.querySelector('.catalog-modal__close');
-  const appidEl = document.getElementById('catalog-modal-appid');
-  const titleEl = document.getElementById('catalog-modal-title');
-  const statusEl = document.getElementById('catalog-modal-status');
-  const publisherEl = document.getElementById('catalog-modal-publisher');
-  const separatorEl = document.getElementById('catalog-modal-separator');
-  const specSection = document.getElementById('catalog-modal-spec-section');
-  const specTabs = document.getElementById('catalog-modal-spec-tabs');
+  populateCatalogModal(item, 'loading');
 
-  // Populate header
-  if (appidEl) appidEl.textContent = String(modalItem.appid);
-  if (titleEl) titleEl.textContent = modalItem.title;
-  if (statusEl) statusEl.textContent = modalItem.premium ? 'PREMIUM' : 'STANDARD';
-
-  // Publisher handling
-  const hasPublisher = detailAvailable
-    ? modalItem.publishers.length > 0
-    : true;
-  if (publisherEl) {
-    publisherEl.textContent = detailAvailable
-      ? modalItem.publishers.join(', ')
-      : 'Detail belum tersedia';
-    publisherEl.style.display = hasPublisher ? '' : 'none';
-  }
-  if (separatorEl) {
-    separatorEl.style.display = hasPublisher ? '' : 'none';
-  }
-
-  // Image
-  renderCatalogModalImage(modalItem);
-
-  // Genres
-  renderCatalogGenres(detailAvailable ? modalItem.genres : []);
-
-  // Specification
-  const hasMinimum = detailAvailable && hasMeaningfulHtml(modalItem.specification.minimum);
-  const hasRecommended = detailAvailable && hasMeaningfulHtml(modalItem.specification.recommended);
-  const hasAnySpec = hasMinimum || hasRecommended;
-
-  if (specSection) {
-    specSection.hidden = detailAvailable && !hasAnySpec;
-  }
-
-  if (!detailAvailable) {
-    if (specTabs) specTabs.style.display = 'none';
-    renderCatalogSpecContent(
-      'catalog-modal-minimum',
-      '',
-      'Detail game belum tersedia. Tutup lalu buka kembali untuk mencoba lagi.'
-    );
-    setCatalogSpecTab('minimum');
-  } else if (hasAnySpec) {
-    // Toggle visibility: show only if both exist
-    if (specTabs) {
-      specTabs.style.display = (hasMinimum && hasRecommended) ? '' : 'none';
-    }
-
-    renderCatalogSpecContent(
-      'catalog-modal-minimum',
-      modalItem.specification.minimum,
-      'Specification minimum belum tersedia.'
-    );
-    renderCatalogSpecContent(
-      'catalog-modal-recommended',
-      modalItem.specification.recommended,
-      'Specification recommended belum tersedia.'
-    );
-
-    // Set active tab to whichever data exists
-    if (hasMinimum) {
-      setCatalogSpecTab('minimum');
-    } else {
-      setCatalogSpecTab('recommended');
-    }
-  }
-
-  // Show modal
-  if (backdrop) {
-    backdrop.classList.add('is-active');
-  }
-
+  if (backdrop) backdrop.classList.add('is-active');
   modal.classList.add('is-active');
   modal.setAttribute('aria-hidden', 'false');
-
-  // Show scroll fade on mobile
-  if (scrollFade && window.innerWidth < 768) {
-    scrollFade.classList.remove('is-hidden');
-    // Check if content is already fully visible (no scroll needed)
-    requestAnimationFrame(() => {
-      if (modal.scrollHeight <= modal.clientHeight) {
-        scrollFade.classList.add('is-hidden');
-      }
-    });
-  }
-
-  // Scroll modal to top
   modal.scrollTop = 0;
-
+  if (scrollFade && window.innerWidth < 768) scrollFade.classList.remove('is-hidden');
   if (!document.body.classList.contains('body--modal-open')) {
     bodyOverflowBeforeModal = document.body.style.overflow;
   }
   document.body.style.overflow = 'hidden';
   document.body.classList.add('body--modal-open');
+  requestAnimationFrame(() => (closeButton || modal).focus());
 
-  requestAnimationFrame(() => {
-    if (closeButton) {
-      closeButton.focus();
-      return;
-    }
-    modal.focus();
-  });
+  try {
+    const detail = NexaCatalogData.normalizeApiDetail(await fetchGameDetail(appid));
+    if (!detail) throw new Error('Invalid game detail response');
+    if (requestGeneration !== catalogModalRequestGeneration || activeCatalogModalAppId !== appid) return;
+    populateCatalogModal(detail);
+  } catch (error) {
+    if (requestGeneration !== catalogModalRequestGeneration || activeCatalogModalAppId !== appid) return;
+    console.error(`Failed to load API detail for AppID ${appid}`, error);
+    populateCatalogModal(item, 'error');
+  }
 }
 
 function closeCatalogModal() {
@@ -803,41 +686,31 @@ function closeCatalogModal() {
   }
 }
 
-/**
- * Returns the current number of columns in the game grid
- * based on the viewport width (must match CSS breakpoints).
- */
-function getGridColumnCount() {
-  const w = window.innerWidth;
-  if (w >= 1600) return 6;
-  if (w >= 1280) return 5;
-  if (w >= 1024) return 4;
-  if (w >= 768)  return 3;
-  return 2; // mobile default
+function renderCatalogLoading() {
+  const grid = document.getElementById('catalog-grid');
+  if (!grid) return;
+  grid.innerHTML = '<p class="text-body" style="grid-column: 1 / -1; text-align: center;">Memuat katalog game...</p>';
 }
 
-function renderCatalog(resetPage = true) {
+function renderCatalogError() {
+  const grid = document.getElementById('catalog-grid');
+  if (!grid) return;
+  grid.innerHTML = '<p class="text-body" style="grid-column: 1 / -1; text-align: center;">Katalog game gagal dimuat. Coba lagi nanti.</p>';
+  setLoadMoreState();
+}
+
+function setLoadMoreState() {
+  const button = document.getElementById('load-more-btn');
+  if (!button) return;
+  button.disabled = catalogLoading;
+  button.style.display = catalogItems.length < catalogTotal ? '' : 'none';
+}
+
+function renderCatalog() {
   const grid = document.getElementById('catalog-grid');
   if (!grid) return;
 
-  if (resetPage) {
-    visibleCatalogCount = CATALOG_BATCH_SIZE;
-  }
-
-  const filtered = getFilteredGames();
-  const columns = getGridColumnCount();
-
-  // Round visible count down to nearest multiple of columns
-  // so the last row is always full
-  let targetCount = Math.min(visibleCatalogCount, filtered.length);
-  if (targetCount > 0 && targetCount < filtered.length) {
-    targetCount = Math.floor(targetCount / columns) * columns;
-    if (targetCount === 0) targetCount = Math.min(columns, filtered.length);
-  }
-
-  const visible = filtered.slice(0, targetCount);
-
-  if (visible.length === 0) {
+  if (catalogItems.length === 0) {
     grid.innerHTML = `
       <div class="catalog-empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
         <svg viewBox="0 0 24 24" width="48" height="48" stroke="var(--text-tertiary)" stroke-width="1.5" fill="none" style="margin-bottom: 16px;">
@@ -848,21 +721,15 @@ function renderCatalog(resetPage = true) {
         <p style="font-size: 14px; color: var(--text-secondary);">Coba sesuaikan kata kunci atau gunakan AppID Steam untuk hasil yang lebih akurat.</p>
       </div>
     `;
-    const loadMoreBtn = document.getElementById('load-more-btn');
-    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    setLoadMoreState();
     refreshCursorTargets();
     return;
   }
 
-  grid.innerHTML = visible.map(game =>
+  grid.innerHTML = catalogItems.map(game =>
     createGameCardHTML(safeCardData(game), { showRank: false, interactive: true })
   ).join('');
-
-  const loadMoreBtn = document.getElementById('load-more-btn');
-  if (loadMoreBtn) {
-    loadMoreBtn.style.display = visible.length < filtered.length ? '' : 'none';
-  }
-
+  setLoadMoreState();
   refreshCursorTargets();
 
   const cards = grid.querySelectorAll('.game-card');
@@ -890,7 +757,7 @@ function initCatalogControls() {
       tabs.forEach(t => t.classList.remove('filter-tab--active'));
       tab.classList.add('filter-tab--active');
       currentFilter = tab.dataset.filter;
-      renderCatalog(true);
+      loadCatalogPage(true);
     });
   });
 
@@ -903,7 +770,7 @@ function initCatalogControls() {
       lastValue = searchInput.value;
       
       clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => renderCatalog(true), 300);
+      debounceTimer = setTimeout(() => loadCatalogPage(true), 300);
     });
   }
 
@@ -927,10 +794,7 @@ function initCatalogControls() {
 
   const loadMoreBtn = document.getElementById('load-more-btn');
   if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', () => {
-      visibleCatalogCount += CATALOG_BATCH_SIZE;
-      renderCatalog(false);
-    });
+    loadMoreBtn.addEventListener('click', () => loadCatalogPage(false));
   }
 
   const grid = document.getElementById('catalog-grid');
@@ -989,10 +853,10 @@ function initCatalogControls() {
 
 function updateHeroCapsulesImages() {
   const container = document.getElementById('hero-capsules');
-  if (!container || !catalogData) return;
+  if (!container) return;
 
   const catalogMap = new Map();
-  catalogData.forEach(item => catalogMap.set(item.appid, item));
+  trendingGames.forEach(item => catalogMap.set(item.appid, item));
 
   const capsules = container.querySelectorAll('.hero__capsule');
   capsules.forEach(capsule => {
@@ -1071,10 +935,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       await loadCatalogData();
-      updateCatalogCounter(orderedCatalogData.length);
-      renderTrendingGames();
-      updateHeroCapsulesImages();
-      renderCatalog(true);
       hideGlobalLoader();
     } catch (error) {
       console.error(error);

@@ -4,254 +4,133 @@ const fs = require('node:fs');
 const path = require('node:path');
 const data = require('../js/catalog-data.js');
 
-test('normalizes four-field tuple without chunk state', () => {
-  assert.deepEqual(data.normalizeCatalogItem([30, 'Day of Defeat', 0, '30/library.jpg?t=1']), {
-    appid: 30,
-    title: 'Day of Defeat',
-    premium: false,
-    cover_url: 'https://shared.steamstatic.com/store_item_assets/steam/apps/30/library.jpg?t=1',
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
-  });
-});
+const indexSource = fs.readFileSync(path.join(__dirname, '..', 'js', 'index.js'), 'utf8');
+const appSource = fs.readFileSync(path.join(__dirname, '..', 'js', 'app.js'), 'utf8');
+const indexHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const showcaseHtml = fs.readFileSync(path.join(__dirname, '..', 'showcase.html'), 'utf8');
 
-test('ignores legacy chunk field', () => {
-  const result = data.normalizeCatalogItem([40, 'Deathmatch Classic', 1, '', 12]);
-
-  assert.deepEqual(result, {
-    appid: 40,
-    title: 'Deathmatch Classic',
-    premium: true,
-    cover_url: '',
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
-  });
-  assert.equal('chunk' in result, false);
-  assert.equal('_fullDataLoaded' in result, false);
-});
-
-test('preserves absolute Steam cover URL', () => {
-  const cover = 'https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/30/hash/library.jpg?t=1';
-
-  assert.equal(data.resolveCoverUrl(cover), cover);
-});
-
-test('rejects malformed index tuples', () => {
-  assert.equal(data.normalizeCatalogItem(null), null);
-  assert.equal(data.normalizeCatalogItem([30, 'Too short', 0]), null);
-  assert.equal(data.normalizeCatalogItem(['invalid', 'Title', 0, '']), null);
-  assert.equal(data.normalizeCatalogItem([0, 'Zero', 0, '']), null);
-  assert.equal(data.normalizeCatalogItem([-1, 'Negative', 0, '']), null);
-  assert.equal(data.normalizeCatalogItem([1.5, 'Fraction', 0, '']), null);
-  assert.equal(data.normalizeCatalogItem([30, '  ', 0, '']), null);
-});
-
-test('extracts R2 modal fields and preferred cover asset', () => {
-  const result = data.extractModalData({
-    name: 'R2 title',
-    assets: {
-      library_capsule: [{ url: '1/library.jpg' }],
-      library_capsule_2x: [{ url: '1/library-2x.jpg' }],
-      header: [{ url: '1/header.jpg' }],
-    },
-    store_data: {
-      developers: ['R2 Dev'],
-      publishers: ['R2 Publisher'],
-      genres: [{ description: 'Action' }, { description: 'Adventure' }],
-      pc_requirements: { minimum: 'min', recommended: 'rec' },
-    },
-  });
-
-  assert.deepEqual(result, {
-    title: 'R2 title',
-    cover_url: 'https://shared.steamstatic.com/store_item_assets/steam/apps/1/library.jpg',
-    developers: ['R2 Dev'],
-    publishers: ['R2 Publisher'],
-    genres: ['Action', 'Adventure'],
-    specification: { minimum: 'min', recommended: 'rec' },
-  });
-});
-
-test('skips malformed R2 cover before later valid asset', () => {
-  const result = data.extractModalData({
-    assets: {
-      library_capsule: [{ url: 'https://[' }],
-      library_capsule_2x: [{ url: 'https://example.com/valid.jpg' }],
-    },
-  });
-  assert.equal(result.cover_url, 'https://example.com/valid.jpg');
-});
-
-test('skips malformed override cover before later valid cover', () => {
-  const result = data.mergeModalData({}, {
-    catalog: {
-      library_capsule: 'https://[',
-      library_capsule_2x: 'https://example.com/override.jpg',
-    },
-  }, { appid: 10, title: 'Game', premium: false, cover_url: '' });
-  assert.equal(result.cover_url, 'https://example.com/override.jpg');
-});
-
-test('sparse override changes only supplied developer field', () => {
-  const metadata = {
-    name: 'R2 title',
-    store_data: {
-      developers: ['R2 Dev'],
-      publishers: ['R2 Publisher'],
-      genres: [{ description: 'Action' }],
-      pc_requirements: { minimum: 'min', recommended: 'rec' },
-    },
-  };
-  const result = data.mergeModalData(
-    data.extractModalData(metadata),
-    { detail: { developers: ['Override Dev'] } },
-    { appid: 1, title: 'Fallback', premium: false, cover_url: '' },
-  );
-
-  assert.deepEqual(result.developers, ['Override Dev']);
-  assert.deepEqual(result.publishers, ['R2 Publisher']);
-  assert.deepEqual(result.genres, ['Action']);
-  assert.deepEqual(result.specification, { minimum: 'min', recommended: 'rec' });
-});
-
-test('applies title and cover precedence per field', () => {
-  const r2 = {
-    title: 'R2 title',
-    cover_url: 'https://example.com/r2.jpg',
-    developers: [],
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
-  };
-  const fallback = {
-    appid: 77,
-    title: 'Fallback title',
-    premium: true,
-    cover_url: 'https://example.com/fallback.jpg',
-  };
-
-  assert.deepEqual(data.mergeModalData(r2, {}, fallback), {
-    appid: 77,
-    title: 'R2 title',
-    premium: true,
-    cover_url: 'https://example.com/r2.jpg',
-    developers: [],
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
-  });
-
-  const overridden = data.mergeModalData(r2, {
-    catalog: {
-      title: 'Override title',
-      library_capsule: '77/override-library.jpg',
-      library_capsule_2x: '77/override-library-2x.jpg',
-      header: '77/override-header.jpg',
-    },
-  }, fallback);
-  assert.equal(overridden.title, 'Override title');
-  assert.equal(
-    overridden.cover_url,
-    'https://shared.steamstatic.com/store_item_assets/steam/apps/77/override-library.jpg',
-  );
-});
-
-test('normalizes scalar catalog developer and publisher overrides', () => {
-  const result = data.mergeModalData(
-    data.extractModalData({}),
-    { catalog: { developer: 'Solo Dev', publisher: 'Solo Publisher' } },
-    { appid: 1, title: 'Fallback', premium: false, cover_url: '' },
-  );
-
-  assert.deepEqual(result.developers, ['Solo Dev']);
-  assert.deepEqual(result.publishers, ['Solo Publisher']);
-});
-
-test('splits comma-separated catalog genre override', () => {
-  const result = data.mergeModalData(
-    data.extractModalData({ store_data: { genres: [{ description: 'R2 genre' }] } }),
-    { catalog: { genre: 'Action, Adventure, RPG' } },
-    { appid: 1, title: 'Fallback', premium: false, cover_url: '' },
-  );
-
-  assert.deepEqual(result.genres, ['Action', 'Adventure', 'RPG']);
-});
-
-test('uses independent detail requirement overrides', () => {
-  const result = data.mergeModalData(
-    data.extractModalData({
-      store_data: { pc_requirements: { minimum: 'R2 min', recommended: 'R2 rec' } },
-    }),
-    { detail: { pc_requirements_minimum: 'Override min' } },
-    { appid: 1, title: 'Fallback', premium: false, cover_url: '' },
-  );
-
-  assert.deepEqual(result.specification, {
-    minimum: 'Override min',
-    recommended: 'R2 rec',
-  });
-});
-
-test('accepts only usable R2 metadata payload objects', () => {
-  for (const unavailable of [null, [], {}, 'text', 7, true, { name: '' }, { store_data: {} }, { assets: {} }, { assets: { header: [] } }]) {
-    assert.equal(data.isUsableMetadata(unavailable), false);
-  }
-  for (const available of [
-    { name: 'Game' },
-    { assets: { header: [{ url: 'https://example.com/cover.jpg' }] } },
-    { store_data: { developers: ['Dev'] } },
-    { store_data: { publishers: ['Publisher'] } },
-    { store_data: { genres: [{ description: 'Action' }] } },
-    { store_data: { pc_requirements: { minimum: 'Windows' } } },
-  ]) {
-    assert.equal(data.isUsableMetadata(available), true);
-  }
-});
-
-test('escapes card text and allows only HTTP cover URLs', () => {
-  assert.equal(data.escapeHtml('<img src=x onerror=alert(1)>'), '&lt;img src=x onerror=alert(1)&gt;');
-  assert.equal(data.safeHttpUrl('https://example.com/game.jpg'), 'https://example.com/game.jpg');
-  assert.equal(data.safeHttpUrl('http://example.com/game.jpg'), 'http://example.com/game.jpg');
-  for (const unsafe of ['javascript:alert(1)', 'data:text/html,x', '//example.com/x', '1/library.jpg']) {
-    assert.equal(data.safeHttpUrl(unsafe), '');
-  }
-});
-
-test('modal source clears fetch and close timers', () => {
-  const source = fs.readFileSync(path.join(__dirname, '..', 'js', 'index.js'), 'utf8');
-  assert.match(source, /AbortController/);
-  assert.match(source, /clearTimeout\(timeout\)/);
-  assert.match(source, /clearTimeout\(catalogModalCloseTimer\)/);
-  assert.match(source, /modal\.classList\.remove\('is-closing'\)/);
-  assert.match(source, /if \(!document\.body\.classList\.contains\('body--modal-open'\)\) \{\s*bodyOverflowBeforeModal = document\.body\.style\.overflow;\s*\}/);
-  assert.match(source, /document\.body\.style\.overflow = bodyOverflowBeforeModal;\s*bodyOverflowBeforeModal = null;/g);
-});
-
-test('returns safe defaults when R2 fields are missing', () => {
-  assert.deepEqual(data.extractModalData(null), {
-    title: '',
-    cover_url: '',
-    developers: [],
-    publishers: [],
-    genres: [],
-    specification: { minimum: '', recommended: '' },
-  });
-
-  assert.deepEqual(data.mergeModalData({}, {}, {
-    appid: 5,
-    title: 'Fallback',
-    premium: false,
-    cover_url: '5/library.jpg',
+test('adapts API list fields and derives premium only from tier', () => {
+  assert.deepEqual(data.normalizeApiListItem({
+    appid: 10,
+    name: 'Counter-Strike',
+    library_capsule: 'https://example.com/10.jpg',
+    tier: 'premium',
+    price_normalized: 0,
   }), {
-    appid: 5,
-    title: 'Fallback',
-    premium: false,
-    cover_url: 'https://shared.steamstatic.com/store_item_assets/steam/apps/5/library.jpg',
-    developers: [],
-    publishers: [],
+    appid: 10,
+    title: 'Counter-Strike',
+    premium: true,
+    cover_url: 'https://example.com/10.jpg',
     genres: [],
     specification: { minimum: '', recommended: '' },
   });
+  assert.equal(data.normalizeApiListItem({ appid: 10, name: 'Game', tier: 'standard' }).premium, false);
+});
+
+test('adapts API detail without publisher, price, or protection', () => {
+  const detail = data.normalizeApiDetail({
+    appid: 20,
+    name: 'Game',
+    library_capsule: '',
+    tier: 'standard',
+    genre: ['Action', '', 7],
+    pc_requirements: { minimum: 'Windows', recommended: 'Linux' },
+    publisher: 'Ignored',
+    protection: true,
+    price_display: 'Ignored',
+  });
+  assert.deepEqual(detail, {
+    appid: 20,
+    title: 'Game',
+    premium: false,
+    cover_url: '',
+    genres: ['Action'],
+    specification: { minimum: 'Windows', recommended: 'Linux' },
+  });
+  assert.equal('publisher' in detail, false);
+  assert.equal('protection' in detail, false);
+  assert.equal('price_display' in detail, false);
+});
+
+test('rejects invalid API list values and unsafe artwork URLs', () => {
+  for (const value of [null, [], {}, { appid: 0, name: 'Game', tier: 'standard' }, { appid: 1, name: '', tier: 'standard' }, { appid: 1, name: 'Game', tier: 'gold' }]) {
+    assert.equal(data.normalizeApiListItem(value), null);
+  }
+  assert.equal(data.normalizeApiListItem({ appid: 1, name: 'Game', tier: 'standard', library_capsule: 'javascript:alert(1)' }).cover_url, '');
+  assert.equal(data.safeHttpUrl('https://example.com/game.jpg'), 'https://example.com/game.jpg');
+});
+
+test('builds server-side search, tier, and page query', () => {
+  const url = new URL(data.buildGamesApiUrl('https://api.example.test', {
+    q: 'counter strike',
+    tier: 'premium',
+    page: 3,
+    limit: 20,
+  }));
+  assert.equal(url.pathname, '/api/games');
+  assert.equal(url.searchParams.get('q'), 'counter strike');
+  assert.equal(url.searchParams.get('tier'), 'premium');
+  assert.equal(url.searchParams.get('page'), '3');
+  assert.equal(url.searchParams.get('limit'), '20');
+});
+
+test('stale request generations are ignored', () => {
+  assert.equal(data.isCurrentRequest(4, 4), true);
+  assert.equal(data.isCurrentRequest(3, 4), false);
+});
+
+test('production frontend uses only backend catalog endpoints', () => {
+  for (const forbidden of [
+    'search_index.json',
+    'overrides.json',
+    'Metadata/',
+    'raw.githubusercontent.com',
+    "fetch('appid.json')",
+    'appid_populer.json',
+    'catalogData',
+    'orderedCatalogData',
+    'catalogOverrides',
+  ]) {
+    assert.equal(indexSource.includes(forbidden), false, `forbidden runtime source remains: ${forbidden}`);
+  }
+  assert.match(indexSource, /\/api\/games\/trending/);
+  assert.equal(indexSource.includes('/api/games/featured'), false);
+  assert.match(indexSource, /\/api\/games\/\$\{appid\}/);
+  assert.match(indexSource, /buildGamesApiUrl/);
+  assert.match(indexSource, /const page = catalogPage \+ 1/);
+  assert.match(indexSource, /currentFilter\.toLowerCase\(\)/);
+});
+
+test('formats display counts for each UI identity', () => {
+  assert.equal(data.formatGameCount(163417, 'headline'), '163.000+');
+  assert.equal(data.formatGameCount(163417, 'sentence'), '163.000+');
+  assert.equal(data.formatGameCount(163417, 'compact'), '163.4K+');
+  assert.equal(data.formatGameCount(163417, 'exact'), '163.417+');
+  assert.equal(data.formatGameCount(999, 'compact'), '999+');
+  assert.equal(data.formatGameCount(1000, 'compact'), '1K+');
+  assert.equal(data.formatGameCount(9999, 'compact'), '10K+');
+  assert.equal(data.formatGameCount(100000, 'compact'), '100K+');
+  assert.equal(data.formatGameCount(1000000, 'compact'), '1M+');
+  assert.equal(data.formatGameCount('bad', 'exact'), '');
+});
+
+test('fetches stats once and keeps semantic count markers on both pages', () => {
+  assert.equal((appSource.match(/\/api\/stats/g) || []).length, 1);
+  assert.match(indexHtml, /data-game-count="headline"/);
+  assert.match(indexHtml, /data-game-count="compact"/);
+  assert.match(indexHtml, /data-game-count="exact"/);
+  assert.match(showcaseHtml, /data-game-count="sentence"/);
+});
+
+test('modal shows loading state before API detail and has no publisher field', () => {
+  const loadingPosition = indexSource.indexOf("populateCatalogModal(item, 'loading')");
+  const requestPosition = indexSource.indexOf('await fetchGameDetail(appid)');
+  assert.ok(loadingPosition >= 0 && loadingPosition < requestPosition);
+  assert.equal(indexSource.includes('catalog-modal-publisher'), false);
+  assert.match(indexSource, /populateCatalogModal\(item, 'error'\)/);
+  assert.match(indexSource, /generateCardPlaceholder/);
+});
+
+test('escapes rendered card text', () => {
+  assert.equal(data.escapeHtml('<img src=x onerror=alert(1)>'), '&lt;img src=x onerror=alert(1)&gt;');
 });

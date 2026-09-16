@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.local
+.env.production
+data/*.json
+data/*.sqlite
+data/*.sqlite-*
+data/*.db
+data/*.db-*
