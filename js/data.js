@@ -24,7 +24,19 @@ const PUBLISHERS = [
 const FAQ_DATA = [
   {
     question: "Apa itu NexaPlay?",
-    answer: "NexaPlay adalah platform akses game digital premium yang memberi kamu pintu masuk ke lebih dari <span data-game-count=\"sentence\">163.000+</span> judul game Steam. Dengan satu kali pembelian, seluruh koleksi langsung tersedia di library pribadi kamu — tanpa proses rumit, tanpa biaya tambahan, tanpa batas waktu."
+    answer: "NexaPlay adalah tools untuk mengakses game digital dengan pilihan paket sesuai kebutuhanmu. Jelajahi katalog berisi <span data-game-count=\"sentence\">163.000+</span> judul game Steam dan nikmati akses tools serta game permanen sesuai paket yang dipilih. Membership diperlukan hanya untuk fitur tambahan Bypass 3rd-Party dan Steam Sharing."
+  },
+  {
+    question: "Apa bonus membership untuk paket Premium?",
+    answer: "Paket Premium termasuk bonus membership gratis selama 1 tahun untuk menikmati fitur Bypass 3rd-Party dan Steam Sharing. Akses Steam Sharing tersedia di paket Premium. Akses tools dan game tetap permanen meski masa membership berakhir."
+  },
+  {
+    question: "Apakah harus memperpanjang membership setelah 1 tahun?",
+    answer: "Tools dan game tetap bisa dipakai permanen meski membership berakhir. Perpanjangan membership diperlukan hanya jika kamu ingin terus menggunakan fitur Bypass 3rd-Party dan Steam Sharing sesuai paket."
+  },
+  {
+    question: "Apakah NexaPlay memberikan garansi selamanya?",
+    answer: "Ya, NexaPlay memberikan garansi selamanya dengan syarat dan ketentuan yang berlaku. Hubungi tim NexaPlay untuk mengetahui cakupan, persyaratan, dan prosedur klaim garansi sebelum membeli."
   },
   {
     question: "Apakah aman digunakan, tidak ada risiko banned?",
@@ -44,7 +56,7 @@ const FAQ_DATA = [
   },
   {
     question: "Bagaimana dengan game yang pakai launcher pihak ketiga?",
-    answer: "Game yang memerlukan launcher seperti EA App, Ubisoft Connect, atau Rockstar Launcher tetap bisa diakses. Paket Premium memberikan kompatibilitas penuh dengan semua launcher pihak ketiga major, sementara paket Standard memiliki dukungan terbatas untuk beberapa launcher tertentu."
+    answer: "Fitur Bypass 3rd-Party mendukung game yang memerlukan launcher seperti EA App, Ubisoft Connect, atau Rockstar Launcher sesuai paket yang dipilih. Paket Premium memiliki dukungan lebih luas, sementara dukungan Standard terbatas. Fitur ini memerlukan membership aktif. Steam Sharing juga memerlukan membership aktif dan tersedia di paket Premium."
   },
   {
     question: "Apa yang harus dilakukan kalau ada kendala atau error?",

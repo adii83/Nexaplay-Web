@@ -136,11 +136,31 @@
   margin: var(--space-sm) auto 0;
 }
 
+/* Membership note below both pricing cards */
+.pricing__note {
+  max-width: 900px;
+  margin: var(--space-xl) auto 0;
+  text-align: center;
+}
+
 /* Pricing card CTA styling */
 .pricing-card .btn {
   width: 100%;
   justify-content: center;
   margin-top: var(--space-sm);
+  min-height: 52px;
+  padding: 14px 16px;
+  font-size: 14px;
+  white-space: normal;
+  text-align: center;
+}
+
+.pricing-card .btn__arrow {
+  flex-shrink: 0;
+}
+
+.pricing-card .btn--primary {
+  border: 1px solid transparent;
 }
 
 /* Premium CTA glow */
@@ -155,6 +175,11 @@
 }
 
 @media (min-width: 768px) {
+  .pricing-card .btn {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+
   .pricing__header {
     margin-bottom: var(--space-3xl);
   }
