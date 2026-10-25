@@ -673,3 +673,14 @@ Dokumen di `docs/superpowers/` menyimpan sejarah desain lama dan ditandai obsole
 - [ ] Telegram tetap memakai port `8000`
 - [ ] NexaPlay Web tetap memakai port `8010`
 - [ ] Tidak ada secret atau SQLite production di Git
+
+## 19. Paket dan Kuota Promo Membership
+
+- Standard: Rp89.000; Premium: Rp189.000; Premium Lifetime: Rp349.000.
+- Premium Lifetime mencakup fitur Premium dan membership seumur hidup tanpa biaya perpanjangan. Lisensi tetap untuk satu perangkat.
+- Seluruh tombol pembelian memakai link produk Shopee yang sama; pelanggan memilih varian paket di Shopee.
+- Konfigurasi alokasi promo Premium berada pada `PREMIUM_PROMO` di `js/offers.js`: kuota awal 200, tanggal mulai `2026-10-25`, zona waktu `Asia/Jakarta`.
+- Kuota berkurang 3–5 setiap pergantian hari WIB. Urutan acak ditentukan dari tanggal dan seed kampanye sehingga konsisten untuk semua pengunjung, perangkat, dan reload. Angka tersebut adalah alokasi promo berdasarkan waktu, bukan data penjualan Shopee.
+- Selama kuota tersedia, Premium termasuk membership 6 bulan. Saat kuota mencapai 0, promo ditutup dan Premium menjadi membership 1 bulan. Kuota tetap 0 tanpa reset otomatis; Lifetime tidak terpengaruh.
+- Perubahan kampanye berikutnya dilakukan manual pada konfigurasi tersebut. Harga dan ketentuan varian Shopee perlu diselaraskan saat promosi berubah. Ini tidak membutuhkan perubahan backend/API katalog.
+- Pemeriksaan frontend: `node --test tests/catalog-data.test.js tests/offers.test.js`.

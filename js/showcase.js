@@ -123,9 +123,9 @@ function initPricingEffects() {
     });
 
     card.addEventListener('mouseleave', () => {
-      const isPremium = card.classList.contains('pricing-card--premium');
+      const isLifetime = card.classList.contains('pricing-card--lifetime');
       gsap.to(card, {
-        borderColor: isPremium ? 'rgba(255, 255, 255, 0.3)' : 'rgba(46, 46, 46, 1)',
+        borderColor: isLifetime ? '#a5a5a5' : 'rgba(46, 46, 46, 1)',
         duration: 0.3,
         ease: 'power2.out',
       });
@@ -145,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // FAQ
     initFAQ();
+    if (window.NexaOffers) window.NexaOffers.refresh();
     if (window.NexaGameStats) window.NexaGameStats.applyLast();
 
     // Anchor scrolling
